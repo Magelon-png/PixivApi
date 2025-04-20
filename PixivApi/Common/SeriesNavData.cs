@@ -16,6 +16,7 @@ public class SeriesNavData
     /// 作品系列id
     /// </summary>
     [JsonPropertyName("seriesId")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public int SeriesId { get; set; }
 
     /// <summary>

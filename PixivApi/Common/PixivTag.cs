@@ -8,7 +8,7 @@ namespace Scighost.PixivApi.Common;
 /// <para />
 /// 作者以外的其他用户也可以给作品添加标签，编辑标签后会发送通知给作者，作者可以接受并锁定标签使之不可编辑，也可以锁定作品的全部标签。
 /// </summary>
-internal class PixivTagInternal
+internal sealed class PixivTagInternal
 {
 
     /// <summary>
@@ -78,7 +78,7 @@ internal class PixivTagInternal
 /// <summary>
 /// 标签翻译
 /// </summary>
-internal class TagTranslationInternal
+internal sealed class TagTranslationInternal
 {
     /// <summary>
     /// 标签翻译
@@ -140,7 +140,7 @@ public class PixivTag
 
 
 
-internal class PixivTagJsonConverter : JsonConverter<List<PixivTag>>
+internal sealed class PixivTagJsonConverter : JsonConverter<List<PixivTag>>
 {
     public override List<PixivTag>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

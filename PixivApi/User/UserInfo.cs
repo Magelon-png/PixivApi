@@ -1,4 +1,6 @@
-﻿namespace Scighost.PixivApi.User;
+﻿using Scighost.PixivApi.Common;
+
+namespace Scighost.PixivApi.User;
 
 
 /// <summary>
@@ -43,6 +45,13 @@ public class UserInfo : UserProfile
     /// </summary>
     [JsonPropertyName("group")]
     public object Group { get; set; }
+    
+    /// <summary>
+    /// If the provided profile is containing partial information
+    /// </summary>
+    [JsonPropertyName("partial")]
+    [JsonConverter(typeof(BoolToNumberJsonConverter))]
+    public bool Partial { get; set; }
 }
 
 

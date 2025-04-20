@@ -4,11 +4,10 @@ using System.Text.Json.Nodes;
 namespace Scighost.PixivApi.User;
 
 /// <summary>
-/// 用户的所有作品
+/// 
 /// </summary>
 public class UserAllWorks
 {
-
     /// <summary>
     /// 插画作品id
     /// </summary>
@@ -47,5 +46,4 @@ public class UserAllWorks
     /// </summary>
     [JsonPropertyName("pickup")]
     public List<JsonNode> Pickup { get; set; }
-
 }

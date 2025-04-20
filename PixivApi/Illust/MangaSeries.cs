@@ -93,6 +93,13 @@ public class MangaSeries
     /// 漫画系列的内容
     /// </summary>
     public List<MangaSeriesIllust> Illusts { get; set; }
+    
+    /// <summary>
+    /// Checks if the first chapter was returned when requesting for chapters. Otherwise, more pages exists.
+    /// </summary>
+    /// <returns></returns>
+    public bool HasNextPage() => Total > Illusts.Count 
+                                 && Illusts.All(i => i.Order != 1);
 
 }
 

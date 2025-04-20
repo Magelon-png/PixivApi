@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixivApi.Tests", "PixivApi.Tests\PixivApi.Tests.csproj", "{55CC9284-BAB3-4E1C-B9CF-94F1173E1C4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixivApi.IntegrationTests", "PixivApi.IntegrationTests\PixivApi.IntegrationTests.csproj", "{4281FE88-A878-4B47-89A6-DA98F92714F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{16A89D16-31B4-426F-85EC-762E48212F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16A89D16-31B4-426F-85EC-762E48212F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16A89D16-31B4-426F-85EC-762E48212F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55CC9284-BAB3-4E1C-B9CF-94F1173E1C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CC9284-BAB3-4E1C-B9CF-94F1173E1C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CC9284-BAB3-4E1C-B9CF-94F1173E1C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CC9284-BAB3-4E1C-B9CF-94F1173E1C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4281FE88-A878-4B47-89A6-DA98F92714F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4281FE88-A878-4B47-89A6-DA98F92714F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4281FE88-A878-4B47-89A6-DA98F92714F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4281FE88-A878-4B47-89A6-DA98F92714F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

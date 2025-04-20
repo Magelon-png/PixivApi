@@ -15,13 +15,13 @@ public class IllustImageUrls
     /// 250x250，从 <see cref="IllustInfo.Urls"/> 访问时可用，应使用 <see cref="Thumb"/> 代替
     /// </summary>
     [JsonInclude, JsonPropertyName("thumb")]
-    public string _thumb;
+    internal string _thumb;
 
     /// <summary>
     /// 250x250，从 <see cref="IllustImage.Urls"/> 访问时可用，应使用 <see cref="Thumb"/> 代替
     /// </summary>
     [JsonInclude, JsonPropertyName("thumb_mini")]
-    public string _thumbMini;
+    internal string _thumbMini;
 
     /// <summary>
     /// 250x250

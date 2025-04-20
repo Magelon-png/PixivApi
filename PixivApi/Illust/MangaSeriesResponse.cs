@@ -2,7 +2,7 @@
 
 namespace Scighost.PixivApi.Illust;
 
-internal class MangaSeriesResponse
+internal sealed class MangaSeriesResponse
 {
     [JsonPropertyName("thumbnails")]
     public Thumbnails Thumbnails { get; set; }
@@ -16,7 +16,7 @@ internal class MangaSeriesResponse
 }
 
 
-internal class IllustSeriesWorkWrapper
+internal sealed class IllustSeriesWorkWrapper
 {
     [JsonPropertyName("series")]
     public List<IllustSeriesWork> Works { get; set; }
@@ -43,7 +43,7 @@ internal class IllustSeriesWorkWrapper
     public bool IsNotifying { get; set; }
 }
 
-internal class IllustSeriesWork
+internal sealed class IllustSeriesWork
 {
     [JsonPropertyName("workId")]
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]

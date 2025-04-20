@@ -1,0 +1,745 @@
+﻿{
+  "error": false,
+  "message": "",
+  "body": {
+    "tagTranslation": {
+      "\u6f2b\u753b": {
+        "en": "manga",
+        "ko": "\ub9cc\ud654",
+        "zh": "",
+        "zh_tw": "\u6f2b\u756b",
+        "romaji": "mannga"
+      },
+      "\u30aa\u30ea\u30b8\u30ca\u30eb": {
+        "en": "original",
+        "ko": "\ucc3d\uc791",
+        "zh": "\u539f\u521b",
+        "zh_tw": "\u539f\u5275",
+        "romaji": "orijinaru"
+      },
+      "\u5275\u4f5c\u6f2b\u753b": {
+        "en": "original manga",
+        "ko": "",
+        "zh": "\u521b\u4f5c\u6f2b\u753b",
+        "zh_tw": "\u539f\u5275\u6f2b\u756b",
+        "romaji": "sousakumannga"
+      },
+      "\u5275\u4f5c\u7537\u5973": {
+        "en": "original male and female characters",
+        "ko": "",
+        "zh": "\u539f\u521b\u7537\u5973\u89d2\u8272",
+        "zh_tw": "",
+        "romaji": "sousakudannjo"
+      },
+      "\u30aa\u30ab\u30eb\u30c8": {
+        "en": "occult",
+        "ko": "",
+        "zh": "",
+        "zh_tw": "",
+        "romaji": "okaruto"
+      },
+      "\u795e\u69d8": {
+        "en": "god",
+        "ko": "\uc2e0",
+        "zh": "",
+        "zh_tw": "",
+        "romaji": "kamisama"
+      },
+      "\u602a\u7570": {
+        "en": "strange",
+        "ko": "",
+        "zh": "",
+        "zh_tw": "",
+        "romaji": "kaii"
+      },
+      "303\u53f7\u5ba4\u306e\u795e\u3055\u307e": {
+        "romaji": "sannmarusanngoushitsunokamisama"
+      },
+      "\u30aa\u30ea\u30b8\u30ca\u30eb5000users\u5165\u308a": {
+        "en": "original 5000+ bookmarks",
+        "ko": "",
+        "zh": "\u539f\u521b5000users\u52a0\u5165\u4e66\u7c64",
+        "zh_tw": "\u539f\u52755000users\u52a0\u5165\u66f8\u7c64",
+        "romaji": "orijinarugosennyu-za-zuiri"
+      },
+      "\u30db\u30e9\u30fc": {
+        "en": "horror",
+        "ko": "\ud638\ub7ec",
+        "zh": "\u6050\u6016",
+        "zh_tw": "",
+        "romaji": "hora-"
+      },
+      "\u5927\u4eba\u306e\u304a\u3082\u3061\u3083": {
+        "en": "sex toys",
+        "ko": "",
+        "zh": "",
+        "zh_tw": "",
+        "romaji": "otonaninattekaraasobimashou"
+      },
+      "\u30de\u30f3\u30c8": {
+        "en": "cloak",
+        "ko": "",
+        "zh": "",
+        "zh_tw": "",
+        "romaji": "mannto"
+      },
+      "\u4f1d\u8aac\u306e\u306f\u3058\u307e\u308a": {
+        "romaji": "dennsetsunohajimari"
+      },
+      "\u30aa\u30ea\u30b8\u30ca\u30eb10000users\u5165\u308a": {
+        "en": "original 10000+ bookmarks",
+        "ko": "\ucc3d\uc791 10000\uba85 \ubd81\ub9c8\ud06c",
+        "zh": "\u539f\u521b10000users\u52a0\u5165\u4e66\u7c64",
+        "zh_tw": "\u539f\u527510000users\u52a0\u5165\u66f8\u7c64",
+        "romaji": "orijinaruichimannyu-za-zuiri"
+      },
+      "\u5275\u4f5c": {
+        "en": "creation",
+        "ko": "\ucc3d\uc791",
+        "zh": "\u539f\u521b",
+        "zh_tw": "\u539f\u5275",
+        "romaji": "sousaku"
+      },
+      "\u767d\u9aea": {
+        "en": "white hair",
+        "ko": "\ubc31\ubc1c",
+        "zh": "\u767d\u53d1",
+        "zh_tw": "\u767d\u9aee",
+        "romaji": "hakuhatsumatahashiraga"
+      },
+      "\u5f7c\u5cb8\u82b1\u5c0f\u8aac\u30b3\u30f3\u30c6\u30b9\u30c8": {
+        "romaji": "higannbanashousetsukonntesuto"
+      },
+      "\u602a\u7570\u3055\u3093\u3068\u4ffa": {
+        "romaji": "kaiisanntoore"
+      },
+      "\u63d0\u706f": {
+        "en": "paper lantern",
+        "ko": "",
+        "zh": "",
+        "zh_tw": "\u65e5\u5f0f\u71c8\u7c60",
+        "romaji": "chouchinn"
+      }
+    },
+    "thumbnails": {
+      "illust": [
+        {
+          "id": "118829061",
+          "title": "\u80e1\u6563\u81ed\u3044\u30db\u30f3\u30e2\u30ce",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/20\/04\/23\/118829061_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u5275\u4f5c\u7537\u5973",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "\u795e\u69d8",
+            "\u602a\u7570",
+            "\u6191\u304b\u308c\u3066\u3044\u308b\u306e\u3088",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb5000users\u5165\u308a"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 1264,
+          "height": 1794,
+          "pageCount": 10,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, original male and female characters \/ \u80e1\u6563\u81ed\u3044\u30db\u30f3\u30e2\u30ce",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2024-05-18T13:30:09+09:00",
+          "updateDate": "2024-06-16T20:04:23+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/20\/04\/23\/118829061_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2024\/06\/16\/20\/04\/23\/118829061_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2024\/06\/16\/20\/04\/23\/118829061_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2024\/06\/16\/20\/04\/23\/118829061_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "118628808",
+          "title": "\u795e\u3055\u307e\u306e\u8a98\u60d1",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/20\/01\/35\/118628808_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u5275\u4f5c\u7537\u5973",
+            "\u795e\u69d8",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "\u795e\u69d8\u904a\u5712\u5730\u3078\u884c\u304f",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb5000users\u5165\u308a"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 1264,
+          "height": 1794,
+          "pageCount": 10,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, original male and female characters \/ \u795e\u3055\u307e\u306e\u8a98\u60d1",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2024-05-11T15:25:35+09:00",
+          "updateDate": "2024-06-16T20:01:35+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/20\/01\/35\/118628808_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2024\/06\/16\/20\/01\/35\/118628808_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2024\/06\/16\/20\/01\/35\/118628808_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2024\/06\/16\/20\/01\/35\/118628808_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "118421036",
+          "title": "\u4e0d\u5668\u7528\u306a\u795e\u3055\u307e",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/57\/54\/118421036_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u5275\u4f5c\u7537\u5973",
+            "\u795e\u69d8",
+            "\u30db\u30e9\u30fc",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb5000users\u5165\u308a",
+            "\u5927\u4eba\u306e\u304a\u3082\u3061\u3083"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 1264,
+          "height": 1794,
+          "pageCount": 10,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, original male and female characters \/ \u4e0d\u5668\u7528\u306a\u795e\u3055\u307e",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2024-05-04T16:35:10+09:00",
+          "updateDate": "2024-06-16T19:57:54+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/57\/54\/118421036_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2024\/06\/16\/19\/57\/54\/118421036_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2024\/06\/16\/19\/57\/54\/118421036_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2024\/06\/16\/19\/57\/54\/118421036_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "118175325",
+          "title": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/54\/50\/118175325_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u5275\u4f5c\u7537\u5973",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "\u30db\u30e9\u30fc",
+            "\u795e\u69d8",
+            "\u4e8c\u793c\u4e8c\u30a4\u30f3\u30bf\u30fc\u30d5\u30a9\u30f3\u4e00\u793c",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb5000users\u5165\u308a"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 1264,
+          "height": 1794,
+          "pageCount": 10,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, original male and female characters \/ 303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2024-04-26T19:09:57+09:00",
+          "updateDate": "2024-06-16T19:54:50+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/54\/50\/118175325_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2024\/06\/16\/19\/54\/50\/118175325_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2024\/06\/16\/19\/54\/50\/118175325_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2024\/06\/16\/19\/54\/50\/118175325_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "118036704",
+          "title": "\u795e\u3055\u307e\u3068\u9670\u6c17\u306a\u5c11\u5e74",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/51\/26\/118036704_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u5275\u4f5c\u7537\u5973",
+            "\u795e\u69d8",
+            "\u602a\u7570",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb5000users\u5165\u308a",
+            "\u30de\u30f3\u30c8"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 1264,
+          "height": 1794,
+          "pageCount": 10,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, original male and female characters \/ \u795e\u3055\u307e\u3068\u9670\u6c17\u306a\u5c11\u5e74",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2024-04-21T17:41:01+09:00",
+          "updateDate": "2024-06-16T19:51:26+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/51\/26\/118036704_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2024\/06\/16\/19\/51\/26\/118036704_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2024\/06\/16\/19\/51\/26\/118036704_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2024\/06\/16\/19\/51\/26\/118036704_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "117974592",
+          "title": "\u300c\u795e\u3055\u307e\u3067\u3059\u3002\u30b5\u30fc\u30d3\u30b9\u3059\u308b\u3088\u300d",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/43\/08\/117974592_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u5275\u4f5c\u7537\u5973",
+            "\u30db\u30e9\u30fc",
+            "\u795e\u69d8",
+            "\u4f1d\u8aac\u306e\u306f\u3058\u307e\u308a",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb10000users\u5165\u308a"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 1264,
+          "height": 1794,
+          "pageCount": 16,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "occult, original manga, original male and female characters \/ \u300c\u795e\u3055\u307e\u3067\u3059\u3002\u30b5\u30fc\u30d3\u30b9\u3059\u308b\u3088\u300d",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2024-04-19T18:38:38+09:00",
+          "updateDate": "2024-06-16T19:43:08+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2024\/06\/16\/19\/43\/08\/117974592_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2024\/06\/16\/19\/43\/08\/117974592_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2024\/06\/16\/19\/43\/08\/117974592_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2024\/06\/16\/19\/43\/08\/117974592_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "129481630",
+          "title": "\u4e8c\u4eba\u306e\u795e\u3055\u307e\u6191\u304d",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/19\/21\/52\/08\/129481630_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30db\u30e9\u30fc",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "\u6c38\u4e45\u5c31\u8077:\u795e\u4e3b"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 2039,
+          "height": 2894,
+          "pageCount": 26,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, horror \/ \u4e8c\u4eba\u306e\u795e\u3055\u307e\u6191\u304d",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2025-04-19T21:52:08+09:00",
+          "updateDate": "2025-04-19T21:52:08+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/19\/21\/52\/08\/129481630_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2025\/04\/19\/21\/52\/08\/129481630_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2025\/04\/19\/21\/52\/08\/129481630_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2025\/04\/19\/21\/52\/08\/129481630_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "129443243",
+          "title": "\u898b\u3066\u306f\u3044\u3051\u306a\u3044",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/19\/00\/24\/47\/129443243_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u30db\u30e9\u30fc",
+            "\u30aa\u30ab\u30eb\u30c8"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 2039,
+          "height": 2894,
+          "pageCount": 16,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original manga, original, horror \/ \u898b\u3066\u306f\u3044\u3051\u306a\u3044",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2025-04-18T21:53:57+09:00",
+          "updateDate": "2025-04-19T00:24:47+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/19\/00\/24\/47\/129443243_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2025\/04\/19\/00\/24\/47\/129443243_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2025\/04\/19\/00\/24\/47\/129443243_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2025\/04\/19\/00\/24\/47\/129443243_p0_master1200.jpg"
+          },
+          "seriesId": "236717",
+          "seriesTitle": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "128990531",
+          "title": "\u6709\u9e7f\u3055\u3093",
+          "illustType": 0,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/05\/21\/27\/53\/128990531_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c",
+            "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+            "\u795e\u69d8",
+            "\u767d\u9aea",
+            "\u5f7c\u5cb8\u82b1\u5c0f\u8aac\u30b3\u30f3\u30c6\u30b9\u30c8"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 2122,
+          "height": 3169,
+          "pageCount": 4,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, creation, god \/ \u6709\u9e7f\u3055\u3093",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2025-04-05T21:27:53+09:00",
+          "updateDate": "2025-04-05T21:27:53+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/05\/21\/27\/53\/128990531_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2025\/04\/05\/21\/27\/53\/128990531_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2025\/04\/05\/21\/27\/53\/128990531_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2025\/04\/05\/21\/27\/53\/128990531_p0_master1200.jpg"
+          },
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        },
+        {
+          "id": "128990261",
+          "title": "\u63d0\u706f\u306f\u305a\u3063\u3068\u898b\u3066\u3044\u305f",
+          "illustType": 1,
+          "xRestrict": 0,
+          "restrict": 0,
+          "sl": 2,
+          "url": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/05\/21\/20\/51\/128990261_p0_square1200.jpg",
+          "description": "",
+          "tags": [
+            "\u6f2b\u753b",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u5275\u4f5c\u6f2b\u753b",
+            "\u602a\u7570\u3055\u3093\u3068\u4ffa",
+            "\u30aa\u30ab\u30eb\u30c8",
+            "\u63d0\u706f",
+            "\u610f\u5fd7\u306e\u5909\u5316",
+            "\u30d1\u30fc\u30d5\u30a7\u30af\u30c8\u30b3\u30df\u30e5\u30cb\u30b1\u30fc\u30b7\u30e7\u30f3"
+          ],
+          "userId": "24367326",
+          "userName": "\u3075\u306b\u30fb\u71219",
+          "width": 2122,
+          "height": 2976,
+          "pageCount": 5,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "alt": "original, original manga, occult \/ \u63d0\u706f\u306f\u305a\u3063\u3068\u898b\u3066\u3044\u305f",
+          "titleCaptionTranslation": {
+            "workTitle": null,
+            "workCaption": null
+          },
+          "createDate": "2025-04-05T21:20:51+09:00",
+          "updateDate": "2025-04-05T21:20:51+09:00",
+          "isUnlisted": false,
+          "isMasked": false,
+          "aiType": 1,
+          "visibilityScope": 0,
+          "urls": {
+            "250x250": "https:\/\/i.pximg.net\/c\/250x250_80_a2\/img-master\/img\/2025\/04\/05\/21\/20\/51\/128990261_p0_square1200.jpg",
+            "360x360": "https:\/\/i.pximg.net\/c\/360x360_70\/img-master\/img\/2025\/04\/05\/21\/20\/51\/128990261_p0_square1200.jpg",
+            "540x540": "https:\/\/i.pximg.net\/c\/540x540_70\/img-master\/img\/2025\/04\/05\/21\/20\/51\/128990261_p0_square1200.jpg",
+            "1200x1200": "https:\/\/i.pximg.net\/img-master\/img\/2025\/04\/05\/21\/20\/51\/128990261_p0_master1200.jpg"
+          },
+          "seriesId": "222807",
+          "seriesTitle": "\u602a\u7570\u3055\u3093\u3068\u4ffa",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png"
+        }
+      ],
+      "novel": [],
+      "novelSeries": [],
+      "novelDraft": [],
+      "collection": []
+    },
+    "illustSeries": [
+      {
+        "id": "236717",
+        "userId": "24367326",
+        "title": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+        "description": "\u5143\u4eba\u9593\u306e\u795e\u3055\u307e\u3068\u5c11\u5e74\u306e\u8a71\u3002",
+        "caption": "\u5143\u4eba\u9593\u306e\u795e\u3055\u307e\u3068\u5c11\u5e74\u306e\u8a71\u3002",
+        "total": 18,
+        "content_order": null,
+        "url": "https:\/\/i.pximg.net\/c\/782x410_80_a2_g5\/illust-series-cover-original\/img\/2025\/04\/19\/22\/22\/12\/exOFIiw14W2WwLOHoHzbaMMGnMLsV12x.jpg",
+        "coverImageSl": 2,
+        "firstIllustId": "117974592",
+        "latestIllustId": "129481630",
+        "createDate": "2024-04-19T18:38:44+09:00",
+        "updateDate": "2025-04-19T21:52:09+09:00",
+        "watchCount": null,
+        "isWatched": false,
+        "isNotifying": false
+      },
+      {
+        "id": "281351",
+        "userId": "24367326",
+        "title": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e\uff3f\u5c0f\u8a71\u96c6",
+        "description": "\u5c0f\u8a71\u3067\u3059\u3002",
+        "caption": "\u5c0f\u8a71\u3067\u3059\u3002",
+        "total": 9,
+        "content_order": null,
+        "url": "https:\/\/i.pximg.net\/c\/782x410_80_a2_g5\/illust-series-cover-original\/img\/2025\/04\/19\/22\/17\/56\/z2TqzrRpbc8UQk1janpfFKPqE2oOSy2y.jpg",
+        "coverImageSl": 2,
+        "firstIllustId": "120263089",
+        "latestIllustId": "126995653",
+        "createDate": "2025-04-19T22:09:02+09:00",
+        "updateDate": "2025-04-19T22:13:57+09:00",
+        "watchCount": null,
+        "isWatched": false,
+        "isNotifying": false
+      }
+    ],
+    "requests": [],
+    "users": [
+      {
+        "partial": 0,
+        "comment": "\u30a4\u30e9\u30b9\u30c8\u30ec\u30fc\u30bf\u30fc\u517c\u6f2b\u753b\u5bb6\u306e\u3075\u306b\u30fb\u71219\u3067\u3059\u3002\r\n\u3088\u308d\u3057\u304f\u304a\u9858\u3044\u3057\u307e\u3059\u3002\r\n\r\n\u30fb\u30a4\u30e9\u30b9\u30c8\u306e\u52a0\u5de5\u3001\u8ee2\u8f09\u3001\u4e8c\u6b21\u914d\u5e03\u3001\u81ea\u4f5c\u767a\u8a00\u7b49\u306f\u56fa\u304f\u3054\u9060\u616e\u3044\u305f\u3060\u3051\u307e\u3059\u3088\u3046\u304a\u9858\u3044\u3057\u307e\u3059\u3002\r\n\r\nI\u0027m Funi\u30fbMu9 as an illustrator and manga artist.\r\n I\u0027m a small person.I look at the comments with a shudder\u2026\r\nthank you.\r\n\r\n \uff0aPlease refrain from processing, reprinting, secondary distribution, self-made remarks, etc. of the illustrations.",
+        "followedBack": false,
+        "userId": "24367326",
+        "name": "\u3075\u306b\u30fb\u71219",
+        "image": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_50.png",
+        "imageBig": "https:\/\/i.pximg.net\/user-profile\/img\/2021\/08\/21\/21\/01\/59\/21268845_2b1e0be8957cfaee1c2b145ec8c8fea3_170.png",
+        "premium": true,
+        "isFollowed": false,
+        "isMypixiv": false,
+        "isBlocking": false,
+        "background": null,
+        "commission": {
+          "acceptRequest": true,
+          "isSubscribedReopenNotification": false
+        }
+      }
+    ],
+    "page": {
+      "series": [
+        {
+          "workId": "118829061",
+          "order": 6
+        },
+        {
+          "workId": "118628808",
+          "order": 5
+        },
+        {
+          "workId": "118421036",
+          "order": 4
+        },
+        {
+          "workId": "118175325",
+          "order": 3
+        },
+        {
+          "workId": "118036704",
+          "order": 2
+        },
+        {
+          "workId": "117974592",
+          "order": 1
+        }
+      ],
+      "isSetCover": true,
+      "seriesId": 236717,
+      "otherSeriesId": "281351",
+      "recentUpdatedWorkIds": [
+        129481630,
+        129443243,
+        128990531,
+        128990261
+      ],
+      "total": 18,
+      "isWatched": false,
+      "isNotifying": false
+    },
+    "extraData": {
+      "meta": {
+        "title": "\u0022303\u53f7\u5ba4\u306e\u795e\u3055\u307e\u0022\/\u0022\u3075\u306b\u30fb\u71219\u0022 Series [pixiv]",
+        "description": "\u5143\u4eba\u9593\u306e\u795e\u3055\u307e\u3068\u5c11\u5e74\u306e\u8a71\u3002",
+        "canonical": "https:\/\/www.pixiv.net\/user\/24367326\/series\/236717",
+        "ogp": {
+          "type": "article",
+          "title": "\u0022303\u53f7\u5ba4\u306e\u795e\u3055\u307e\u0022\/\u0022\u3075\u306b\u30fb\u71219\u0022 Series [pixiv]",
+          "description": "\u5143\u4eba\u9593\u306e\u795e\u3055\u307e\u3068\u5c11\u5e74\u306e\u8a71\u3002",
+          "image": "https:\/\/i.pximg.net\/c\/240x126_80_a2_g5\/illust-series-cover-original\/img\/2025\/04\/19\/22\/22\/12\/exOFIiw14W2WwLOHoHzbaMMGnMLsV12x.jpg"
+        },
+        "twitter": {
+          "card": "summary_large_image",
+          "site": "@pixiv",
+          "title": "303\u53f7\u5ba4\u306e\u795e\u3055\u307e",
+          "description": "\u5143\u4eba\u9593\u306e\u795e\u3055\u307e\u3068\u5c11\u5e74\u306e\u8a71\u3002",
+          "image": "https:\/\/i.pximg.net\/c\/240x126_80_a2_g5\/illust-series-cover-original\/img\/2025\/04\/19\/22\/22\/12\/exOFIiw14W2WwLOHoHzbaMMGnMLsV12x.jpg"
+        }
+      }
+    },
+    "zoneConfig": {
+      "header": {
+        "url": "https:\/\/pixon.ads-pixiv.net\/show?zone_id=header\u0026format=js\u0026s=1\u0026up=0\u0026a=37\u0026ng=g\u0026sl=96\u0026l=en\u0026uri=%2Fajax%2Fseries%2F_PARAM_\u0026ref=www.pixiv.net%2Fuser%2F24367326%2Fseries%2F236717%3Fp%3D2\u0026K=3dee003630406\u0026D=443f4a1eedd8338\u0026ab_test_digits_first=49\u0026yuid=UXaRZjA\u0026num=68060aed383"
+      },
+      "footer": {
+        "url": "https:\/\/pixon.ads-pixiv.net\/show?zone_id=footer\u0026format=js\u0026s=1\u0026up=0\u0026a=37\u0026ng=g\u0026sl=96\u0026l=en\u0026uri=%2Fajax%2Fseries%2F_PARAM_\u0026ref=www.pixiv.net%2Fuser%2F24367326%2Fseries%2F236717%3Fp%3D2\u0026K=3dee003630406\u0026D=443f4a1eedd8338\u0026ab_test_digits_first=49\u0026yuid=UXaRZjA\u0026num=68060aed596"
+      },
+      "responsive": {
+        "url": "https:\/\/pixon.ads-pixiv.net\/show?zone_id=illust_responsive\u0026format=js\u0026s=1\u0026up=0\u0026a=37\u0026ng=g\u0026sl=96\u0026l=en\u0026uri=%2Fajax%2Fseries%2F_PARAM_\u0026ref=www.pixiv.net%2Fuser%2F24367326%2Fseries%2F236717%3Fp%3D2\u0026K=3dee003630406\u0026D=443f4a1eedd8338\u0026ab_test_digits_first=49\u0026yuid=UXaRZjA\u0026num=68060aed606"
+      },
+      "rectangle": {
+        "url": "https:\/\/pixon.ads-pixiv.net\/show?zone_id=illust_rectangle\u0026format=js\u0026s=1\u0026up=0\u0026a=37\u0026ng=g\u0026sl=96\u0026l=en\u0026uri=%2Fajax%2Fseries%2F_PARAM_\u0026ref=www.pixiv.net%2Fuser%2F24367326%2Fseries%2F236717%3Fp%3D2\u0026K=3dee003630406\u0026D=443f4a1eedd8338\u0026ab_test_digits_first=49\u0026yuid=UXaRZjA\u0026num=68060aed17"
+      },
+      "logo": {
+        "url": "https:\/\/pixon.ads-pixiv.net\/show?zone_id=logo_side\u0026format=js\u0026s=1\u0026up=0\u0026a=37\u0026ng=g\u0026sl=96\u0026l=en\u0026uri=%2Fajax%2Fseries%2F_PARAM_\u0026ref=www.pixiv.net%2Fuser%2F24367326%2Fseries%2F236717%3Fp%3D2\u0026K=3dee003630406\u0026D=443f4a1eedd8338\u0026ab_test_digits_first=49\u0026yuid=UXaRZjA\u0026num=68060aed173"
+      },
+      "ad_logo": {
+        "url": "https:\/\/pixon.ads-pixiv.net\/show?zone_id=t_logo_side\u0026format=js\u0026s=1\u0026up=0\u0026a=37\u0026ng=g\u0026sl=96\u0026l=en\u0026os=and\u0026uri=%2Fajax%2Fseries%2F_PARAM_\u0026ref=www.pixiv.net%2Fuser%2F24367326%2Fseries%2F236717%3Fp%3D2\u0026K=3dee003630406\u0026D=443f4a1eedd8338\u0026ab_test_digits_first=49\u0026yuid=UXaRZjA\u0026num=68060aed359"
+      }
+    }
+  }
+}

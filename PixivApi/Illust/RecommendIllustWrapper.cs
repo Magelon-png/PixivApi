@@ -1,7 +1,7 @@
 ﻿namespace Scighost.PixivApi.Illust;
 
 
-internal class RecommendIllustWrapper
+internal sealed class RecommendIllustWrapper
 {
 
     [JsonPropertyName("illusts")]

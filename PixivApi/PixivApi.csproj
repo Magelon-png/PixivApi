@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<Version>0.1.4</Version>
@@ -15,6 +15,13 @@
 		<RepositoryUrl>https://github.com/Scighost/PixivApi</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Pixiv</PackageTags>
+	
+		<AnalysisMode>Recommended</AnalysisMode>
+		<AotCompatible>true</AotCompatible>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta12" />
+	</ItemGroup>
 
 </Project>

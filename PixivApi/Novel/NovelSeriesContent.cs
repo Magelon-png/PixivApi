@@ -5,6 +5,18 @@ namespace Scighost.PixivApi.Novel;
 
 internal class NovelSeriesContentWrapper
 {
+    [JsonPropertyName("page")]
+    public NovelSeriesChapterPages Page { get; set; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public class NovelSeriesChapterPages
+{
+    /// <summary>
+    /// 
+    /// </summary>
     [JsonPropertyName("seriesContents")]
     public List<NovelSeriesChapter> SeriesContents { get; set; }
 }

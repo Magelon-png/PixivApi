@@ -11,8 +11,8 @@
 		<PackageId>Scighost.PixivApi</PackageId>
 		<Description>Pixiv Web Api</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<PackageProjectUrl>https://github.com/Scighost/PixivApi</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/Scighost/PixivApi</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Magelon-png/PixivApi</PackageProjectUrl>
+		<RepositoryUrl>hhttps://github.com/Magelon-png/PixivApi</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Pixiv</PackageTags>
 	

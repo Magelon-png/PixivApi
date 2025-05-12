@@ -51,6 +51,7 @@ internal partial class PixivJsonSerializerContext : JsonSerializerContext
 [JsonSerializable(typeof(IllustsInfoResponse))]
 [JsonSerializable(typeof(UgoiraMetadataResponse))]
 [JsonSerializable(typeof(IllustCommentsResponse))]
+[JsonSerializable(typeof(BookmarkDetailResponse))]
 internal partial class PixivV2JsonSerializerContext : JsonSerializerContext
 {
 }

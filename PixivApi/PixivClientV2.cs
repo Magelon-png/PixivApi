@@ -264,7 +264,7 @@ public partial class PixivClientV2
 
     
 
-    
+    #region Illusts
     /// <summary>
     /// Gets the illustrations of a user.
     /// </summary>
@@ -315,12 +315,21 @@ public partial class PixivClientV2
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
     }
 
-    public async Task<IllustsInfoResponse> GetRelatedIllusts(uint illustUd,
+    public async Task<IllustsInfoResponse> GetRelatedIllusts(uint illustId,
         CancellationToken cancellationToken = default)
     {
-        var url = $"v1/illust/related?illust_id={illustUd}";
+        var url = $"v1/illust/related?illust_id={illustId}";
         
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
     }
+
+    public async Task<BookmarkDetailResponse> GetIllustBookmarkDetailAsync(uint illustId, CancellationToken cancellationToken = default)
+    {
+        var url = $"v1/illust/bookmark/detail?illust_id={illustId}";
+        
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.BookmarkDetailResponse, cancellationToken);
+    }
+    
+    #endregion
 
 }

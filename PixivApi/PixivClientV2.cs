@@ -329,6 +329,33 @@ public partial class PixivClientV2
         
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.BookmarkDetailResponse, cancellationToken);
     }
+
+    public async Task<IllustInfoResponse> GetMyIllustrationsAsync(string? nextUrl = null,
+        CancellationToken cancellationToken = default)
+    {
+        const string url = "/v2/illust/mypixiv";
+
+        return await CommonGetAsync(nextUrl ?? url, PixivV2JsonSerializerContext.Default.IllustInfoResponse, cancellationToken);
+    }
+    
+    public async Task<IllustInfoResponse> GetNewIllustrationsAsync(IllustrationContentType illustContentType, string? nextUrl = null,
+        CancellationToken cancellationToken = default)
+    {
+        var url = nextUrl ?? "/v1/illust/new";
+        url += $"?content_type={illustContentType.ToStringFast(true)}";
+
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustInfoResponse, cancellationToken);
+    }
+    
+    public async Task<IllustInfoResponse> GetPopularIllustrationsAsync(IllustrationContentType illustContentType, string? nextUrl = null,
+        CancellationToken cancellationToken = default)
+    {
+        var url = nextUrl ?? "/v1/illust/popular";
+        url += $"?content_type={illustContentType.ToStringFast(true)}";
+
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustInfoResponse, cancellationToken);
+    }
+
     
     #endregion
 

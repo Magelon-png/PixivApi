@@ -62,5 +62,14 @@ steps:
       push "$(Build.ArtifactStagingDirectory)/*.nupkg"
       -s "$(GithubPackageServerUrl)"
       -k "$(GithubToken)"
-    nuGetFeedType: 'external'
-    publishFeedCredentials: '$(GithubApiConnection)'
+
+- task: DotNetCoreCLI@2
+  displayName: Push to Nuget feed
+  condition: and(succeeded(), eq(variables.isMain, true), ne(variables.NugetApiToken, ''))
+  inputs:
+    command: 'custom'
+    custom: nuget
+    arguments: >
+      push "$(Build.ArtifactStagingDirectory)/*.nupkg"
+      -s "https://api.nuget.org/v3/index.json"
+      -k "$(NugetApiToken)"

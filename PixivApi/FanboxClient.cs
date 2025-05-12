@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization.Metadata;
+using Polly;
 using Scighost.PixivApi.Common;
 using Scighost.PixivApi.Fanbox;
 
@@ -19,6 +20,7 @@ public class FanboxClient : IDisposable
 
     private readonly HttpClient _httpClient;
     private readonly HttpClient _downloadHttpClient;
+    private ResiliencePipeline _resiliencePipeline;
 
     /// <summary>
     /// 
@@ -59,6 +61,7 @@ public class FanboxClient : IDisposable
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;' in any order.");
         }
+        _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
 
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _downloadHttpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
@@ -80,7 +83,9 @@ public class FanboxClient : IDisposable
     
     private async Task<T> CommonGetAsync<T>(string url, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var wrapper = await _httpClient.GetFromJsonAsync<FanboxResponseWrapper<T>>(url, jsonTypeInfo, cancellationToken);
+        var wrapper = await _resiliencePipeline.ExecuteAsync(
+            async token => await _httpClient.GetFromJsonAsync<FanboxResponseWrapper<T>>(url, jsonTypeInfo, token),
+            cancellationToken);
         if (wrapper is null)
         {
             throw new PixivException("Error");
@@ -91,7 +96,8 @@ public class FanboxClient : IDisposable
 
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync(url, value, cancellationToken);
+        var response =  await _resiliencePipeline.ExecuteAsync(
+            async token => await _httpClient.PostAsJsonAsync(url, value, token), cancellationToken);
         response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync<FanboxResponseWrapper<T>>(jsonTypeInfo, cancellationToken);
         if (wrapper is null)
@@ -104,7 +110,8 @@ public class FanboxClient : IDisposable
 
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage message, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.SendAsync(message, cancellationToken);
+        var response =  await _resiliencePipeline.ExecuteAsync(
+            async token => await _httpClient.SendAsync(message, token), cancellationToken);
         response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync<FanboxResponseWrapper<T>>(jsonTypeInfo, cancellationToken);
         if (wrapper is null)

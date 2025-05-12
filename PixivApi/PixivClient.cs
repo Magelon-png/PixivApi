@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using Microsoft.Extensions.Http.Resilience;
+using Microsoft.Extensions.Resilience.Internal;
+using System.Globalization;
 using Scighost.PixivApi.Common;
 using Scighost.PixivApi.Search;
 using System.Net;
@@ -10,6 +12,9 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Web;
+using Polly;
+using Polly.CircuitBreaker;
+using Polly.Retry;
 
 namespace Scighost.PixivApi;
 
@@ -43,6 +48,8 @@ public class PixivClient : IDisposable
             }
         }
     };
+    
+    private readonly ResiliencePipeline _resiliencePipeline;
 
     /// <summary>
     /// HttpClient usable for not yet supported endpoints
@@ -87,6 +94,8 @@ public class PixivClient : IDisposable
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;' in any order.");
         }
+        
+        _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
 
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
@@ -106,7 +115,8 @@ public class PixivClient : IDisposable
 
     private async Task<T> CommonGetAsync<T>(string url, JsonTypeInfo<PixivResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var wrapper = await _httpClient.GetFromJsonAsync(url, jsonTypeInfo, cancellationToken);
+        var wrapper = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetFromJsonAsync(url, jsonTypeInfo, token), cancellationToken
+        ); 
         if (wrapper?.Error ?? true)
         {
             throw new PixivException(wrapper?.Message);
@@ -117,7 +127,10 @@ public class PixivClient : IDisposable
 
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<PixivResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync(url, value, PixivJsonSerializerContext.Default.Object, cancellationToken);
+        var response = await _resiliencePipeline.ExecuteAsync(
+            async token =>
+                await _httpClient.PostAsJsonAsync(url, value, PixivJsonSerializerContext.Default.Object, token),
+            cancellationToken);
         response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper?.Error ?? true)
@@ -130,7 +143,9 @@ public class PixivClient : IDisposable
 
     private async Task CommonSendAsync<T>(HttpRequestMessage message, JsonTypeInfo<PixivResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.SendAsync(message, cancellationToken);
+        var response =
+            await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.SendAsync(message, token),
+                cancellationToken);
         response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper?.Error ?? true)
@@ -150,7 +165,8 @@ public class PixivClient : IDisposable
         {
             return true;
         }
-        var str = await _httpClient.GetStringAsync("/");
+        
+        var str = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetStringAsync("/", token));
         _token = Regex.Match(str, @"""token"":""([^""]+)""").Groups[1].Value;
         if (!string.IsNullOrWhiteSpace(_token))
         {

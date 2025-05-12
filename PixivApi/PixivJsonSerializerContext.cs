@@ -6,6 +6,7 @@ using Scighost.PixivApi.Search;
 using Scighost.PixivApi.V2;
 using Scighost.PixivApi.V2.Illust;
 using IllustInfo = Scighost.PixivApi.Illust.IllustInfo;
+using IllustInfoResponse = Scighost.PixivApi.V2.Illust.IllustInfoResponse;
 
 namespace Scighost.PixivApi;
 
@@ -46,8 +47,8 @@ internal partial class PixivJsonSerializerContext : JsonSerializerContext
 [JsonSerializable(typeof(PixivV2ErrorWrapper))]
 [JsonSerializable(typeof(OauthLoginBody))]
 [JsonSerializable(typeof(OauthLoginResponse))]
-[JsonSerializable(typeof(UserIllustInfoResponse))]
-[JsonSerializable(typeof(IllustDetailedInfoResponse))]
+[JsonSerializable(typeof(IllustInfoResponse))]
+[JsonSerializable(typeof(IllustsInfoResponse))]
 [JsonSerializable(typeof(UgoiraMetadataResponse))]
 [JsonSerializable(typeof(IllustCommentsResponse))]
 internal partial class PixivV2JsonSerializerContext : JsonSerializerContext

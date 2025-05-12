@@ -4,7 +4,7 @@
 /// 
 /// </summary>
 /// <param name="Illusts"></param>
-public record UserIllustInfoResponse(
+public record IllustsInfoResponse(
     [property: JsonPropertyName("illusts")]
     List<IllustInfo> Illusts,
     [property: JsonPropertyName("next_url")]

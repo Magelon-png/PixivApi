@@ -26,7 +26,33 @@
 /// <param name="IsBookmarked"></param>
 /// <param name="Visible"></param>
 /// <param name="IsMuted"></param>
-public record IllustInfo(
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Id"></param>
+/// <param name="Title"></param>
+/// <param name="Type"></param>
+/// <param name="ThumbnailUrls">Contains the list of all urls used by the thumbnail</param>
+/// <param name="Caption"></param>
+/// <param name="Restrict"></param>
+/// <param name="User"></param>
+/// <param name="Tags"></param>
+/// <param name="Tools"></param>
+/// <param name="CreateDate"></param>
+/// <param name="PageCount"></param>
+/// <param name="Width"></param>
+/// <param name="Height"></param>
+/// <param name="SanityLevel"></param>
+/// <param name="XRestrict"></param>
+/// <param name="Series"></param>
+/// <param name="OriginalPageUrlData">Contains the url of the original image if the illustration post contains a single page</param>
+/// <param name="MultiPageUrlData">Contains the url of all images if the post contains multiple pages</param>
+/// <param name="TotalView"></param>
+/// <param name="TotalBookmarks"></param>
+/// <param name="IsBookmarked"></param>
+/// <param name="Visible"></param>
+/// <param name="IsMuted"></param>
+public record IllustdInfo(
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     uint Id,
@@ -73,5 +99,9 @@ public record IllustInfo(
     [property: JsonPropertyName("visible")]
     bool Visible,
     [property: JsonPropertyName("is_muted")]
-    bool IsMuted
+    bool IsMuted,
+    [property: JsonPropertyName("total_comments")]
+    uint TotalComments,
+    [property: JsonPropertyName("illust_ai_type")]
+    IllustAiType IllustAiType
 );

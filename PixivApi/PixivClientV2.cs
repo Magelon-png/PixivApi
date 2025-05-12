@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Web;
+using Polly;
 using Scighost.PixivApi.V2;
 using Scighost.PixivApi.V2.Illust;
 
@@ -24,6 +25,7 @@ public partial class PixivClientV2
     private readonly HttpClient _httpClient;
     private readonly HttpClient _downloadHttpClient;
     private readonly PkceCodeGenerator _codeGenerator;
+    private readonly ResiliencePipeline _resiliencePipeline;
     
     private string _refreshToken = string.Empty;
     
@@ -42,6 +44,7 @@ public partial class PixivClientV2
     public PixivClientV2(HttpClientHandler? clientHandler = null)
     {
         _codeGenerator = new PkceCodeGenerator();
+        _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler 
             { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
@@ -118,7 +121,9 @@ public partial class PixivClientV2
         {
             await RefreshTokenAsync();
         }
-        var response = await _httpClient.GetAsync(url,  cancellationToken);
+
+        var response = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetAsync(url, token),
+            cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadFromJsonAsync(
@@ -140,7 +145,11 @@ public partial class PixivClientV2
         {
             await RefreshTokenAsync();
         }
-        var response = await _httpClient.PostAsJsonAsync(url, value, PixivV2JsonSerializerContext.Default.Object, cancellationToken);
+
+        var response = await _resiliencePipeline.ExecuteAsync(
+            async token =>
+                await _httpClient.PostAsJsonAsync(url, value, PixivV2JsonSerializerContext.Default.Object, token),
+            cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadFromJsonAsync(
@@ -162,7 +171,8 @@ public partial class PixivClientV2
         {
             await RefreshTokenAsync();
         }
-        var response = await _httpClient.SendAsync(message, cancellationToken);
+        var response =  await _resiliencePipeline.ExecuteAsync(
+            async token => await _httpClient.SendAsync(message, token), cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadFromJsonAsync(

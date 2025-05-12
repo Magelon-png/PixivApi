@@ -315,4 +315,12 @@ public partial class PixivClientV2
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
     }
 
+    public async Task<IllustsInfoResponse> GetRelatedIllusts(uint illustUd,
+        CancellationToken cancellationToken = default)
+    {
+        var url = $"v1/illust/related?illust_id={illustUd}";
+        
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+    }
+
 }

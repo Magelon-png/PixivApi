@@ -1,5 +1,5 @@
-![Nuget](https://img.shields.io/nuget/v/Scighost.PixivApi)
-![Nuget](https://img.shields.io/nuget/dt/Scighost.PixivApi)
+![Nuget](https://img.shields.io/nuget/v/Magelon-png.PixivApi)
+![Nuget](https://img.shields.io/nuget/dt/Magelon-png.PixivApi)
 
 # Pixiv Api
 

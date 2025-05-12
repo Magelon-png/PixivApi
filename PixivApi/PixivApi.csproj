@@ -7,8 +7,8 @@
 		<Version>0.1.4</Version>
 		<RootNamespace>Scighost.PixivApi</RootNamespace>
 		<AssemblyName>Scighost.PixivApi</AssemblyName>
-		<Authors>Scighost</Authors>
-		<PackageId>Scighost.PixivApi</PackageId>
+		<Authors>Magelon-png</Authors>
+		<PackageId>Magelon-png.PixivApi</PackageId>
 		<Description>Pixiv Web Api</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageProjectUrl>https://github.com/Magelon-png/PixivApi</PackageProjectUrl>

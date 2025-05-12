@@ -205,6 +205,10 @@ public partial class PixivClientV2
         {
             var responseData = await JsonSerializer.DeserializeAsync<OauthLoginResponse>(await response.Content.ReadAsStreamAsync());
             _refreshToken = responseData?.RefreshToken ?? throw new ArgumentNullException(null, "Refresh token is null");
+            if (_httpClient.DefaultRequestHeaders.Contains("Authorization"))
+            {
+                _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            }
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {responseData.AccessToken}");
             _tokenExpiresAt = DateTimeOffset.Now.AddSeconds(responseData.ExpiresIn);
             return true;
@@ -286,6 +290,14 @@ public partial class PixivClientV2
         var url = $"/v1/ugoira/metadata?illust_id={illustId}";
         
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.UgoiraMetadataResponse, cancellationToken);
+    }
+
+    public async Task<IllustCommentsResponse> GetIllustCommentsAsync(uint illustId,
+        CancellationToken cancellationToken = default)
+    {
+        var url = $"/v1/illust/comments?illust_id={illustId}";
+        
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustCommentsResponse, cancellationToken);
     }
 
 }

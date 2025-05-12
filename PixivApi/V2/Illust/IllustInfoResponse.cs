@@ -1,6 +1,6 @@
 ﻿namespace Scighost.PixivApi.V2.Illust;
 
-public record IllustDetailedInfoResponse(
+public record IllustInfoResponse(
     [property: JsonPropertyName("illust")]
-    IllustDetailedInfo Illust
+    IllustInfo Illust
     );

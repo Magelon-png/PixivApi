@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Web;
 using Polly;
 using Scighost.PixivApi.V2;
 using Scighost.PixivApi.V2.Illust;
+using IllustInfoResponse = Scighost.PixivApi.V2.Illust.IllustInfoResponse;
 
 namespace Scighost.PixivApi;
 
@@ -271,21 +273,21 @@ public partial class PixivClientV2
     /// <returns>
     /// The retrieved illustrations starting from the offset. For additional illustrations, retrieve the expected offset from the "NextUrl" property.
     /// </returns>
-    public async Task<UserIllustInfoResponse> GetUserIllustAsync(uint userId, int offset = 0, CancellationToken cancellationToken = default)
+    public async Task<IllustsInfoResponse> GetUserIllustsAsync(uint userId, int offset = 0, CancellationToken cancellationToken = default)
     {
         var url = $"/v1/user/illusts?user_id={userId}&offset={offset}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.UserIllustInfoResponse, cancellationToken);
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
     }
     
-    public async Task<IllustDetailedInfoResponse> GetIllustDetailsAsync(uint illustId, CancellationToken cancellationToken = default)
+    public async Task<IllustInfoResponse> GetIllustDetailsAsync(uint illustId, CancellationToken cancellationToken = default)
     {
         var url = $"/v1/illust/detail?illust_id={illustId}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustDetailedInfoResponse, cancellationToken);
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustInfoResponse, cancellationToken);
     }
 
-    public async Task<UgoiraMetadataResponse> getUgoiraMetadataAsync(uint illustId, CancellationToken cancellationToken = default)
+    public async Task<UgoiraMetadataResponse> GetUgoiraMetadataAsync(uint illustId, CancellationToken cancellationToken = default)
     {
         var url = $"/v1/ugoira/metadata?illust_id={illustId}";
         
@@ -298,6 +300,19 @@ public partial class PixivClientV2
         var url = $"/v1/illust/comments?illust_id={illustId}";
         
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustCommentsResponse, cancellationToken);
+    }
+
+    public async Task<IllustsInfoResponse> GetIllustsRanking(RankingMode rankingMode, DateTimeOffset? date = null, 
+        CancellationToken cancellationToken = default)
+    {
+        var url = $"v1/illust/ranking?mode={rankingMode.ToStringFast(true)}";
+        if (date is not null)
+        {
+            url += $"&date={date?.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo)
+                            ?? DateTime.Now.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo)}";
+        }
+        
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
     }
 
 }

@@ -13,16 +13,19 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: Install .NET 9
   inputs:
     packageType: 'sdk'
     version: '9.x'
 
 - task: UseDotNet@2
+  displayName: Install .NET 8
   inputs:
     packageType: 'sdk'
     version: '8.x'
 
 - task: DotNetCoreCLI@2
+  displayName: Build and test code
   inputs:
     command: 'test'
     projects: '**/*Tests.csproj'
@@ -31,18 +34,33 @@ steps:
 
 - task: DotNetCoreCLI@2
   condition: and(succeeded(), eq(variables.isMain, true))
+  displayName: Pack project for publish
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     versioningScheme: 'byPrereleaseNumber'
-    majorVersion: '1'
+    majorVersion: '2'
     minorVersion: '0'
     patchVersion: '0'
     
 - task: DotNetCoreCLI@2
+  displayName: Push to private ADO nuget feed
   condition: and(succeeded(), eq(variables.isMain, true))
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '$(FeedId)'
+  
+- task: DotNetCoreCLI@2
+  displayName: Push to Github feed
+  condition: and(succeeded(), eq(variables.isMain, true), ne(variables.GithubApiConnection, ''))
+  inputs:
+    command: 'custom'
+    custom: nuget
+    arguments: > 
+      "$(Build.ArtifactStagingDirectory)/*.nupkg"
+      -s "$(GithubPackageServerUrl)"
+      -k "$(GithubToken)"
+    nuGetFeedType: 'external'
+    publishFeedCredentials: '$(GithubApiConnection)'

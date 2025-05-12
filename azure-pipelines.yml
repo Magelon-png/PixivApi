@@ -59,7 +59,7 @@ steps:
     command: 'custom'
     custom: nuget
     arguments: > 
-      "$(Build.ArtifactStagingDirectory)/*.nupkg"
+      push "$(Build.ArtifactStagingDirectory)/*.nupkg"
       -s "$(GithubPackageServerUrl)"
       -k "$(GithubToken)"
     nuGetFeedType: 'external'

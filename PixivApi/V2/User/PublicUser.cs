@@ -8,6 +8,7 @@
 /// <param name="Name"></param>
 /// <param name="Account">Will resolve to the user ID since it is not public information</param>
 /// <param name="IsFollowed"></param>
+/// <param name="Comment">Not null when retrieved from comments</param>
 public record PublicUser(
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
@@ -23,5 +24,7 @@ public record PublicUser(
     [property: JsonPropertyName("is_access_blocking_user")]
     bool IsAccessBlockingUser,
     [property: JsonPropertyName("is_accept_request")]
-    bool AcceptRequests
+    bool AcceptRequests,
+    [property: JsonPropertyName("comment")]
+    string? Comment
 );

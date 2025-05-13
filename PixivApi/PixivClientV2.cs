@@ -356,6 +356,33 @@ public partial class PixivClientV2 : IDisposable
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustInfoResponse, cancellationToken);
     }
 
+    public async Task<RecommendedIllustResponse> GetRecommendedIllustrations(IllustrationContentType illustContentType,
+        int offset = 0,
+        bool includeRanking = false, bool includeRankingLabel = false, uint? MinBookmarkIdForRecentIllust = null,
+        uint? MaxBookmarkIdForRecommendd = null, string? nextUrl = null, CancellationToken cancellationToken = default)
+    {
+        if (nextUrl is not null)
+        {
+            return await CommonGetAsync(nextUrl, PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+        }
+
+        var url = "/v1/illust/recommended";
+        var queryString = HttpUtility.ParseQueryString(String.Empty);
+        queryString["content_type"] = illustContentType.ToStringFast(true);
+        queryString["include_ranking"] = includeRanking.ToString(CultureInfo.InvariantCulture);
+        queryString["include_ranking_label"] = includeRankingLabel.ToString(CultureInfo.InvariantCulture);
+        if (MinBookmarkIdForRecentIllust is not null)
+        {
+            queryString["min_bookmark_id_for_recent_illust"] = MinBookmarkIdForRecentIllust.Value.ToString(NumberFormatInfo.InvariantInfo);
+        }
+        if (MaxBookmarkIdForRecommendd is not null)
+        {
+            queryString["max_bookmark_id_for_recommend"] = MaxBookmarkIdForRecommendd.Value.ToString(NumberFormatInfo.InvariantInfo);
+        }
+        queryString["offset"] = offset.ToString(NumberFormatInfo.InvariantInfo);
+        return await CommonGetAsync($"{url}?{queryString}", PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+    }
+
     
     #endregion
 

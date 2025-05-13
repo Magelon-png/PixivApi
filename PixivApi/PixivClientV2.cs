@@ -14,7 +14,7 @@ using IllustInfoResponse = Scighost.PixivApi.V2.Illust.IllustInfoResponse;
 
 namespace Scighost.PixivApi;
 
-public partial class PixivClientV2
+public partial class PixivClientV2 : IDisposable
 {
     private const string BaseUriHttps = "https://app-api.pixiv.net";
     private const string DefaultUserAgent = "PixivAndroidApp/6.66.1 (Android 11; Pixel 5)";
@@ -359,4 +359,20 @@ public partial class PixivClientV2
     
     #endregion
 
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases the resources used by the PixivClientV2 instance.
+    /// </summary>
+    public virtual void Dispose(bool disposing)
+    {
+        if (!disposing) return;
+        _httpClient.Dispose();
+        _downloadHttpClient.Dispose();
+    }
 }

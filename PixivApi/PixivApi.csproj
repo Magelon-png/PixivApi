@@ -25,4 +25,8 @@
 	  <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta12" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Models\" />
+	</ItemGroup>
+
 </Project>

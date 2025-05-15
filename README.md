@@ -1,7 +1,13 @@
 ![Nuget](https://img.shields.io/nuget/v/Magelon-png.PixivApi)
 ![Nuget](https://img.shields.io/nuget/dt/Magelon-png.PixivApi)
 
+
+
 # Pixiv Api
+
+Expected breaking changes for V2:
+
+- Changing multiple classes to use `uint` instead of `int` for properties that do not go into the negative and are at risk of overflowing (ie: illustration Ids)
 
 0.x 版本期间不保证 API 的可用性和稳定性，方法签名随时有可能更改。
 

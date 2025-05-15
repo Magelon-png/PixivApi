@@ -1,4 +1,7 @@
-﻿namespace Scighost.PixivApi.Common;
+﻿using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
+
+namespace Scighost.PixivApi.Models.Common;
 
 internal class Thumbnails
 {

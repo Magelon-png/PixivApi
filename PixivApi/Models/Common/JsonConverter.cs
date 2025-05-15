@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Scighost.PixivApi.Common;
+namespace Scighost.PixivApi.Models.Common;
 
 
 internal class DictionaryKeyToListJsonConverter<T> : JsonConverter<List<T>> where T : notnull

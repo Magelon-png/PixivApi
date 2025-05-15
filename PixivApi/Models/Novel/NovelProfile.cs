@@ -1,6 +1,6 @@
-﻿using Scighost.PixivApi.Common;
+﻿using Scighost.PixivApi.Models.Common;
 
-namespace Scighost.PixivApi.Novel;
+namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
 /// 小说简单信息（无正文）

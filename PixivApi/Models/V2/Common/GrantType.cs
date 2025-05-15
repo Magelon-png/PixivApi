@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi.V2;
+namespace Scighost.PixivApi.Models.V2.Common;
 
 /// <summary>
 /// 

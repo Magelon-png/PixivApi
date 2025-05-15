@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Common;
+﻿namespace Scighost.PixivApi.Models.Common;
 
 /// <summary>
 /// 用户收藏作品的所有自定义标签，标签过多则不会全部包括在内

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi.V2.Illust;
+namespace Scighost.PixivApi.Models.V2.Illust;
 
 [EnumExtensions]
 public enum IllustAiType

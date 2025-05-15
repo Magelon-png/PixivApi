@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi.Search;
+namespace Scighost.PixivApi.Models.Search;
 
 /// <summary>
 /// 

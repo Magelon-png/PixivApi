@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.V2;
+﻿namespace Scighost.PixivApi.Models.V2.Common;
 
 /// <summary>
 /// 
@@ -21,5 +21,5 @@ public record OauthLoginResponse(
     [property: JsonPropertyName("refresh_token")]
     string RefreshToken,
     [property: JsonPropertyName("user")]
-    User User
+    User.User User
 );

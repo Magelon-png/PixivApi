@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Novel;
+﻿namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
 /// 嵌入小说正文的图片

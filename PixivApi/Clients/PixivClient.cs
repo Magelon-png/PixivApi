@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Http.Resilience;
-using Microsoft.Extensions.Resilience.Internal;
-using System.Globalization;
-using Scighost.PixivApi.Common;
-using Scighost.PixivApi.Search;
+﻿using System.Globalization;
 using System.Net;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
@@ -13,10 +9,17 @@ using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Web;
 using Polly;
-using Polly.CircuitBreaker;
-using Polly.Retry;
+using Scighost.PixivApi.Exceptions;
+using Scighost.PixivApi.Helpers;
+using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
+using Scighost.PixivApi.Models.Search;
+using Scighost.PixivApi.Models.User;
+using Scighost.PixivApi.Models.V2.Illust;
+using Scighost.PixivApi.SerializerContexts;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Clients;
 
 
 /// <summary>
@@ -127,7 +130,7 @@ public class PixivClient : IDisposable
 
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<PixivResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var response = await _resiliencePipeline.ExecuteAsync(
+        var response = await _resiliencePipeline.ExecuteAsync<HttpResponseMessage>(
             async token =>
                 await _httpClient.PostAsJsonAsync(url, value, PixivJsonSerializerContext.Default.Object, token),
             cancellationToken);

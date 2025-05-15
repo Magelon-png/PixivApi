@@ -1,4 +1,7 @@
-﻿namespace Scighost.PixivApi.User;
+﻿using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
+
+namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
 /// 关注的用户

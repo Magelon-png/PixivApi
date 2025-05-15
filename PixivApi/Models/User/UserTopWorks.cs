@@ -1,6 +1,8 @@
-﻿using Scighost.PixivApi.Common;
+﻿using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
 
-namespace Scighost.PixivApi.User;
+namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
 /// 用户最近的作品

@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi;
+﻿namespace Scighost.PixivApi.Exceptions;
 
 /// <summary>
 /// 请求 Pixiv Api 时，如果 HTTP StatsCode=200，但是返回内容标记为错误时，抛出此异常。

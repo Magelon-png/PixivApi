@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Illust;
+﻿namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
 /// 插画类型，插画/漫画/动图

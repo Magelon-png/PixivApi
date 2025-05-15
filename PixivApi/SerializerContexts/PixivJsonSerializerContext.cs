@@ -1,11 +1,12 @@
-﻿using System.Text.Json;
-using System.Text.Json.Nodes;
-using Scighost.PixivApi.Common;
-using Scighost.PixivApi.Fanbox;
-using Scighost.PixivApi.Search;
-using IllustInfo = Scighost.PixivApi.Illust.IllustInfo;
+﻿using System.Text.Json.Nodes;
+using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
+using Scighost.PixivApi.Models.Search;
+using Scighost.PixivApi.Models.User;
+using IllustInfo = Scighost.PixivApi.Models.Illust.IllustInfo;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.SerializerContexts;
 
 
 [JsonSourceGenerationOptions(WriteIndented = true)]

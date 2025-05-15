@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Illust;
+﻿namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
 /// 不同尺寸的图片文件地址

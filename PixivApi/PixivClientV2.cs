@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
@@ -7,7 +8,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Web;
+using NetEscapades.EnumGenerators;
 using Polly;
+using Scighost.PixivApi.Search;
 using Scighost.PixivApi.V2;
 using Scighost.PixivApi.V2.Illust;
 using IllustInfoResponse = Scighost.PixivApi.V2.Illust.IllustInfoResponse;
@@ -381,6 +384,98 @@ public partial class PixivClientV2 : IDisposable
         }
         queryString["offset"] = offset.ToString(NumberFormatInfo.InvariantInfo);
         return await CommonGetAsync($"{url}?{queryString}", PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+    }
+
+    public async Task<IllustSearchResponse> SearchIllustsAsync(string searchTerm, SearchOrderV2 orderBy,
+        SearchTarget searchTarget = SearchTarget.PartialMatchForTags, BookmarkCount? bookmarkCount = null,
+        SearchPeriod? searchPeriod = null, string? nextUrl = null, uint? offset = null, CancellationToken cancellationToken = default)
+    {
+        if (nextUrl is not null)
+        {
+            return await CommonGetAsync(nextUrl, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
+        }
+        
+        var url = "/v1/search/illust";
+        var queryString = HttpUtility.ParseQueryString(String.Empty);
+        queryString["word"] = searchTerm;
+        queryString["sort"] = orderBy.ToStringFast(true);
+        queryString["search_target"] = searchTarget.ToStringFast(true);
+        if (bookmarkCount is not null)
+        {
+            queryString["bookmark_num"] = bookmarkCount.Value.ToStringFast(true);
+        }
+
+        if (searchPeriod is not null)
+        {
+            queryString["duration"] = searchPeriod.Value.ToStringFast(true);
+        }
+
+        if (offset is not null)
+        {
+            queryString["offset"] = offset.Value.ToString(NumberFormatInfo.InvariantInfo);
+        }
+        
+        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
+    }
+
+    [EnumExtensions]
+    public enum SearchOrderV2
+    {
+    [Display(Name = "date_desc")]
+    DateDescending,
+    [Display(Name = "date_asc")]
+    DateAscending,
+    [Display(Name = "popular_desc")]
+    PopularDescending
+    }
+
+    [EnumExtensions]
+    public enum SearchTarget
+    {
+        [Display(Name = "partial_match_for_tags")]
+        PartialMatchForTags,
+        [Display(Name = "exact_match_for_tags")]
+        ExactMatchForTags,
+        [Display(Name = "title_and_caption")]
+        TitleAndCaption,
+        [Display(Name = "text")]
+        Text,
+        [Display(Name = "keyword")]
+        Keyword
+    }
+
+    [EnumExtensions]
+    public enum BookmarkCount
+    {
+        [Display(Name = "0")]
+        None = 0,
+        [Display(Name = "10")]
+        Ten = 1,
+        [Display(Name = "30")]
+        Thirty = 2,
+        [Display(Name = "50")]
+        Fifty = 3,
+        [Display(Name = "100")]
+        Hundred = 4,
+        [Display(Name = "300")]
+        ThreeHundred = 5,
+        [Display(Name = "500")]
+        FiveHundred = 6,
+        [Display(Name = "1000")]
+        Thousand = 7,
+        [Display(Name = "5000")]
+        FiveThousand = 8
+    }
+
+    [EnumExtensions]
+    public enum SearchPeriod
+    {
+        [Display(Name = "within_last_day")]
+        LastDay,
+        [Display(Name = "within_last_week")]
+        LastWeek,
+        [Display(Name = "within_last_month")]
+        LastMonth
     }
 
     

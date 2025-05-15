@@ -7,7 +7,7 @@ namespace Scighost.PixivApi;
 /// 
 /// </summary>
 [EnumExtensions]
-public enum SearchTarget
+public enum SearchType
 {
     /// <summary>
     /// 

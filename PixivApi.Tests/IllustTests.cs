@@ -1,6 +1,8 @@
 ﻿using System.Web;
 using Scighost.PixivApi;
-using Scighost.PixivApi.Search;
+using Scighost.PixivApi.Clients;
+using Scighost.PixivApi.Models.Search;
+using Scighost.PixivApi.Models.V2.Illust;
 
 namespace PixivApi.Tests;
 
@@ -67,7 +69,7 @@ public sealed class IllustTests
     public async Task SearchAsync(int totalItems, int totalPages, params string[] keywords)
     {
         var result = await pixivClient.SearchIllustrationsAsync(1, keywords, SearchOrder.DateDescending,
-            SearchAge.AnyAge, SearchTarget.IllustAndUgoira, true, SearchLanguage.English);
+            SearchAge.AnyAge, SearchType.IllustAndUgoira, true, SearchLanguage.English);
         Assert.AreEqual(totalPages, result.Illust.LastPage);
         Assert.AreEqual(totalItems, result.Illust.Total);
     }

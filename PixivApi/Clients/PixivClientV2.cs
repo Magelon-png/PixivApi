@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
@@ -8,7 +7,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Web;
-using NetEscapades.EnumGenerators;
 using Polly;
 using Scighost.PixivApi.Search;
 using Scighost.PixivApi.V2;
@@ -283,19 +281,6 @@ public partial class PixivClientV2 : IDisposable
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
     }
 
-    [EnumExtensions]
-    public enum IllustType
-    {
-        [Display(Name = "illust")]
-        Illust,
-        [Display(Name = "manga")]
-        Manga,
-        [Display(Name = "illust_manga")]
-        IllustManga,
-        [Display(Name = "novel")]
-        Novel
-    }
-    
     public async Task<IllustInfoResponse> GetIllustDetailsAsync(uint illustId, CancellationToken cancellationToken = default)
     {
         var url = $"/v1/illust/detail?illust_id={illustId}";
@@ -431,67 +416,6 @@ public partial class PixivClientV2 : IDisposable
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
     }
 
-    [EnumExtensions]
-    public enum SearchOrderV2
-    {
-    [Display(Name = "date_desc")]
-    DateDescending,
-    [Display(Name = "date_asc")]
-    DateAscending,
-    [Display(Name = "popular_desc")]
-    PopularDescending
-    }
-
-    [EnumExtensions]
-    public enum SearchTarget
-    {
-        [Display(Name = "partial_match_for_tags")]
-        PartialMatchForTags,
-        [Display(Name = "exact_match_for_tags")]
-        ExactMatchForTags,
-        [Display(Name = "title_and_caption")]
-        TitleAndCaption,
-        [Display(Name = "text")]
-        Text,
-        [Display(Name = "keyword")]
-        Keyword
-    }
-
-    [EnumExtensions]
-    public enum BookmarkCount
-    {
-        [Display(Name = "0")]
-        None = 0,
-        [Display(Name = "10")]
-        Ten = 1,
-        [Display(Name = "30")]
-        Thirty = 2,
-        [Display(Name = "50")]
-        Fifty = 3,
-        [Display(Name = "100")]
-        Hundred = 4,
-        [Display(Name = "300")]
-        ThreeHundred = 5,
-        [Display(Name = "500")]
-        FiveHundred = 6,
-        [Display(Name = "1000")]
-        Thousand = 7,
-        [Display(Name = "5000")]
-        FiveThousand = 8
-    }
-
-    [EnumExtensions]
-    public enum SearchPeriod
-    {
-        [Display(Name = "within_last_day")]
-        LastDay,
-        [Display(Name = "within_last_week")]
-        LastWeek,
-        [Display(Name = "within_last_month")]
-        LastMonth
-    }
-
-    
     #endregion
 
     /// <inheritdoc />

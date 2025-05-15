@@ -1,9 +1,9 @@
-﻿using Scighost.PixivApi.Common;
-using Scighost.PixivApi.V2;
-using Scighost.PixivApi.V2.Illust;
-using IllustInfoResponse = Scighost.PixivApi.V2.Illust.IllustInfoResponse;
+﻿using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.V2.Common;
+using Scighost.PixivApi.Models.V2.Illust;
+using IllustInfoResponse = Scighost.PixivApi.Models.V2.Illust.IllustInfoResponse;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.SerializerContexts;
 
 [JsonSerializable(typeof(object))]
 [JsonSerializable(typeof(PixivV2ErrorWrapper))]

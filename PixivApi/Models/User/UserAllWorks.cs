@@ -1,7 +1,9 @@
-﻿using Scighost.PixivApi.Common;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
+using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
 
-namespace Scighost.PixivApi.User;
+namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
 /// 

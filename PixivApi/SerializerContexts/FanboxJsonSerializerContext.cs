@@ -1,7 +1,7 @@
-﻿using Scighost.PixivApi.Common;
-using Scighost.PixivApi.Fanbox;
+﻿using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Fanbox;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.SerializerContexts;
 
 
 [JsonSerializable(typeof(object))]

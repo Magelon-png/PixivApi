@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Scighost.PixivApi.Search;
+﻿namespace Scighost.PixivApi.Models.Search;
 
 internal class SearchSuggestion
 {

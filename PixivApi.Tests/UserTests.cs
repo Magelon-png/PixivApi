@@ -1,4 +1,5 @@
 ﻿using Scighost.PixivApi;
+using Scighost.PixivApi.Clients;
 
 namespace PixivApi.Tests;
 

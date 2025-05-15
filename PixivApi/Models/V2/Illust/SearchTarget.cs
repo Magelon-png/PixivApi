@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Models.V2.Illust;
 
-public partial class PixivClientV2
-{
+
     [EnumExtensions]
     public enum SearchTarget
     {
@@ -19,4 +18,3 @@ public partial class PixivClientV2
         [Display(Name = "keyword")]
         Keyword
     }
-}

@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Common;
+﻿namespace Scighost.PixivApi.Models.Common;
 
 /// <summary>
 /// 作品的收藏属性

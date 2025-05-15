@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Models.V2.Illust;
 
-public partial class PixivClientV2
-{
     [EnumExtensions]
     public enum BookmarkCount
     {
@@ -26,5 +24,4 @@ public partial class PixivClientV2
         Thousand = 7,
         [Display(Name = "5000")]
         FiveThousand = 8
-    }
 }

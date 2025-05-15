@@ -1,6 +1,6 @@
-﻿using Scighost.PixivApi.Common;
+﻿using Scighost.PixivApi.Models.Illust;
 
-namespace Scighost.PixivApi.User;
+namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
 /// 

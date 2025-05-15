@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.User;
+﻿namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
 /// 用户简单信息

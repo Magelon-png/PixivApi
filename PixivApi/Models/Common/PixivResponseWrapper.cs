@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Common;
+﻿namespace Scighost.PixivApi.Models.Common;
 
 internal sealed class PixivResponseWrapper<T>
 {

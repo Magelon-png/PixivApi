@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.V2.Illust;
+﻿namespace Scighost.PixivApi.Models.V2.Illust;
 
 
 

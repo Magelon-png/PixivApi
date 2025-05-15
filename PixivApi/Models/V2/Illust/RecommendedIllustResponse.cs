@@ -1,4 +1,6 @@
-﻿namespace Scighost.PixivApi.V2.Illust;
+﻿using Scighost.PixivApi.Models.Illust;
+
+namespace Scighost.PixivApi.Models.V2.Illust;
 
 public record RecommendedIllustResponse(
     [property: JsonPropertyName("home_ranking_illusts")]

@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Illust;
+﻿namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
 /// 动图元数据，P站的动图就是一个图片序列，打包成一个zip文件。zip文件内的根目录下就是图片序列，文件名如 000000.jpg，000001.jpg。

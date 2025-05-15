@@ -1,4 +1,4 @@
-﻿namespace Scighost.PixivApi.Fanbox;
+﻿namespace Scighost.PixivApi.Models.Fanbox;
 
 
 /// <summary>

@@ -2,7 +2,7 @@
 using Polly.CircuitBreaker;
 using Polly.Retry;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Helpers;
 
 /// <summary>
 /// 

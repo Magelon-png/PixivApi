@@ -1,7 +1,7 @@
-﻿using Scighost.PixivApi.Common;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Scighost.PixivApi.Models.Common;
 
-namespace Scighost.PixivApi.Novel;
+namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
 /// 小说系列（无章节信息）

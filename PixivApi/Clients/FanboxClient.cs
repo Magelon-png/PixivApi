@@ -2,10 +2,13 @@
 using System.Net.Http.Json;
 using System.Text.Json.Serialization.Metadata;
 using Polly;
-using Scighost.PixivApi.Common;
-using Scighost.PixivApi.Fanbox;
+using Scighost.PixivApi.Exceptions;
+using Scighost.PixivApi.Helpers;
+using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Fanbox;
+using Scighost.PixivApi.SerializerContexts;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Clients;
 
 /// <summary>
 /// 

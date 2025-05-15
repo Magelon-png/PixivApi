@@ -1,6 +1,6 @@
-﻿using Scighost.PixivApi.Common;
+﻿using Scighost.PixivApi.Models.Common;
 
-namespace Scighost.PixivApi.Illust;
+namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
 /// 插画和漫画详细信息，已忽略部分无用字段

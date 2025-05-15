@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Models.V2.Illust;
 
-public partial class PixivClientV2
-{
+
     [EnumExtensions]
     public enum SearchPeriod
     {
@@ -15,4 +14,3 @@ public partial class PixivClientV2
         [Display(Name = "within_last_month")]
         LastMonth
     }
-}

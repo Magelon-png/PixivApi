@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
 
-namespace Scighost.PixivApi;
+namespace Scighost.PixivApi.Models.V2.Illust;
 
-public partial class PixivClientV2
-{
+
     /// <summary>
     /// 
     /// </summary>
@@ -20,4 +19,3 @@ public partial class PixivClientV2
         [Display(Name = "novel")]
         Novel
     }
-}

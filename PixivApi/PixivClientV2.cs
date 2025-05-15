@@ -276,11 +276,24 @@ public partial class PixivClientV2 : IDisposable
     /// <returns>
     /// The retrieved illustrations starting from the offset. For additional illustrations, retrieve the expected offset from the "NextUrl" property.
     /// </returns>
-    public async Task<IllustsInfoResponse> GetUserIllustsAsync(uint userId, int offset = 0, CancellationToken cancellationToken = default)
+    public async Task<IllustsInfoResponse> GetUserIllustsAsync(uint userId, int offset = 0, IllustType illustType = IllustType.Illust, CancellationToken cancellationToken = default)
     {
-        var url = $"/v1/user/illusts?user_id={userId}&offset={offset}";
+        var url = $"/v1/user/illusts?user_id={userId}&offset={offset}&type={illustType.ToStringFast(true)}";
         
         return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+    }
+
+    [EnumExtensions]
+    public enum IllustType
+    {
+        [Display(Name = "illust")]
+        Illust,
+        [Display(Name = "manga")]
+        Manga,
+        [Display(Name = "illust_manga")]
+        IllustManga,
+        [Display(Name = "novel")]
+        Novel
     }
     
     public async Task<IllustInfoResponse> GetIllustDetailsAsync(uint illustId, CancellationToken cancellationToken = default)

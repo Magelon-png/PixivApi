@@ -1244,14 +1244,14 @@ public class PixivClient : IDisposable
     /// <param name="keywords">Search term to use</param>
     /// <param name="orderBy">Ordering of the search</param>
     /// <param name="searchAge">Safe, R18 or all</param>
-    /// <param name="searchTarget">Kind of search</param>
+    /// <param name="searchType">Kind of search</param>
     /// <param name="searchExact">If the tag of the work must exactly match with the provided keyword.
     /// If more than 1 keyword is passed, partial search will be used.</param>
     /// <param name="lang">Language of the search to correctly populate the tag translation property</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<IllustSearchResult> SearchIllustrationsAsync(int page, string[] keywords, SearchOrder orderBy, 
-        SearchAge searchAge = SearchAge.AnyAge, SearchTarget searchTarget = SearchTarget.IllustAndUgoira, 
+        SearchAge searchAge = SearchAge.AnyAge, SearchType searchType = SearchType.IllustAndUgoira, 
         bool searchExact = true, SearchLanguage? lang = null, CancellationToken cancellationToken = default)
     {
         if (keywords.Length == 0)
@@ -1273,7 +1273,7 @@ public class PixivClient : IDisposable
         queryString["p"] = page.ToString(NumberFormatInfo.InvariantInfo);
         queryString["csw"] = 0.ToString(NumberFormatInfo.InvariantInfo);
         queryString["s_mode"] = searchExact ? "s_tag_full" : "s_tag";
-        queryString["type"] = searchTarget.ToStringFast(true);
+        queryString["type"] = searchType.ToStringFast(true);
         if (lang is not null)
         {
             queryString["lang"] = lang.Value.ToStringFast(true);

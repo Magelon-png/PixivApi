@@ -52,6 +52,7 @@ public partial class PixivClientV2
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
         _httpClient.DefaultRequestHeaders.Add("Referer", BaseUriHttps);
+        _httpClient.DefaultRequestVersion = HttpVersion.Version20;
 
         _downloadHttpClient = new HttpClient(clientHandler ?? new HttpClientHandler
             { AutomaticDecompression = DecompressionMethods.All })
@@ -61,7 +62,8 @@ public partial class PixivClientV2
                 {
                     "User-Agent", DefaultUserAgent
                 }
-            }
+            },
+            DefaultRequestVersion = HttpVersion.Version20
         };
     }
     

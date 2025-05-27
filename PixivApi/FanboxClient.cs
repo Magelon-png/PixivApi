@@ -15,7 +15,7 @@ public class FanboxClient : IDisposable
     private const string OriginUrl = "https://www.fanbox.cc";
     private const string ReferrerUrl = "https://www.fanbox.cc/";
     private const string BaseUriHttps = "https://api.fanbox.cc/";
-    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0";
+    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0";
 
 
     private readonly HttpClient _httpClient;
@@ -49,6 +49,21 @@ public class FanboxClient : IDisposable
     /// </summary>
     public HttpClient HttpClient => _httpClient;
     
+    public class ForceHttp2Handler : DelegatingHandler
+    {
+        public ForceHttp2Handler(HttpMessageHandler innerHandler)
+            : base(innerHandler)
+        {
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            request.Version = HttpVersion.Version20;
+            return base.SendAsync(request, cancellationToken);
+        }
+    }
+    
     /// <summary>
     /// 
     /// </summary>
@@ -63,16 +78,18 @@ public class FanboxClient : IDisposable
         }
         _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
 
-        _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
-        _downloadHttpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
+        _httpClient = new HttpClient(new ForceHttp2Handler(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }));
+        _downloadHttpClient = new HttpClient(new ForceHttp2Handler( clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }));
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
         
-
+        
         _httpClient.DefaultRequestHeaders.Add("Origin", OriginUrl);
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
+        _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
         _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
-        _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
+
+
         
         _downloadHttpClient.DefaultRequestHeaders.Add("Origin", OriginUrl);
         _downloadHttpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");

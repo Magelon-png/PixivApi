@@ -100,10 +100,13 @@ public class PixivClient : IDisposable
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
 
+        _httpClient.DefaultRequestVersion = HttpVersion.Version20;
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
         _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
         _httpClient.DefaultRequestHeaders.Add("Referer", BaseUriHttps);
+        
+        _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;
     }
 
     #endregion

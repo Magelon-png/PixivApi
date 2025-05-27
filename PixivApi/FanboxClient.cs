@@ -49,21 +49,6 @@ public class FanboxClient : IDisposable
     /// </summary>
     public HttpClient HttpClient => _httpClient;
     
-    public class ForceHttp2Handler : DelegatingHandler
-    {
-        public ForceHttp2Handler(HttpMessageHandler innerHandler)
-            : base(innerHandler)
-        {
-        }
-
-        protected override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            request.Version = HttpVersion.Version20;
-            return base.SendAsync(request, cancellationToken);
-        }
-    }
-    
     /// <summary>
     /// 
     /// </summary>
@@ -78,11 +63,11 @@ public class FanboxClient : IDisposable
         }
         _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
 
-        _httpClient = new HttpClient(new ForceHttp2Handler(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }));
-        _downloadHttpClient = new HttpClient(new ForceHttp2Handler( clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }));
+        _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
+        _downloadHttpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
         
-        
+        _httpClient.DefaultRequestVersion = HttpVersion.Version20;
         _httpClient.DefaultRequestHeaders.Add("Origin", OriginUrl);
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
@@ -90,7 +75,7 @@ public class FanboxClient : IDisposable
         _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
 
 
-        
+        _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;        
         _downloadHttpClient.DefaultRequestHeaders.Add("Origin", OriginUrl);
         _downloadHttpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _downloadHttpClient.DefaultRequestHeaders.Add("Cookie", cookie);

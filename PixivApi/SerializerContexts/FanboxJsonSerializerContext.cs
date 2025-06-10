@@ -10,7 +10,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(FanboxResponseWrapper<FollowedCreator[]>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<PostListItem[]>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<PostInfo>))]
-public  partial class FanboxJsonSerializerContext : JsonSerializerContext
+public partial class FanboxJsonSerializerContext : JsonSerializerContext
 {
     
 }

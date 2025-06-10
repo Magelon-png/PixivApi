@@ -589,10 +589,14 @@ public class PixivClient : IDisposable
     /// <returns></returns>
     public async Task<Stream> DownloadIllustAsync(string illustUrl, CancellationToken cancellationToken = default)
     {
-        var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
-        var content = await response.Content.ReadAsStreamAsync(cancellationToken);
+        return await _resiliencePipeline.ExecuteAsync(async token =>
+        {
+            var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
+            var content = await response.Content.ReadAsStreamAsync(cancellationToken);
         
-        return content;
+            return content;
+        }, cancellationToken);
+        
     }
     
     /// <summary>
@@ -603,9 +607,20 @@ public class PixivClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task DownloadIllustAsync(string illustUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
-        using var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        await response.Content.CopyToAsync(destinationStream, cancellationToken);
+        bool copyStarted = false;
+        await _resiliencePipeline.ExecuteAsync(async token =>
+        {
+            if (copyStarted)
+            {
+                destinationStream.Seek(0, SeekOrigin.Begin);
+            }
+
+            copyStarted = true;
+            using var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            await response.Content.CopyToAsync(destinationStream, cancellationToken);
+        }, cancellationToken);
+        
     }
 
 
@@ -1261,7 +1276,7 @@ public class PixivClient : IDisposable
         {
             throw new ArgumentException("Keywords cannot be empty", nameof(keywords));
         }
-        var queryString = HttpUtility.ParseQueryString(String.Empty);
+        var queryString = HttpUtility.ParseQueryString(string.Empty);
         var keyword = string.Join(" ", keywords);
         if (keywords.Length != 1 || 
             (keywords.Length == 1 && keywords[0].Contains(' '))

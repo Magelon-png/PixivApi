@@ -177,20 +177,20 @@ internal class NovelSeriesCoverJsonConverter : JsonConverter<NovelImageUrls>
 {
     public override NovelImageUrls? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var wrapper = JsonSerializer.Deserialize<NovelSeriesCoverUrlsWrapper>(ref reader, options);
+        var wrapper = JsonSerializer.Deserialize(ref reader, PixivJsonSerializerContext.Default.NovelSeriesCoverUrlsWrapper);
         return wrapper?.Urls;
     }
 
     public override void Write(Utf8JsonWriter writer, NovelImageUrls value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(new NovelSeriesCoverUrlsWrapper { Urls = value }, options));
+        writer.WriteRawValue(JsonSerializer.Serialize(new NovelSeriesCoverUrlsWrapper { Urls = value }, PixivJsonSerializerContext.Default.NovelSeriesCoverUrlsWrapper));
     }
 
 
     /// <summary>
     /// 封面图片包装
     /// </summary>
-    private class NovelSeriesCoverUrlsWrapper
+    public class NovelSeriesCoverUrlsWrapper
     {
         /// <summary>
         /// 不同尺寸的封面

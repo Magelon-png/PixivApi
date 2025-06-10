@@ -209,9 +209,19 @@ public class FanboxClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task DownloadFileAsync(string fileUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
-        using var response = await _downloadHttpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        await response.Content.CopyToAsync(destinationStream, cancellationToken);
+        bool copyStarted = false;
+        await _resiliencePipeline.ExecuteAsync(async (token) =>
+        {
+            if (copyStarted)
+            {
+                destinationStream.Seek(0, SeekOrigin.Begin);
+                copyStarted = false;
+            }
+            using var response = await _downloadHttpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead, token);
+            response.EnsureSuccessStatusCode();
+            copyStarted = true;
+            await response.Content.CopyToAsync(destinationStream, token);
+        }, cancellationToken);
     }
 
     /// <summary>

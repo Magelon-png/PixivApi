@@ -10,6 +10,6 @@ public class PixivException : Exception
     /// 
     /// </summary>
     /// <param name="message"></param>
-    public PixivException(string? message) : base(message) { }
+    public PixivException(string? message, Exception? innerException = null) : base(message, innerException) { }
 
 }

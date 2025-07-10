@@ -15,7 +15,7 @@ public class FanboxClient : IDisposable
     private const string OriginUrl = "https://www.fanbox.cc";
     private const string ReferrerUrl = "https://www.fanbox.cc/";
     private const string BaseUriHttps = "https://api.fanbox.cc/";
-    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0";
+    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0";
 
 
     private readonly HttpClient _httpClient;
@@ -55,7 +55,7 @@ public class FanboxClient : IDisposable
     /// <param name="cookie"></param>
     /// <param name="clientHandler"></param>
     /// <exception cref="PixivException"></exception>
-    public FanboxClient(string cookie, HttpClientHandler? clientHandler = null)
+    public FanboxClient(string cookie, HttpClientHandler? clientHandler = null, string? userAgent = null)
     {
         if (ValidateCookie(cookie) == false)
         {
@@ -72,7 +72,7 @@ public class FanboxClient : IDisposable
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
 
 
         _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;        

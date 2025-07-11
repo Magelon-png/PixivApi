@@ -35,6 +35,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
         catch {  }
         
         string os, arch, ext = "";
+        string executableName = "curl-impersonate";
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) os = "windows";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) os = "linux";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) os = "macos";
@@ -53,11 +54,15 @@ public class CurlImpersonateHandler : HttpMessageHandler
         }
 
         if (os == "windows")
+        {
             ext = ".exe";
+            executableName = "curl";
+        }
+            
         
         string appBaseDir = AppContext.BaseDirectory;
 
-        string bundledPath = Path.Combine(appBaseDir, "binaries", os, arch, $"curl-impersonate-{profile}{ext}");
+        string bundledPath = Path.Combine(appBaseDir, "binaries", os, arch, $"{executableName}{ext}");
 
         if (File.Exists(bundledPath))
             return bundledPath;
@@ -174,7 +179,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
 
         while (!headersDone)
         {
-            int bytesRead = await stdout.ReadAsync(buffer, 0, 1, cancellationToken);
+            int bytesRead = await stdout.ReadAsync(buffer.AsMemory(0, 1), cancellationToken);
             if (bytesRead == 0)
                 break;
 

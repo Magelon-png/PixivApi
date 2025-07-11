@@ -4,7 +4,7 @@
 		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.1.5</Version>
+		<Version>0.1.8</Version>
 		<RootNamespace>Scighost.PixivApi</RootNamespace>
 		<AssemblyName>Scighost.PixivApi</AssemblyName>
 		<Authors>Magelon-png</Authors>
@@ -18,6 +18,14 @@
 	
 		<AnalysisMode>Recommended</AnalysisMode>
 		<AotCompatible>true</AotCompatible>
+
+		<PackageId Condition="'$(RuntimeIdentifier)' == ''">Magelon-png.PixivApi</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'win-x64'">Magelon-png.PixivApi.win-x64</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'win-arm64'">Magelon-png.PixivApi.win-arm64</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'linux-x64'">Magelon-png.PixivApi.linux-x64</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'linux-arm64'">Magelon-png.PixivApi.linux-arm64</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'osx-x64'">Magelon-png.PixivApi.osx-x64</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'osx-arm64'">Magelon-png.PixivApi.osx-arm64</PackageId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,9 +34,65 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Binaries\Linux\" />
-	  <Folder Include="Binaries\MacOS\" />
-	  <Folder Include="Binaries\Windows\" />
+		<!--  Linux ARM64 -->
+		<Content Include="Binaries\Linux\arm64\**\*"
+				 Condition="'$(RuntimeIdentifier)' == 'linux-arm64' OR '$(RuntimeIdentifier)' == ''">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>true</Pack>
+			<BuildAction>Content</BuildAction>
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+			<PackagePath>contentFiles\any\any\binaries\linux\arm64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+
+		<!--  Linux x64 -->
+		<Content Include="Binaries\Linux\x64\**\*"
+				 Condition="'$(RuntimeIdentifier)' == 'linux-x64' OR '$(RuntimeIdentifier)' == ''">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>true</Pack>
+			<BuildAction>Content</BuildAction>
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+			<PackagePath>contentFiles\any\any\binaries\linux\x64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+
+		<!--  macOS ARM64 -->
+		<Content Include="Binaries\MacOS\arm64\**\*"
+				 Condition="'$(RuntimeIdentifier)' == 'osx-arm64' OR '$(RuntimeIdentifier)' == ''">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>true</Pack>
+			<BuildAction>Content</BuildAction>
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+			<PackagePath>contentFiles\any\any\binaries\macos\arm64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+
+		<!--  macOS x64 -->
+		<Content Include="Binaries\MacOS\x64\**\*"
+				 Condition="'$(RuntimeIdentifier)' == 'osx-x64' OR '$(RuntimeIdentifier)' == ''">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>true</Pack>
+			<BuildAction>Content</BuildAction>
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+			<PackagePath>contentFiles\any\any\binaries\macos\x64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+
+		<!--  Windows ARM64 -->
+		<Content Include="Binaries\Windows\arm64\**\*"
+				 Condition="'$(RuntimeIdentifier)' == 'win-arm64' OR '$(RuntimeIdentifier)' == ''">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>true</Pack>
+			<BuildAction>Content</BuildAction>
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+			<PackagePath>contentFiles\any\any\binaries\windows\arm64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+
+		<!--  Windows x64 -->
+		<Content Include="Binaries\Windows\x64\**\*"
+				 Condition="'$(RuntimeIdentifier)' == 'win-x64' OR '$(RuntimeIdentifier)' == ''">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>true</Pack>
+			<BuildAction>Content</BuildAction>
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+			<PackagePath>contentFiles\any\any\binaries\windows\x64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
 	</ItemGroup>
 
 </Project>

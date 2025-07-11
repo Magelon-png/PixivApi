@@ -4,7 +4,7 @@
 		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.1.4</Version>
+		<Version>0.1.5</Version>
 		<RootNamespace>Scighost.PixivApi</RootNamespace>
 		<AssemblyName>Scighost.PixivApi</AssemblyName>
 		<Authors>Magelon-png</Authors>
@@ -23,6 +23,12 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.4.0" />
 	  <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta12" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Binaries\Linux\" />
+	  <Folder Include="Binaries\MacOS\" />
+	  <Folder Include="Binaries\Windows\" />
 	</ItemGroup>
 
 </Project>

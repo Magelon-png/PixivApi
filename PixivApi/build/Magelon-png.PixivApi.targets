@@ -1,0 +1,20 @@
+<Project>
+    <ItemGroup>
+        <Content Include="$(MSBuildThisFileDirectory)..\contentFiles\any\any\binaries\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+            <Link>binaries\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Content>
+    </ItemGroup>
+    
+    <Target Name="MakeBinariesExecutable" BeforeTargets="Build" Condition="'$(OS)' != 'Windows_NT'">
+        <ItemGroup>
+            <UnixBinaries Include="$(OutputPath)binaries\linux\**\*" Exclude="$(OutputPath)binaries\**\*.txt;$(OutputPath)binaries\**\*.md" />
+            <UnixBinaries Include="$(OutputPath)binaries\macos\**\*" Exclude="$(OutputPath)binaries\**\*.txt;$(OutputPath)binaries\**\*.md" />
+        </ItemGroup>
+
+        <Exec Command="chmod +x &quot;%(UnixBinaries.Identity)&quot;"
+              Condition="Exists('%(UnixBinaries.Identity)')"
+              ContinueOnError="true" />
+    </Target>
+</Project>

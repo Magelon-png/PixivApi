@@ -74,8 +74,7 @@ public class FanboxClient : IDisposable
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
-        if(enableCurlImpersonate is false)
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
 
 
         _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;        

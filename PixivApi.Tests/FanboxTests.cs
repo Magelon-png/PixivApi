@@ -16,6 +16,13 @@ public sealed class FanboxTests
     }
 
     [TestMethod]
+    public void ShouldFindCurlImpersonateExecutable()
+    {
+        using var client = new FanboxClient("__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;",
+            null, null, true);
+    }
+
+    [TestMethod]
     public async Task GetSupportingPlansAsync()
     {
         var plans = await fanboxClient.GetSupportingPlansAsync();

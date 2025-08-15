@@ -3,7 +3,7 @@
         <Content Include="$(MSBuildThisFileDirectory)..\contentFiles\any\any\binaries\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
-            <Link>binaries\%(Filename)%(Extension)</Link>
+            <Link>binaries</Link>
         </Content>
     </ItemGroup>
     

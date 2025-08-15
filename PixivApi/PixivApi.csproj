@@ -34,8 +34,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--  Linux ARM64 -->
-		<Content Include="Binaries\Linux\arm64\**\*"
+		<!--  linux ARM64 -->
+		<Content Include="binaries\linux\arm64\**\*"
 				 Condition="'$(RuntimeIdentifier)' == 'linux-arm64' OR '$(RuntimeIdentifier)' == ''">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
@@ -44,8 +44,8 @@
 			<PackagePath>contentFiles\any\any\binaries\linux\arm64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
 		</Content>
 
-		<!--  Linux x64 -->
-		<Content Include="Binaries\Linux\x64\**\*"
+		<!--  linux x64 -->
+		<Content Include="binaries\linux\x64\**\*"
 				 Condition="'$(RuntimeIdentifier)' == 'linux-x64' OR '$(RuntimeIdentifier)' == ''">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
@@ -55,7 +55,7 @@
 		</Content>
 
 		<!--  macOS ARM64 -->
-		<Content Include="Binaries\MacOS\arm64\**\*"
+		<Content Include="binaries\macos\arm64\**\*"
 				 Condition="'$(RuntimeIdentifier)' == 'osx-arm64' OR '$(RuntimeIdentifier)' == ''">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
@@ -65,7 +65,7 @@
 		</Content>
 
 		<!--  macOS x64 -->
-		<Content Include="Binaries\MacOS\x64\**\*"
+		<Content Include="binaries\macos\x64\**\*"
 				 Condition="'$(RuntimeIdentifier)' == 'osx-x64' OR '$(RuntimeIdentifier)' == ''">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
@@ -74,8 +74,8 @@
 			<PackagePath>contentFiles\any\any\binaries\macos\x64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
 		</Content>
 
-		<!--  Windows ARM64 -->
-		<Content Include="Binaries\Windows\arm64\**\*"
+		<!--  windows ARM64 -->
+		<Content Include="binaries\windows\arm64\**\*"
 				 Condition="'$(RuntimeIdentifier)' == 'win-arm64' OR '$(RuntimeIdentifier)' == ''">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>
@@ -84,8 +84,8 @@
 			<PackagePath>contentFiles\any\any\binaries\windows\arm64\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
 		</Content>
 
-		<!--  Windows x64 -->
-		<Content Include="Binaries\Windows\x64\**\*"
+		<!--  windows x64 -->
+		<Content Include="binaries\windows\x64\**\*"
 				 Condition="'$(RuntimeIdentifier)' == 'win-x64' OR '$(RuntimeIdentifier)' == ''">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Pack>true</Pack>

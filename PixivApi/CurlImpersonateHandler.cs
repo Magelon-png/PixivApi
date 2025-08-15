@@ -83,14 +83,15 @@ public class CurlImpersonateHandler : HttpMessageHandler
             "-X", request.Method.Method
         };
 
-        argsList.Add(ShellEscape(request.RequestUri!.ToString()
-            .Replace(" ", "%20")));
+        // Pass the URL as a separate argument without shell quoting/escaping.
+        argsList.Add(request.RequestUri!.ToString());
 
         foreach (var header in request.Headers)
             foreach (var value in header.Value)
             {
                 argsList.Add("-H");
-                argsList.Add(ShellEscape($"{header.Key}: {value}"));
+                // Do not shell-escape; pass the exact header as one argv item
+                argsList.Add($"{header.Key}: {value}");
             }
         if (request.Content != null)
         {
@@ -98,7 +99,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
                 foreach (var value in header.Value)
                 {
                     argsList.Add("-H");
-                    argsList.Add(ShellEscape($"{header.Key}: {value}"));
+                    argsList.Add($"{header.Key}: {value}");
                 }
         }
 
@@ -122,7 +123,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
 
         };
 
-
+        // Use ArgumentList exclusively; do NOT also set Arguments
         psi.ArgumentList.Clear();
         foreach (string arg in argsList)
             psi.ArgumentList.Add(arg);
@@ -233,6 +234,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
         }
 
         var contentStream = new ProcessStream(stdout, process);
+        
         response.Content = new StreamContent(contentStream);
         
         return response;

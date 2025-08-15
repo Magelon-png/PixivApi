@@ -55,15 +55,17 @@ public class FanboxClient : IDisposable
     /// <param name="cookie"></param>
     /// <param name="clientHandler"></param>
     /// <exception cref="PixivException"></exception>
-    public FanboxClient(string cookie, HttpClientHandler? clientHandler = null, string? userAgent = null)
+    public FanboxClient(string cookie, HttpClientHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
     {
         if (ValidateCookie(cookie) == false)
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;' in any order.");
         }
         _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
+        
+        var httpHandler = clientHandler ?? (HttpMessageHandler) (enableCurlImpersonate ? new CurlImpersonateHandler(curlImpersonatePath) : new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
 
-        _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
+        _httpClient = new HttpClient(httpHandler);
         _downloadHttpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
         
@@ -72,7 +74,8 @@ public class FanboxClient : IDisposable
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
+        if(enableCurlImpersonate is false)
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
 
 
         _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;        

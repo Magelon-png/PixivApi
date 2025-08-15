@@ -63,9 +63,12 @@ public class CurlImpersonateHandler : HttpMessageHandler
         string appBaseDir = AppContext.BaseDirectory;
 
         string bundledPath = Path.Combine(appBaseDir, "binaries", os, arch, $"{executableName}{ext}");
+        string bundledPathNuget = Path.Combine(appBaseDir, "binaries", os, arch, $"{executableName}{ext}", $"{executableName}{ext}");
 
         if (File.Exists(bundledPath))
             return bundledPath;
+        if(File.Exists(bundledPathNuget))
+            return bundledPathNuget;
 
         throw new FileNotFoundException(
             $"Le binaire curl-impersonate (profile: {profile}) est introuvable.\n" +
@@ -84,7 +87,8 @@ public class CurlImpersonateHandler : HttpMessageHandler
         };
 
         // Pass the URL as a separate argument without shell quoting/escaping.
-        argsList.Add(request.RequestUri!.ToString());
+        argsList.Add($"{request.RequestUri!.ToString()
+            .Replace(" ", "%20")}");
 
         foreach (var header in request.Headers)
             foreach (var value in header.Value)

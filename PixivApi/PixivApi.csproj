@@ -41,7 +41,7 @@
 			<Pack>true</Pack>
 			<BuildAction>Content</BuildAction>
 			<PackageCopyToOutput>true</PackageCopyToOutput>
-			<PackagePath>contentFiles\any\any\binaries\linux\arm64</PackagePath>
+			<PackagePath>contentFiles\any\any\binaries\linux\arm64\</PackagePath>
 		</Content>
 
 		<!--  linux x64 -->
@@ -51,7 +51,7 @@
 			<Pack>true</Pack>
 			<BuildAction>Content</BuildAction>
 			<PackageCopyToOutput>true</PackageCopyToOutput>
-			<PackagePath>contentFiles\any\any\binaries\linux\x64</PackagePath>
+			<PackagePath>contentFiles\any\any\binaries\linux\x64\</PackagePath>
 		</Content>
 
 		<!--  macOS ARM64 -->
@@ -61,7 +61,7 @@
 			<Pack>true</Pack>
 			<BuildAction>Content</BuildAction>
 			<PackageCopyToOutput>true</PackageCopyToOutput>
-			<PackagePath>contentFiles\any\any\binaries\macos\arm64</PackagePath>
+			<PackagePath>contentFiles\any\any\binaries\macos\arm64\</PackagePath>
 		</Content>
 
 		<!--  macOS x64 -->
@@ -71,7 +71,7 @@
 			<Pack>true</Pack>
 			<BuildAction>Content</BuildAction>
 			<PackageCopyToOutput>true</PackageCopyToOutput>
-			<PackagePath>contentFiles\any\any\binaries\macos\x64</PackagePath>
+			<PackagePath>contentFiles\any\any\binaries\macos\x64\</PackagePath>
 		</Content>
 
 		<!--  windows ARM64 -->
@@ -81,7 +81,7 @@
 			<Pack>true</Pack>
 			<BuildAction>Content</BuildAction>
 			<PackageCopyToOutput>true</PackageCopyToOutput>
-			<PackagePath>contentFiles\any\any\binaries\windows\arm64</PackagePath>
+			<PackagePath>contentFiles\any\any\binaries\windows\arm64\</PackagePath>
 		</Content>
 
 		<!--  windows x64 -->
@@ -91,7 +91,7 @@
 			<Pack>true</Pack>
 			<BuildAction>Content</BuildAction>
 			<PackageCopyToOutput>true</PackageCopyToOutput>
-			<PackagePath>contentFiles\any\any\binaries\windows\x64</PackagePath>
+			<PackagePath>contentFiles\any\any\binaries\windows\x64\</PackagePath>
 		</Content>
 	</ItemGroup>
 

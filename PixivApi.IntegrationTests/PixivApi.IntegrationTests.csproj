@@ -1,7 +1,7 @@
 <Project Sdk="MSTest.Sdk/3.6.4">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -17,7 +17,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.2" />
+      <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.1.0" />
+      <PackageReference Update="MSTest.TestFramework" Version="4.0.2" />
+      <PackageReference Update="MSTest.Analyzers" Version="4.0.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+      <PackageReference Update="MSTest.TestAdapter" Version="4.0.2" />
+      <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.0.2" />
     </ItemGroup>
 
 </Project>

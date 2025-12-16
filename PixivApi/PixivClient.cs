@@ -605,7 +605,8 @@ public class PixivClient : IDisposable
     {
         var retries = 0;
         var maxRetries = 3;
-        while (retries < maxRetries)
+        var downloaded = false;
+        while (retries < maxRetries && !downloaded)
         {
             try
             {
@@ -613,13 +614,14 @@ public class PixivClient : IDisposable
                     HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                 response.EnsureSuccessStatusCode();
                 await response.Content.CopyToAsync(destinationStream, cancellationToken);
+                downloaded = true;
             }
             catch
             {
                 await destinationStream.FlushAsync();
                 destinationStream.Seek(0, SeekOrigin.Begin);
+                retries++;
             }
-            retries++;
         }
     }
 

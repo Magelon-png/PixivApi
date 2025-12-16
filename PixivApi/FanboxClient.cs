@@ -210,9 +210,25 @@ public class FanboxClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task DownloadFileAsync(string fileUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
-        using var response = await _downloadHttpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        await response.Content.CopyToAsync(destinationStream, cancellationToken);
+        var retries = 0;
+        var maxRetries = 3;
+        while (retries < maxRetries)
+        {
+            try
+            {
+                using var response = await _downloadHttpClient.GetAsync(fileUrl,
+                    HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                await response.Content.CopyToAsync(destinationStream, cancellationToken);
+            }
+            catch
+            {
+                await destinationStream.FlushAsync();
+                destinationStream.Seek(0, SeekOrigin.Begin);
+            }
+            retries++;
+        }
+        
     }
 
     /// <summary>

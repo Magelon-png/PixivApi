@@ -603,9 +603,24 @@ public class PixivClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task DownloadIllustAsync(string illustUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
-        using var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        await response.Content.CopyToAsync(destinationStream, cancellationToken);
+        var retries = 0;
+        var maxRetries = 3;
+        while (retries < maxRetries)
+        {
+            try
+            {
+                using var response = await _downloadHttpClient.GetAsync(illustUrl,
+                    HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                await response.Content.CopyToAsync(destinationStream, cancellationToken);
+            }
+            catch
+            {
+                await destinationStream.FlushAsync();
+                destinationStream.Seek(0, SeekOrigin.Begin);
+            }
+            retries++;
+        }
     }
 
 

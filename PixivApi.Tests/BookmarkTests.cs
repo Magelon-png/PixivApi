@@ -85,6 +85,28 @@ public class BookmarkTests
         await _pixivClient.ChangeBookmarkIllustVisibilityAsync(isPrivate, default, 123456789L, 987654321L);
     }
 
+    [TestMethod]
+    public async Task AddBookmarkIllustTagsAsync()
+    {
+        _handler.When(
+            HttpMethod.Post,
+            "https://www.pixiv.net/ajax/illusts/bookmarks/add_tags",
+            () => OkJson("Bookmark/ChangeBookmarkIllustVisibility.json"));
+
+        await _pixivClient.AddBookmarkIllustTagsAsync(new long[] { 123456789L, 987654321L }, new[] { "tag1", "tag2" });
+    }
+
+    [TestMethod]
+    public async Task DeleteBookmarkIllustsAsync()
+    {
+        _handler.When(
+            HttpMethod.Post,
+            "https://www.pixiv.net/ajax/illusts/bookmarks/remove",
+            () => OkJson("Bookmark/ChangeBookmarkIllustVisibility.json"));
+
+        await _pixivClient.DeleteBookmarkIllustsAsync(default, 123456789L, 987654321L);
+    }
+
     [TestCleanup]
     public void Cleanup()
     {

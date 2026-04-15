@@ -18,6 +18,7 @@ public sealed class TestHttpMessageHandler : HttpMessageHandler
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
+        LastRequest = request;
         var key = (request.Method, request.RequestUri!.AbsoluteUri);
         if (_responses.TryGetValue(key, out var factory))
             return Task.FromResult(factory());
@@ -25,4 +26,6 @@ public sealed class TestHttpMessageHandler : HttpMessageHandler
         throw new KeyNotFoundException(
             $"No response configured for {request.Method} {request.RequestUri!.AbsoluteUri}");
     }
+
+    public HttpRequestMessage? LastRequest { get; private set; }
 }

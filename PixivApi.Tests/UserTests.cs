@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using Scighost.PixivApi;
 
@@ -30,7 +30,7 @@ public class UserTests
         response.Headers.Add("x-userid", "1000");
         response.Content = new StringContent(File.ReadAllText(Path.Join("Payloads", "User/GetMyUserId.json")), Encoding.UTF8, "application/json");
 
-        _handler.When("https://www.pixiv.net/", () => response);
+        _handler.When("https://www.pixiv.net/ajax/top/illust?mode=all", () => response);
 
         var userId = await _pixivClient.GetMyUserIdAsync();
 

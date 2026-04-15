@@ -169,7 +169,12 @@ public class PixivClient : IDisposable
         }
         
         var str = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetStringAsync("/", token));
-        _token = Regex.Match(str, @"""token"":""([^""]+)""").Groups[1].Value;
+        var match = Regex.Match(
+            str,
+            @"token\\?[""']\\?:\\?[""']([^""\\]+)\\?[""']"
+        );
+
+        _token = match.Success ? match.Groups[1].Value : string.Empty;
         if (!string.IsNullOrWhiteSpace(_token))
         {
             _httpClient.DefaultRequestHeaders.Add("x-csrf-token", _token);

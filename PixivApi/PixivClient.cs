@@ -32,7 +32,7 @@ public class PixivClient : IDisposable
 {
     
     private const string BaseUriHttps = "https://www.pixiv.net/";
-    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0";
+    private const string DefaultUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0";
 
 
     private readonly HttpClient _httpClient;
@@ -88,7 +88,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="cookie">Cookie to authenticate with the API</param>
     /// <param name="clientHandler">Custom HTTP client handler for testing or other cases</param>
-    public PixivClient(string cookie, HttpMessageHandler? clientHandler = null)
+    /// <param name="userAgent">Custom user agent</param>
+    public PixivClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null)
     {
         if (ValidateCookie(cookie) == false)
         {
@@ -103,7 +104,7 @@ public class PixivClient : IDisposable
         _httpClient.DefaultRequestVersion = HttpVersion.Version20;
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
         _httpClient.DefaultRequestHeaders.Add("Referer", BaseUriHttps);
         
         _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;
@@ -134,7 +135,6 @@ public class PixivClient : IDisposable
             async token =>
                 await _httpClient.PostAsJsonAsync(url, value, PixivJsonSerializerContext.Default.Object, token),
             cancellationToken);
-        response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper?.Error ?? true)
         {
@@ -149,7 +149,6 @@ public class PixivClient : IDisposable
         var response =
             await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.SendAsync(message, token),
                 cancellationToken);
-        response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper?.Error ?? true)
         {
@@ -197,9 +196,7 @@ public class PixivClient : IDisposable
     /// <returns>The user UID or 0 if not logged</returns>
     public async Task<int> GetMyUserIdAsync()
     {
-        var url = "/";
-        var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-        response.EnsureSuccessStatusCode();
+        var response = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetAsync("/ajax/top/illust?mode=all", token));
         if (response.Headers.TryGetValues("x-userid", out var idstr))
         {
             var ids = idstr.FirstOrDefault();
@@ -517,7 +514,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 批量更改收藏插画的公开属性
+    /// This function requires GetTokenAsync to have been called once.
     /// </summary>
     /// <param name="isPrivate">不公开</param>
     /// <param name="bookmarkIds">收藏id</param>

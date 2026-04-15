@@ -32,6 +32,7 @@ namespace Scighost.PixivApi;
 [JsonSerializable(typeof(PixivResponseWrapper<NovelSeries>))]
 [JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesContentWrapper>))]
 [JsonSerializable(typeof(PixivResponseWrapper<RecommendNovelWrapper>))]
+[JsonSerializable(typeof(ChangeBookmarkIllustVisibilityRequest))]
 [JsonSerializable(typeof(PixivResponseWrapper<BookmarkIllustWrapper>))]
 [JsonSerializable(typeof(PixivResponseWrapper<BookmarkNovelWrapper>))]
 [JsonSerializable(typeof(PixivResponseWrapper<UserBookmarkTag>))]

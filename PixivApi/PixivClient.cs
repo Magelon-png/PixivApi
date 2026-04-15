@@ -547,7 +547,9 @@ public class PixivClient : IDisposable
     public async Task AddBookmarkIllustTagsAsync(IEnumerable<long> bookmarkIds, IEnumerable<string> tags, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/illusts/bookmarks/add_tags";
-        var obj = new { bookmarkIds = bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)), tags };
+        var obj = new AddBookmarkIllustTagsRequest( 
+            bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)),
+             tags);
         await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
@@ -561,7 +563,7 @@ public class PixivClient : IDisposable
     public async Task DeleteBookmarkIllustsAsync(CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/illusts/bookmarks/remove";
-        var obj = new { bookmarkIds = bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)) };
+        var obj = new DeleteBookmarkIllustsRequest(bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)));
         await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 

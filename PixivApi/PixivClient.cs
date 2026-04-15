@@ -88,13 +88,13 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="cookie">Cookie to authenticate with the API</param>
     /// <param name="clientHandler">Custom HTTP client handler for testing or other cases</param>
-    public PixivClient(string cookie, HttpClientHandler? clientHandler = null)
+    public PixivClient(string cookie, HttpMessageHandler? clientHandler = null)
     {
         if (ValidateCookie(cookie) == false)
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;' in any order.");
         }
-        
+
         _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
 
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
@@ -526,7 +526,10 @@ public class PixivClient : IDisposable
     public async Task ChangeBookmarkIllustVisibilityAsync(bool isPrivate, CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/illusts/bookmarks/edit_restrict";
-        var obj = new { bookmarkIds = bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)), bookmarkRestrict = isPrivate ? "private" : "public" };
+        var obj = new ChangeBookmarkIllustVisibilityRequest(
+            bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)),
+            isPrivate ? "private" : "public"
+        );
         await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 

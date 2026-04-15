@@ -55,7 +55,7 @@ public class FanboxClient : IDisposable
     /// <param name="cookie"></param>
     /// <param name="clientHandler"></param>
     /// <exception cref="PixivException"></exception>
-    public FanboxClient(string cookie, HttpClientHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
+    public FanboxClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
     {
         if (ValidateCookie(cookie) == false)
         {

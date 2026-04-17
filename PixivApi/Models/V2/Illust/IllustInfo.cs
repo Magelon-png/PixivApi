@@ -54,7 +54,7 @@ namespace Scighost.PixivApi.Models.V2.Illust;
 /// <param name="IsBookmarked"></param>
 /// <param name="Visible"></param>
 /// <param name="IsMuted"></param>
-public record IllustdInfo(
+public record IllustInfo(
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     uint Id,

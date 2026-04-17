@@ -5,173 +5,118 @@ using Scighost.PixivApi.SerializerContexts;
 namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
-/// 小说系列（无章节信息）
+/// Novel series (without chapter information)
 /// </summary>
-public class NovelSeries
-{
-    /// <summary>
-    /// 系列id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+/// <param name="Id">Series id</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="UserName">Author nickname</param>
+/// <param name="UserProfileImageUrl">Author avatar image</param>
+/// <param name="XRestrict">Restriction level</param>
+/// <param name="IsOriginal">Is original</param>
+/// <param name="IsConcluded">Is concluded</param>
+/// <param name="Title">Series title</param>
+/// <param name="Caption">Caption</param>
+/// <param name="Language">Language, not necessarily reliable</param>
+/// <param name="PublishedContentCount">Chapter count</param>
+/// <param name="PublishedTotalCharacterCount">Total character count</param>
+/// <param name="PublishedTotalWordCount">Total word count</param>
+/// <param name="PublishedReadingTime">Total reading time, in seconds</param>
+/// <param name="LastPublishedContentTimestamp">Timestamp of the last published chapter</param>
+/// <param name="CreatedTimestamp">Creation timestamp</param>
+/// <param name="UpdatedTimestamp">Upload timestamp</param>
+/// <param name="CreateDate">Creation time</param>
+/// <param name="UpdateDate">Upload time</param>
+/// <param name="FirstNovelId">Novel ID of the first chapter</param>
+/// <param name="LatestNovelId">Novel ID of the last chapter</param>
+/// <param name="DisplaySeriesContentCount">Displayable chapter count</param>
+/// <param name="Total">Chapter count</param>
+/// <param name="IsWatched">Followed</param>
+/// <param name="IsNotifying">Follow notifications enabled</param>
+/// <param name="CoverUrls">Covers of different sizes</param>
+public record NovelSeries(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 作者昵称
-    /// </summary>
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    /// <summary>
-    /// 作者头像图片
-    /// </summary>
-    [JsonPropertyName("profileImageUrl")]
-    public string UserProfileImageUrl { get; set; }
+    [property: JsonPropertyName("profileImageUrl")]
+    string UserProfileImageUrl,
 
-    /// <summary>
-    /// 限制级别
-    /// </summary>
-    [JsonPropertyName("xRestrict")]
-    public XRestrict XRestrict { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    XRestrict XRestrict,
 
-    /// <summary>
-    /// 原创
-    /// </summary>
-    [JsonPropertyName("isOriginal")]
-    public bool IsOriginal { get; set; }
+    [property: JsonPropertyName("isOriginal")]
+    bool IsOriginal,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("isConcluded")]
-    public bool IsConcluded { get; set; }
+    [property: JsonPropertyName("isConcluded")]
+    bool IsConcluded,
 
-    /// <summary>
-    /// 系列标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 介绍
-    /// </summary>
-    [JsonPropertyName("caption")]
-    public string Caption { get; set; }
+    [property: JsonPropertyName("caption")]
+    string Caption,
 
-    /// <summary>
-    /// 语言，不一定可靠
-    /// </summary>
-    [JsonPropertyName("language")]
-    public string Language { get; set; }
+    [property: JsonPropertyName("language")]
+    string Language,
 
-    /// <summary>
-    /// 章节数
-    /// </summary>
-    [JsonPropertyName("publishedContentCount")]
-    public int PublishedContentCount { get; set; }
+    [property: JsonPropertyName("publishedContentCount")]
+    int PublishedContentCount,
 
-    /// <summary>
-    /// 总字符数
-    /// </summary>
-    [JsonPropertyName("publishedTotalCharacterCount")]
-    public int PublishedTotalCharacterCount { get; set; }
+    [property: JsonPropertyName("publishedTotalCharacterCount")]
+    int PublishedTotalCharacterCount,
 
-    /// <summary>
-    /// 总文字数
-    /// </summary>
-    [JsonPropertyName("publishedTotalWordCount")]
-    public int PublishedTotalWordCount { get; set; }
+    [property: JsonPropertyName("publishedTotalWordCount")]
+    int PublishedTotalWordCount,
 
-    /// <summary>
-    /// 总阅读时间，单位秒
-    /// </summary>
-    [JsonPropertyName("publishedReadingTime")]
-    public int PublishedReadingTime { get; set; }
+    [property: JsonPropertyName("publishedReadingTime")]
+    int PublishedReadingTime,
 
-    /// <summary>
-    /// 上一章节发布时的时间戳
-    /// </summary>
-    [JsonPropertyName("lastPublishedContentTimestamp")]
-    public int LastPublishedContentTimestamp { get; set; }
+    [property: JsonPropertyName("lastPublishedContentTimestamp")]
+    int LastPublishedContentTimestamp,
 
-    /// <summary>
-    /// 创建时间戳
-    /// </summary>
-    [JsonPropertyName("createdTimestamp")]
-    public int CreatedTimestamp { get; set; }
+    [property: JsonPropertyName("createdTimestamp")]
+    int CreatedTimestamp,
 
-    /// <summary>
-    /// 上传时间戳
-    /// </summary>
-    [JsonPropertyName("updatedTimestamp")]
-    public int UpdatedTimestamp { get; set; }
+    [property: JsonPropertyName("updatedTimestamp")]
+    int UpdatedTimestamp,
 
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
 
-    /// <summary>
-    /// 上传时间
-    /// </summary>
-    [JsonPropertyName("updateDate")]
-    public DateTimeOffset UpdateDate { get; set; }
+    [property: JsonPropertyName("updateDate")]
+    DateTimeOffset UpdateDate,
 
-    /// <summary>
-    /// 第一章的小说id
-    /// </summary>
-    [JsonPropertyName("firstNovelId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int FirstNovelId { get; set; }
+    [property: JsonPropertyName("firstNovelId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int FirstNovelId,
 
-    /// <summary>
-    /// 最后一张的小说id
-    /// </summary>
-    [JsonPropertyName("latestNovelId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int LatestNovelId { get; set; }
+    [property: JsonPropertyName("latestNovelId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int LatestNovelId,
 
-    /// <summary>
-    /// 可显示章节数
-    /// </summary>
-    [JsonPropertyName("displaySeriesContentCount")]
-    public int DisplaySeriesContentCount { get; set; }
+    [property: JsonPropertyName("displaySeriesContentCount")]
+    int DisplaySeriesContentCount,
 
-    /// <summary>
-    /// 章节数
-    /// </summary>
-    [JsonPropertyName("total")]
-    public int Total { get; set; }
+    [property: JsonPropertyName("total")]
+    int Total,
 
-    /// <summary>
-    /// 已追更
-    /// </summary>
-    [JsonPropertyName("isWatched")]
-    public bool IsWatched { get; set; }
+    [property: JsonPropertyName("isWatched")]
+    bool IsWatched,
 
-    /// <summary>
-    /// 已加入追更通知
-    /// </summary>
-    [JsonPropertyName("isNotifying")]
-    public bool IsNotifying { get; set; }
+    [property: JsonPropertyName("isNotifying")]
+    bool IsNotifying,
 
-    /// <summary>
-    /// 不同尺寸的封面
-    /// </summary>
-    [JsonPropertyName("cover")]
-    [JsonConverter(typeof(NovelSeriesCoverJsonConverter))]
-    public NovelImageUrls CoverUrls { get; set; }
-
-
-}
+    [property: JsonPropertyName("cover")]
+    [property: JsonConverter(typeof(NovelSeriesCoverJsonConverter))]
+    NovelImageUrls CoverUrls
+);
 
 
 internal class NovelSeriesCoverJsonConverter : JsonConverter<NovelImageUrls>
@@ -184,19 +129,16 @@ internal class NovelSeriesCoverJsonConverter : JsonConverter<NovelImageUrls>
 
     public override void Write(Utf8JsonWriter writer, NovelImageUrls value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(new NovelSeriesCoverUrlsWrapper { Urls = value }, PixivJsonSerializerContext.Default.NovelSeriesCoverUrlsWrapper));
+        writer.WriteRawValue(JsonSerializer.Serialize(new NovelSeriesCoverUrlsWrapper(value), PixivJsonSerializerContext.Default.NovelSeriesCoverUrlsWrapper));
     }
 
 
     /// <summary>
-    /// 封面图片包装
+    /// Cover image wrapper
     /// </summary>
-    public class NovelSeriesCoverUrlsWrapper
-    {
-        /// <summary>
-        /// 不同尺寸的封面
-        /// </summary>
-        [JsonPropertyName("urls")]
-        public NovelImageUrls Urls { get; set; }
-    }
+    /// <param name="Urls">Covers of different sizes</param>
+    public record NovelSeriesCoverUrlsWrapper(
+        [property: JsonPropertyName("urls")]
+        NovelImageUrls Urls
+    );
 }

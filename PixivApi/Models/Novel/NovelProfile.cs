@@ -3,108 +3,74 @@
 namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
-/// 小说简单信息（无正文）
+/// Simple information for novels (without content)
 /// </summary>
-public class NovelProfile
-{
-    /// <summary>
-    /// 小说id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+/// <param name="Id">Novel id</param>
+/// <param name="Title">Title</param>
+/// <param name="XRestrict">Restriction level</param>
+/// <param name="Url">Cover image</param>
+/// <param name="Tags">Tags</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="UserName">Author nickname</param>
+/// <param name="TextCount">Text count</param>
+/// <param name="WordCount">Word count</param>
+/// <param name="ReadingTime">Reading time, in seconds</param>
+/// <param name="Description">Description, HTML format</param>
+/// <param name="CreateDate">Creation time</param>
+/// <param name="UpdateDate">Upload time</param>
+/// <param name="SeriesId">Series id</param>
+/// <param name="SeriesTitle">Series title</param>
+/// <param name="UserProfileImageUrl">Author avatar image</param>
+public record NovelProfile(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 限制级别
-    /// </summary>
-    [JsonPropertyName("xRestrict")]
-    public XRestrict XRestrict { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    XRestrict XRestrict,
 
-    /// <summary>
-    /// 封面图片
-    /// </summary>
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
+    [property: JsonPropertyName("url")]
+    string Url,
 
-    /// <summary>
-    /// 标签
-    /// </summary>
-    [JsonPropertyName("tags")]
-    public List<string> Tags { get; set; }
+    [property: JsonPropertyName("tags")]
+    List<string> Tags,
 
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 作者昵称
-    /// </summary>
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    /// <summary>
-    /// 文字数
-    /// </summary>
-    [JsonPropertyName("textCount")]
-    public int TextCount { get; set; }
+    [property: JsonPropertyName("textCount")]
+    int TextCount,
 
-    /// <summary>
-    /// 文字数
-    /// </summary>
-    [JsonPropertyName("wordCount")]
-    public int WordCount { get; set; }
+    [property: JsonPropertyName("wordCount")]
+    int WordCount,
 
-    /// <summary>
-    /// 阅读时间，单位秒
-    /// </summary>
-    [JsonPropertyName("readingTime")]
-    public int ReadingTime { get; set; }
+    [property: JsonPropertyName("readingTime")]
+    int ReadingTime,
 
-    /// <summary>
-    /// 介绍，html格式
-    /// </summary>
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [property: JsonPropertyName("description")]
+    string Description,
 
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
 
-    /// <summary>
-    /// 上传时间
-    /// </summary>
-    [JsonPropertyName("updateDate")]
-    public DateTimeOffset UpdateDate { get; set; }
+    [property: JsonPropertyName("updateDate")]
+    DateTimeOffset UpdateDate,
 
-    /// <summary>
-    /// 系列id
-    /// </summary>
-    [JsonPropertyName("seriesId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int SeriesId { get; set; }
+    [property: JsonPropertyName("seriesId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int SeriesId,
 
-    /// <summary>
-    /// 系列标题
-    /// </summary>
-    [JsonPropertyName("seriesTitle")]
-    public string SeriesTitle { get; set; }
+    [property: JsonPropertyName("seriesTitle")]
+    string SeriesTitle,
 
-    /// <summary>
-    /// 作者头像图片
-    /// </summary>
-    [JsonPropertyName("profileImageUrl")]
-    public string? UserProfileImageUrl { get; set; }
-
-}
+    [property: JsonPropertyName("profileImageUrl")]
+    string? UserProfileImageUrl
+);
 

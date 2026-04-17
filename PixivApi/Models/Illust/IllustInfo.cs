@@ -3,162 +3,110 @@
 namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
-/// 插画和漫画详细信息，已忽略部分无用字段
+/// Detailed information for illustrations and manga, with some useless fields ignored
 /// </summary>
-public class IllustInfo
-{
-    /// <summary>
-    /// 插画漫画id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+/// <param name="Id">Illustration/manga id</param>
+/// <param name="Title">Illustration/manga title</param>
+/// <param name="Description">Description, HTML format</param>
+/// <param name="IllustType">Work type, illustration or manga</param>
+/// <param name="CreateDate">Creation date</param>
+/// <param name="UploadDate">Upload date</param>
+/// <param name="XRestrict">Restriction level</param>
+/// <param name="Urls">File addresses of different image sizes for the first page. For more images, call <see cref="PixivClient.GetIllustPagesAsync(int)"/></param>
+/// <param name="Tags">Work tags</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="UserName">Author nickname</param>
+/// <param name="UserAccount">Username of the logged-in account (unclear why this is exposed)</param>
+/// <param name="UserIllusts">IDs of all illustrations by the author</param>
+/// <param name="IsLike">Liked</param>
+/// <param name="Width">Pixel width of the first image</param>
+/// <param name="Height">Pixel height of the first image</param>
+/// <param name="PageCount">Number of images in the work</param>
+/// <param name="BookmarkCount">Bookmark count</param>
+/// <param name="LikeCount">Like count</param>
+/// <param name="CommentCount">Comment count</param>
+/// <param name="ResponseCount">Response count</param>
+/// <param name="ViewCount">View count</param>
+/// <param name="IsOriginal">Is original</param>
+/// <param name="SeriesNavData">Sidebar data for manga reading pages</param>
+/// <param name="BookmarkData">Bookmark information, null if not bookmarked</param>
+public record IllustInfo(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 插画漫画作品标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 介绍，html格式
-    /// </summary>
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [property: JsonPropertyName("description")]
+    string Description,
 
-    /// <summary>
-    /// 作品类型，插画 or 漫画
-    /// </summary>
-    [JsonPropertyName("illustType")]
-    public IllustType IllustType { get; set; }
+    [property: JsonPropertyName("illustType")]
+    IllustType IllustType,
 
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
 
-    /// <summary>
-    /// 上传时间
-    /// </summary>
-    [JsonPropertyName("uploadDate")]
-    public DateTimeOffset UploadDate { get; set; }
+    [property: JsonPropertyName("uploadDate")]
+    DateTimeOffset UploadDate,
 
-    /// <summary>
-    /// 限制级别
-    /// </summary>
-    [JsonPropertyName("xRestrict")]
-    public XRestrict XRestrict { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    XRestrict XRestrict,
 
-    /// <summary>
-    /// 第一张图片的不同尺寸的文件地址，作品的更多图片请调用 <see cref="PixivClient.GetIllustPagesAsync(int)"/>
-    /// </summary>
-    [JsonPropertyName("urls")]
-    public IllustImageUrls Urls { get; set; }
+    [property: JsonPropertyName("urls")]
+    IllustImageUrls Urls,
 
-    /// <summary>
-    /// 作品标签
-    /// </summary>
-    [JsonPropertyName("tags")]
-    [JsonConverter(typeof(PixivTagJsonConverter))]
-    public List<PixivTag> Tags { get; set; }
+    [property: JsonPropertyName("tags")]
+    [property: JsonConverter(typeof(PixivTagJsonConverter))]
+    List<PixivTag> Tags,
 
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 作者昵称
-    /// </summary>
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    /// <summary>
-    /// 登录账号的用户名（不是很明白为什么会把这个东西暴露出来）
-    /// </summary>
-    [JsonPropertyName("userAccount")]
-    public string UserAccount { get; set; }
+    [property: JsonPropertyName("userAccount")]
+    string UserAccount,
 
-    /// <summary>
-    /// 作者的所有插画的id
-    /// </summary>
-    [JsonPropertyName("userIllusts")]
-    [JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
-    public List<int> UserIllusts { get; set; }
+    [property: JsonPropertyName("userIllusts")]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
+    List<int> UserIllusts,
 
-    /// <summary>
-    /// 已点赞
-    /// </summary>
-    [JsonPropertyName("likeData")]
-    public bool IsLike { get; set; }
+    [property: JsonPropertyName("likeData")]
+    bool IsLike,
 
-    /// <summary>
-    /// 第一张图片的像素宽度
-    /// </summary>
-    [JsonPropertyName("width")]
-    public int Width { get; set; }
+    [property: JsonPropertyName("width")]
+    int Width,
 
-    /// <summary>
-    /// 第一张图片的像素高度
-    /// </summary>
-    [JsonPropertyName("height")]
-    public int Height { get; set; }
+    [property: JsonPropertyName("height")]
+    int Height,
 
-    /// <summary>
-    /// 作品有多少张图片
-    /// </summary>
-    [JsonPropertyName("pageCount")]
-    public int PageCount { get; set; }
+    [property: JsonPropertyName("pageCount")]
+    int PageCount,
 
-    /// <summary>
-    /// 收藏数
-    /// </summary>
-    [JsonPropertyName("bookmarkCount")]
-    public int BookmarkCount { get; set; }
+    [property: JsonPropertyName("bookmarkCount")]
+    int BookmarkCount,
 
-    /// <summary>
-    /// 点赞数
-    /// </summary>
-    [JsonPropertyName("likeCount")]
-    public int LikeCount { get; set; }
+    [property: JsonPropertyName("likeCount")]
+    int LikeCount,
 
-    /// <summary>
-    /// 评论数
-    /// </summary>
-    [JsonPropertyName("commentCount")]
-    public int CommentCount { get; set; }
+    [property: JsonPropertyName("commentCount")]
+    int CommentCount,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("responseCount")]
-    public int ResponseCount { get; set; }
+    [property: JsonPropertyName("responseCount")]
+    int ResponseCount,
 
-    /// <summary>
-    /// 观看数
-    /// </summary>
-    [JsonPropertyName("viewCount")]
-    public int ViewCount { get; set; }
+    [property: JsonPropertyName("viewCount")]
+    int ViewCount,
 
-    /// <summary>
-    /// 是否原创
-    /// </summary>
-    [JsonPropertyName("isOriginal")]
-    public bool IsOriginal { get; set; }
+    [property: JsonPropertyName("isOriginal")]
+    bool IsOriginal,
 
-    /// <summary>
-    /// 漫画阅读页面的侧栏数据
-    /// </summary>
-    [JsonPropertyName("seriesNavData")]
-    public SeriesNavData? SeriesNavData { get; set; }
+    [property: JsonPropertyName("seriesNavData")]
+    SeriesNavData? SeriesNavData,
 
-    /// <summary>
-    /// 收藏信息，为 null 时未收藏
-    /// </summary>
-    [JsonPropertyName("bookmarkData")]
-    public BookmarkData? BookmarkData { get; set; }
-
-}
+    [property: JsonPropertyName("bookmarkData")]
+    BookmarkData? BookmarkData
+);

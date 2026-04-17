@@ -1,76 +1,51 @@
 ﻿namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
-/// 用户简单信息
+/// Simple user information
 /// </summary>
-public class UserProfile
-{
+/// <param name="UserId">User uid</param>
+/// <param name="Name">Nickname</param>
+/// <param name="Image">Avatar small image</param>
+/// <param name="ImageBig">Avatar large image</param>
+/// <param name="Premium">Premium member</param>
+/// <param name="IsFollowed">Followed</param>
+/// <param name="IsMypixiv">My Pixiv friend</param>
+/// <param name="IsBlocking">Blocked</param>
+/// <param name="Comment">Personal introduction</param>
+/// <param name="FollowedBack">Followed back</param>
+/// <param name="AcceptRequest">Accept commissions</param>
+public record UserProfile(
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 用户uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("name")]
+    string Name,
 
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
+    [property: JsonPropertyName("image")]
+    string Image,
 
-    /// <summary>
-    /// 头像小图
-    /// </summary>
-    [JsonPropertyName("image")]
-    public string Image { get; set; }
+    [property: JsonPropertyName("imageBig")]
+    string ImageBig,
 
-    /// <summary>
-    /// 头像大图
-    /// </summary>
-    [JsonPropertyName("imageBig")]
-    public string ImageBig { get; set; }
+    [property: JsonPropertyName("premium")]
+    bool Premium,
 
-    /// <summary>
-    /// 高级会员
-    /// </summary>
-    [JsonPropertyName("premium")]
-    public bool Premium { get; set; }
+    [property: JsonPropertyName("isFollowed")]
+    bool IsFollowed,
 
-    /// <summary>
-    /// 已关注
-    /// </summary>
-    [JsonPropertyName("isFollowed")]
-    public bool IsFollowed { get; set; }
+    [property: JsonPropertyName("isMypixiv")]
+    bool IsMypixiv,
 
-    /// <summary>
-    /// 我的好P友
-    /// </summary>
-    [JsonPropertyName("isMypixiv")]
-    public bool IsMypixiv { get; set; }
+    [property: JsonPropertyName("isBlocking")]
+    bool IsBlocking,
 
-    /// <summary>
-    /// 已拉黑
-    /// </summary>
-    [JsonPropertyName("isBlocking")]
-    public bool IsBlocking { get; set; }
+    [property: JsonPropertyName("comment")]
+    string Comment,
 
-    /// <summary>
-    /// 个人介绍
-    /// </summary>
-    [JsonPropertyName("comment")]
-    public string Comment { get; set; }
+    [property: JsonPropertyName("followedBack")]
+    bool FollowedBack,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("followedBack")]
-    public bool FollowedBack { get; set; }
-
-    /// <summary>
-    /// 接受约稿
-    /// </summary>
-    [JsonPropertyName("acceptRequest")]
-    public bool AcceptRequest { get; set; }
-
-}
+    [property: JsonPropertyName("acceptRequest")]
+    bool AcceptRequest
+);

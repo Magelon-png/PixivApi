@@ -1,58 +1,39 @@
 ﻿namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
-/// 动图元数据，P站的动图就是一个图片序列，打包成一个zip文件。zip文件内的根目录下就是图片序列，文件名如 000000.jpg，000001.jpg。
+/// Animation metadata. An animation on Pixiv is an image sequence packed into a ZIP file. The root directory of the ZIP file contains the image sequence, with filenames like 000000.jpg, 000001.jpg.
 /// </summary>
-public class AnimateIllustMeta
-{
+/// <param name="IllustId">Illustration id</param>
+/// <param name="SmallUrl">Small size animation ZIP file URL</param>
+/// <param name="OriginalUrl">Original size animation ZIP file URL</param>
+/// <param name="MimeType">MIME type</param>
+/// <param name="Frames">Animation frame information</param>
+public record AnimateIllustMeta(
+    [property: JsonIgnore]
+    int IllustId,
 
-    /// <summary>
-    /// 插画id
-    /// </summary>
-    [JsonIgnore]
-    public int IllustId { get; set; }
+    [property: JsonPropertyName("src")]
+    string SmallUrl,
 
-    /// <summary>
-    /// 小尺寸动图的zip文件url
-    /// </summary>
-    [JsonPropertyName("src")]
-    public string SmallUrl { get; set; }
+    [property: JsonPropertyName("originalSrc")]
+    string OriginalUrl,
 
-    /// <summary>
-    /// 大尺寸动图的zip文件url
-    /// </summary>
-    [JsonPropertyName("originalSrc")]
-    public string OriginalUrl { get; set; }
+    [property: JsonPropertyName("mime_type")]
+    string MimeType,
 
-    /// <summary>
-    /// Mime type
-    /// </summary>
-    [JsonPropertyName("mime_type")]
-    public string MimeType { get; set; }
-
-    /// <summary>
-    /// 动图帧信息
-    /// </summary>
-    [JsonPropertyName("frames")]
-    public List<AnimateIllustFrame> Frames { get; set; }
-
-
-}
+    [property: JsonPropertyName("frames")]
+    List<AnimateIllustFrame> Frames
+);
 
 /// <summary>
-/// 动图帧信息，包括文件名和帧延迟
+/// Animation frame information, including filename and frame delay
 /// </summary>
-public class AnimateIllustFrame
-{
-    /// <summary>
-    /// 文件名，例如 000000.jpg
-    /// </summary>
-    [JsonPropertyName("file")]
-    public string File { get; set; }
+/// <param name="File">Filename, e.g., 000000.jpg</param>
+/// <param name="Delay">Frame delay, in milliseconds</param>
+public record AnimateIllustFrame(
+    [property: JsonPropertyName("file")]
+    string File,
 
-    /// <summary>
-    /// 帧延迟，单位毫秒
-    /// </summary>
-    [JsonPropertyName("delay")]
-    public int Delay { get; set; }
-}
+    [property: JsonPropertyName("delay")]
+    int Delay
+);

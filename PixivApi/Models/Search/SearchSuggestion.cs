@@ -1,57 +1,33 @@
 ﻿namespace Scighost.PixivApi.Models.Search;
 
-internal class SearchSuggestion
-{
-
-    public List<string> MyFavoriteTags { get; set; }
-
-    // todo
+internal record SearchSuggestion(
+    List<string> MyFavoriteTags
+);
 
 
-
-
-}
-
-
-
-internal class SearchRecommendTag
-{
-    public string Tag { get; set; }
-
-    public List<string> Ids { get; set; }
-
-    // todo
-}
-
+internal record SearchRecommendTag(
+    string Tag,
+    List<string> Ids
+);
 
 
 /// <summary>
-/// 搜索候选词
+/// Search candidates
 /// </summary>
-public class SearchCandidate
-{
+/// <param name="AccessCount">Unknown meaning</param>
+/// <param name="TagName">Tag name</param>
+/// <param name="TagTranslation">Tag translation</param>
+/// <param name="Type">Recommendation type (reason), prefix match: prefix, tag translation: tag_translation</param>
+public record SearchCandidate(
+    [property: JsonPropertyName("access_count")]
+    string AccessCount,
 
-    /// <summary>
-    /// 不知道什么意思
-    /// </summary>
-    [JsonPropertyName("access_count")]
-    public string AccessCount { get; set; }
+    [property: JsonPropertyName("tag_name")]
+    string TagName,
 
-    /// <summary>
-    /// 标签名
-    /// </summary>
-    [JsonPropertyName("tag_name")]
-    public string TagName { get; set; }
+    [property: JsonPropertyName("tag_translation")]
+    string? TagTranslation,
 
-    /// <summary>
-    /// 标签翻译
-    /// </summary>
-    [JsonPropertyName("tag_translation")]
-    public string? TagTranslation { get; set; }
-
-    /// <summary>
-    /// 推荐类型（原因），前缀匹配：prefix，标签翻译：tag_translation
-    /// </summary>
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
-}
+    [property: JsonPropertyName("type")]
+    string Type
+);

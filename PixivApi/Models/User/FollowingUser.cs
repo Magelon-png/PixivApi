@@ -4,51 +4,35 @@ using Scighost.PixivApi.Models.Novel;
 namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
-/// 关注的用户
+/// Followed user
 /// </summary>
-public class FollowingUser
-{
-    /// <summary>
-    /// 用户uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+/// <param name="UserId">User uid</param>
+/// <param name="UserName">Nickname</param>
+/// <param name="UserProfileImageUrl">Avatar image</param>
+/// <param name="Illusts">Illustration works</param>
+/// <param name="Novels">Novel works</param>
+public record FollowingUser(
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    /// <summary>
-    /// 头像图片
-    /// </summary>
-    [JsonPropertyName("profileImageUrl")]
-    public string UserProfileImageUrl { get; set; }
+    [property: JsonPropertyName("profileImageUrl")]
+    string UserProfileImageUrl,
 
-    /// <summary>
-    /// 插画作品
-    /// </summary>
-    [JsonPropertyName("illusts")]
-    public List<IllustProfile> Illusts { get; set; }
+    [property: JsonPropertyName("illusts")]
+    List<IllustProfile> Illusts,
 
-    /// <summary>
-    /// 小说作品
-    /// </summary>
-    [JsonPropertyName("novels")]
-    public List<NovelProfile> Novels { get; set; }
+    [property: JsonPropertyName("novels")]
+    List<NovelProfile> Novels
+);
 
-}
+internal record FollowingUserWrapper(
+    [property: JsonPropertyName("total")]
+    int Total,
 
-internal class FollowingUserWrapper
-{
-
-    [JsonPropertyName("total")]
-    public int Total { get; set; }
-
-
-    [JsonPropertyName("users")]
-    public List<FollowingUser> Users { get; set; }
-
-}
+    [property: JsonPropertyName("users")]
+    List<FollowingUser> Users
+);

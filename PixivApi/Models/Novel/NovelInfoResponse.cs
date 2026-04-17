@@ -3,164 +3,163 @@
 namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
-/// 小说详情的全部字段
+/// All fields for novel details
 /// </summary>
 [Obsolete("Not used.")]
-internal class NovelInfoResponse
-{
-    [JsonPropertyName("bookmarkCount")]
-    public int BookmarkCount { get; set; }
+internal record NovelInfoResponse(
+    [property: JsonPropertyName("bookmarkCount")]
+    int BookmarkCount,
 
-    [JsonPropertyName("commentCount")]
-    public int CommentCount { get; set; }
+    [property: JsonPropertyName("commentCount")]
+    int CommentCount,
 
-    [JsonPropertyName("markerCount")]
-    public int MarkerCount { get; set; }
+    [property: JsonPropertyName("markerCount")]
+    int MarkerCount,
 
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
 
-    [JsonPropertyName("uploadDate")]
-    public DateTimeOffset UploadDate { get; set; }
+    [property: JsonPropertyName("uploadDate")]
+    DateTimeOffset UploadDate,
 
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [property: JsonPropertyName("description")]
+    string Description,
 
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    [JsonPropertyName("likeCount")]
-    public int LikeCount { get; set; }
+    [property: JsonPropertyName("likeCount")]
+    int LikeCount,
 
-    [JsonPropertyName("pageCount")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int PageCount { get; set; }
+    [property: JsonPropertyName("pageCount")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int PageCount,
 
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    [JsonPropertyName("viewCount")]
-    public int ViewCount { get; set; }
+    [property: JsonPropertyName("viewCount")]
+    int ViewCount,
 
-    [JsonPropertyName("isOriginal")]
-    public bool IsOriginal { get; set; }
+    [property: JsonPropertyName("isOriginal")]
+    bool IsOriginal,
 
-    [JsonPropertyName("isBungei")]
-    public bool IsBungei { get; set; }
+    [property: JsonPropertyName("isBungei")]
+    bool IsBungei,
 
-    [JsonPropertyName("xRestrict")]
-    public XRestrict XRestrict { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    XRestrict XRestrict,
 
-    [JsonPropertyName("restrict")]
-    public int Restrict { get; set; }
+    [property: JsonPropertyName("restrict")]
+    int Restrict,
 
-    [JsonPropertyName("content")]
-    public string Content { get; set; }
+    [property: JsonPropertyName("content")]
+    string Content,
 
-    [JsonPropertyName("coverUrl")]
-    public string CoverUrl { get; set; }
+    [property: JsonPropertyName("coverUrl")]
+    string CoverUrl,
 
-    [JsonPropertyName("suggestedSettings")]
-    public object SuggestedSettings { get; set; }
+    [property: JsonPropertyName("suggestedSettings")]
+    object SuggestedSettings,
 
-    [JsonPropertyName("isBookmarkable")]
-    public bool IsBookmarkable { get; set; }
+    [property: JsonPropertyName("isBookmarkable")]
+    bool IsBookmarkable,
 
-    [JsonPropertyName("bookmarkData")]
-    public BookmarkData? BookmarkData { get; set; }
+    [property: JsonPropertyName("bookmarkData")]
+    BookmarkData? BookmarkData,
 
-    [JsonPropertyName("likeData")]
-    public bool LikeData { get; set; }
+    [property: JsonPropertyName("likeData")]
+    bool LikeData,
 
-    [JsonPropertyName("pollData")]
-    public object PollData { get; set; }
+    [property: JsonPropertyName("pollData")]
+    object PollData,
 
     /// <summary>
-    /// 在文章的第几页添加了书签
+    /// Which page of the article was bookmarked
     /// </summary>
-    [JsonPropertyName("marker")]
-    public int? Marker { get; set; }
+    [property: JsonPropertyName("marker")]
+    int? Marker,
 
-    [JsonPropertyName("tags")]
-    public PixivTagInternal Tags { get; set; }
+    [property: JsonPropertyName("tags")]
+    PixivTagInternal Tags,
 
-    [JsonPropertyName("seriesNavData")]
-    public SeriesNavData SeriesNavData { get; set; }
+    [property: JsonPropertyName("seriesNavData")]
+    SeriesNavData SeriesNavData,
 
-    [JsonPropertyName("descriptionBoothId")]
-    public object DescriptionBoothId { get; set; }
+    [property: JsonPropertyName("descriptionBoothId")]
+    object DescriptionBoothId,
 
-    [JsonPropertyName("descriptionYoutubeId")]
-    public object DescriptionYoutubeId { get; set; }
+    [property: JsonPropertyName("descriptionYoutubeId")]
+    object DescriptionYoutubeId,
 
-    [JsonPropertyName("comicPromotion")]
-    public object ComicPromotion { get; set; }
+    [property: JsonPropertyName("comicPromotion")]
+    object ComicPromotion,
 
-    [JsonPropertyName("fanboxPromotion")]
-    public object FanboxPromotion { get; set; }
+    [property: JsonPropertyName("fanboxPromotion")]
+    object FanboxPromotion,
 
-    [JsonPropertyName("contestBanners")]
-    public List<object> ContestBanners { get; set; }
+    [property: JsonPropertyName("contestBanners")]
+    List<object> ContestBanners,
 
-    [JsonPropertyName("contestData")]
-    public object ContestData { get; set; }
+    [property: JsonPropertyName("contestData")]
+    object ContestData,
 
-    [JsonPropertyName("request")]
-    public object Request { get; set; }
+    [property: JsonPropertyName("request")]
+    object Request,
 
-    [JsonPropertyName("imageResponseOutData")]
-    public List<object> ImageResponseOutData { get; set; }
+    [property: JsonPropertyName("imageResponseOutData")]
+    List<object> ImageResponseOutData,
 
-    [JsonPropertyName("imageResponseData")]
-    public List<object> ImageResponseData { get; set; }
+    [property: JsonPropertyName("imageResponseData")]
+    List<object> ImageResponseData,
 
-    [JsonPropertyName("imageResponseCount")]
-    public int ImageResponseCount { get; set; }
+    [property: JsonPropertyName("imageResponseCount")]
+    int ImageResponseCount,
 
-    [JsonPropertyName("userNovels")]
-    public Dictionary<int, NovelProfile?> UserNovels { get; set; }
+    [property: JsonPropertyName("userNovels")]
+    Dictionary<int, NovelProfile?> UserNovels,
 
-    [JsonPropertyName("hasGlossary")]
-    public bool HasGlossary { get; set; }
+    [property: JsonPropertyName("hasGlossary")]
+    bool HasGlossary,
 
-    [JsonPropertyName("zoneConfig")]
-    public object ZoneConfig { get; set; }
+    [property: JsonPropertyName("zoneConfig")]
+    object ZoneConfig,
 
-    [JsonPropertyName("extraData")]
-    public object ExtraData { get; set; }
+    [property: JsonPropertyName("extraData")]
+    object ExtraData,
 
-    [JsonPropertyName("titleCaptionTranslation")]
-    public object TitleCaptionTranslation { get; set; }
+    [property: JsonPropertyName("titleCaptionTranslation")]
+    object TitleCaptionTranslation,
 
-    [JsonPropertyName("isUnlisted")]
-    public bool IsUnlisted { get; set; }
+    [property: JsonPropertyName("isUnlisted")]
+    bool IsUnlisted,
 
-    [JsonPropertyName("language")]
-    public string Language { get; set; }
+    [property: JsonPropertyName("language")]
+    string Language,
 
-    [JsonPropertyName("textEmbeddedImages")]
-    public object TextEmbeddedImages { get; set; }
+    [property: JsonPropertyName("textEmbeddedImages")]
+    object TextEmbeddedImages,
 
-    [JsonPropertyName("commentOff")]
-    public int CommentOff { get; set; }
+    [property: JsonPropertyName("commentOff")]
+    int CommentOff,
 
-    [JsonPropertyName("characterCount")]
-    public int CharacterCount { get; set; }
+    [property: JsonPropertyName("characterCount")]
+    int CharacterCount,
 
-    [JsonPropertyName("wordCount")]
-    public int WordCount { get; set; }
+    [property: JsonPropertyName("wordCount")]
+    int WordCount,
 
-    [JsonPropertyName("useWordCount")]
-    public bool UseWordCount { get; set; }
+    [property: JsonPropertyName("useWordCount")]
+    bool UseWordCount,
 
-    [JsonPropertyName("readingTime")]
-    public int ReadingTime { get; set; }
-}
+    [property: JsonPropertyName("readingTime")]
+    int ReadingTime
+);

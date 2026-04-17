@@ -1,21 +1,14 @@
 ﻿namespace Scighost.PixivApi.Models.Common;
 
 /// <summary>
-/// 作品的收藏属性
+/// Bookmark attributes of a work
 /// </summary>
-public class BookmarkData
-{
-    /// <summary>
-    /// 收藏id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public long Id { get; set; }
-
-    /// <summary>
-    /// 不公开
-    /// </summary>
-    [JsonPropertyName("private")]
-    public bool Private { get; set; }
-
-}
+/// <param name="Id"></param>
+/// <param name="Private"></param>
+public record BookmarkData(
+    [property: JsonPropertyName("id"),
+    JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    long Id,
+    [property: JsonPropertyName("private")]
+    bool Private
+);

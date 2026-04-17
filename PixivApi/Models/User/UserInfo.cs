@@ -4,83 +4,102 @@ namespace Scighost.PixivApi.Models.User;
 
 
 /// <summary>
-/// 用户信息
+/// User information
 /// </summary>
-public class UserInfo : UserProfile
-{
+/// <param name="UserId">User uid</param>
+/// <param name="Name">Nickname</param>
+/// <param name="Image">Avatar small image</param>
+/// <param name="ImageBig">Avatar large image</param>
+/// <param name="Premium">Premium member</param>
+/// <param name="IsFollowed">Followed</param>
+/// <param name="IsMypixiv">My Pixiv friend</param>
+/// <param name="IsBlocking">Blocked</param>
+/// <param name="Comment">Personal introduction</param>
+/// <param name="FollowedBack">Followed back</param>
+/// <param name="AcceptRequest">Accept commissions</param>
+/// <param name="Background">User personal background, this value is null as the API can no longer retrieve the background image</param>
+/// <param name="FollowingCount">Number of users followed by this user</param>
+/// <param name="CommentHtml">Personal introduction, HTML format</param>
+/// <param name="Webpage">Webpage</param>
+/// <param name="Official">Official</param>
+/// <param name="Group">Group</param>
+/// <param name="Partial">If the provided profile is containing partial information</param>
+public record UserInfo(
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
+    [property: JsonPropertyName("name")]
+    string Name,
 
-    /// <summary>
-    /// 用户个人背景，此值为 null ，api 已不再能获取到背景图
-    /// </summary>
-    [JsonPropertyName("background")]
-    public UserBackground? Background { get; set; }
+    [property: JsonPropertyName("image")]
+    string Image,
 
-    /// <summary>
-    /// 该用户的关注用户数
-    /// </summary>
-    [JsonPropertyName("following")]
-    public int FollowingCount { get; set; }
+    [property: JsonPropertyName("imageBig")]
+    string ImageBig,
 
-    /// <summary>
-    /// 个人介绍，html格式
-    /// </summary>
-    [JsonPropertyName("commentHtml")]
-    public string CommentHtml { get; set; }
+    [property: JsonPropertyName("premium")]
+    bool Premium,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("webpage")]
-    public string Webpage { get; set; }
+    [property: JsonPropertyName("isFollowed")]
+    bool IsFollowed,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("official")]
-    public bool Official { get; set; }
+    [property: JsonPropertyName("isMypixiv")]
+    bool IsMypixiv,
 
-    /// <summary>
-    /// 群组
-    /// </summary>
-    [JsonPropertyName("group")]
-    public object Group { get; set; }
-    
-    /// <summary>
-    /// If the provided profile is containing partial information
-    /// </summary>
-    [JsonPropertyName("partial")]
-    [JsonConverter(typeof(BoolToNumberJsonConverter))]
-    public bool Partial { get; set; }
-}
+    [property: JsonPropertyName("isBlocking")]
+    bool IsBlocking,
+
+    [property: JsonPropertyName("comment")]
+    string Comment,
+
+    [property: JsonPropertyName("followedBack")]
+    bool FollowedBack,
+
+    [property: JsonPropertyName("acceptRequest")]
+    bool AcceptRequest,
+
+    [property: JsonPropertyName("background")]
+    UserBackground? Background,
+
+    [property: JsonPropertyName("following")]
+    int FollowingCount,
+
+    [property: JsonPropertyName("commentHtml")]
+    string CommentHtml,
+
+    [property: JsonPropertyName("webpage")]
+    string Webpage,
+
+    [property: JsonPropertyName("official")]
+    bool Official,
+
+    [property: JsonPropertyName("group")]
+    object Group,
+
+    [property: JsonPropertyName("partial")]
+    [property: JsonConverter(typeof(BoolToNumberJsonConverter))]
+    bool Partial
+) : UserProfile(UserId, Name, Image, ImageBig, Premium, IsFollowed, IsMypixiv, IsBlocking, Comment, FollowedBack, AcceptRequest);
 
 
 /// <summary>
-/// 用户个人背景图
+/// User personal background image
 /// </summary>
-public class UserBackground
-{
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("repeat")]
-    public object Repeat { get; set; }
+/// <param name="Repeat">Repeat</param>
+/// <param name="Color">Color</param>
+/// <param name="Url">Image URL, may be missing</param>
+/// <param name="IsPrivate">Is private</param>
+public record UserBackground(
+    [property: JsonPropertyName("repeat")]
+    object Repeat,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("color")]
-    public object Color { get; set; }
+    [property: JsonPropertyName("color")]
+    object Color,
 
-    /// <summary>
-    /// 图片，可能没有
-    /// </summary>
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
+    [property: JsonPropertyName("url")]
+    string Url,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("isPrivate")]
-    public bool IsPrivate { get; set; }
-}
+    [property: JsonPropertyName("isPrivate")]
+    bool IsPrivate
+);

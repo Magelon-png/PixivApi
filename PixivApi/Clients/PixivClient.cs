@@ -261,7 +261,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 插画详情
+    /// Illustration details
     /// </summary>
     /// <param name="illustId"></param>
     /// <param name="cancellationToken"></param>
@@ -334,7 +334,7 @@ public class PixivClient : IDisposable
     }
 
     /// <summary>
-    /// 插画内所有图片（需登录）
+    /// All images in the illustration (requires login)
     /// </summary>
     /// <param name="illustId"></param>
     /// <param name="cancellationToken"></param>
@@ -355,16 +355,19 @@ public class PixivClient : IDisposable
     {
         var url = $"/ajax/illust/{illustId}/ugoira_meta";
         var data = await CommonGetAsync<AnimateIllustMeta>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperAnimateIllustMeta, cancellationToken);
-        data.IllustId = illustId;
+        data = data with
+        {
+            IllustId = illustId
+        };
         return data;
     }
 
 
     /// <summary>
-    /// 漫画系列
+    /// Manga series
     /// </summary>
-    /// <param name="seriesId">漫画系列 id</param>
-    /// <param name="page">页数，倒序，一页12个</param>
+    /// <param name="seriesId">Manga series id</param>
+    /// <param name="page">Page number, reverse order, 12 items per page</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<MangaSeries> GetMangaSeriesAsync(int seriesId, int page = 1, CancellationToken cancellationToken = default)
@@ -379,20 +382,21 @@ public class PixivClient : IDisposable
         {
             if (dicIlluts.TryGetValue(work.WorkId, out var illust))
             {
-                illusts.Add(new MangaSeriesIllust { IllustId = work.WorkId, IllustProfile = illust, Order = work.Order });
+                illusts.Add(new MangaSeriesIllust(  IllustId: work.WorkId, IllustProfile: illust, Order: work.Order ));
             }
         }
-        manga.Illusts = illusts;
+
+        manga = manga with { Illusts = illusts };
         return manga;
     }
 
 
 
     /// <summary>
-    /// 追更漫画系列
+    /// Follow a manga series
     /// </summary>
-    /// <param name="mangaSeriesId">小说系列id</param>
-    /// <param name="unWatch">取消追更</param>
+    /// <param name="mangaSeriesId">Novel series id</param>
+    /// <param name="unWatch">Unfollow</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task WatchMangaSeriesAsync(int mangaSeriesId, bool unWatch = false, CancellationToken cancellationToken = default)
@@ -403,10 +407,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 更改漫画系列追更通知，追更漫画系列后再开启通知
+    /// Change manga series follow notification settings, enable notifications after following the manga series
     /// </summary>
-    /// <param name="mangaSeriesId">小说系列id</param>
-    /// <param name="enable">开启关闭通知</param>
+    /// <param name="mangaSeriesId">Novel series id</param>
+    /// <param name="enable">Enable or disable notifications</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task ChangeMangaSeriesWatchListNotification(int mangaSeriesId, bool enable = false, CancellationToken cancellationToken = default)
@@ -417,7 +421,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 插画主页内容
+    /// Illustration homepage content
     /// </summary>
     /// <returns></returns>
     private async Task GetIllustHomePageAsync(CancellationToken cancellationToken = default)
@@ -428,7 +432,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 漫画主页内容
+    /// Manga homepage content
     /// </summary>
     /// <returns></returns>
     private async Task GetMangaHomePageAsync(CancellationToken cancellationToken = default)
@@ -439,7 +443,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 给插画点赞，好像不能取消
+    /// Like an illustration (cannot be undone)
     /// </summary>
     /// <param name="illustId"></param>
     /// <param name="cancellationToken"></param>
@@ -453,33 +457,31 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 收藏插画，返回收藏id
+    /// Bookmark an illustration, returns bookmark id
     /// </summary>
-    /// <param name="illustId">插画id</param>
-    /// <param name="isPrivate">不公开</param>
-    /// <param name="comment">收藏时附加的评论</param>
-    /// <param name="tags">收藏时添加的标签，使用未翻译的原始标签，最多10个</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>收藏id</returns>
+    /// <param name="illustId">Illustration id</param>
+    /// <param name="isPrivate">Private</param>
+    /// <param name="comment">Additional comment when bookmarking</param>
+    /// <param name="tags">Tags added when bookmarking, use untranslated original tags, maximum 10</param>
+    /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkIllustAsync(int illustId, bool isPrivate = false, string comment = "",  CancellationToken cancellationToken = default, params string[] tags)
     {
         var request = new AddBookmarkIllustRequest
-        {
-            IllustId = illustId,
-            IsPrivate = isPrivate,
-            Comment = comment,
-            Tags = tags.Take(10),
-        };
+        (
+            IllustId: illustId,
+            IsPrivate: isPrivate,
+            Comment: comment,
+            Tags: tags.Take(10)
+        );
         return await AddBookmarkIllustAsync(request, cancellationToken);
     }
 
 
     /// <summary>
-    /// 收藏插画，返回收藏id
+    /// Bookmark an illustration, returns bookmark id
     /// </summary>
-    /// <param name="request">收藏请求</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>收藏id</returns>
+    /// <param name="request">Bookmark request</param>
+    /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkIllustAsync(AddBookmarkIllustRequest request, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/illusts/bookmarks/add";
@@ -497,9 +499,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 删除收藏的插画
+    /// Delete a bookmarked illustration
     /// </summary>
-    /// <param name="bookmarkId">收藏id</param>
+    /// <param name="bookmarkId">Bookmark id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task DeleteBookmarkIllustAsync(int bookmarkId, CancellationToken cancellationToken = default)
@@ -523,8 +525,8 @@ public class PixivClient : IDisposable
     /// <summary>
     /// This function requires GetTokenAsync to have been called once.
     /// </summary>
-    /// <param name="isPrivate">不公开</param>
-    /// <param name="bookmarkIds">收藏id</param>
+    /// <param name="isPrivate">Private</param>
+    /// <param name="bookmarkIds">Bookmark ids</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task ChangeBookmarkIllustVisibilityAsync(bool isPrivate, CancellationToken cancellationToken = default, params long[] bookmarkIds)
@@ -540,10 +542,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 批量给收藏插画添加自定义标签
+    /// Batch add custom tags to bookmarked illustrations
     /// </summary>
-    /// <param name="bookmarkIds">收藏id</param>
-    /// <param name="tags">自定义标签，添加后每个插画的标签不超过10个</param>
+    /// <param name="bookmarkIds">Bookmark ids</param>
+    /// <param name="tags">Custom tags, maximum 10 tags per illustration after adding</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task AddBookmarkIllustTagsAsync(IEnumerable<long> bookmarkIds, IEnumerable<string> tags, CancellationToken cancellationToken = default)
@@ -557,9 +559,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 批量删除搜藏的插画
+    /// Batch delete bookmarked illustrations
     /// </summary>
-    /// <param name="bookmarkIds">收藏id</param>
+    /// <param name="bookmarkIds">Bookmark ids</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task DeleteBookmarkIllustsAsync(CancellationToken cancellationToken = default, params long[] bookmarkIds)
@@ -571,17 +573,16 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 相关推荐插画，推荐插画可能很多，将分批返回数据
+    /// Related recommended illustrations. Recommended illustrations can be many, so data will be returned in batches.
     /// </summary>
-    /// <param name="illustId">插画id</param>
-    /// <param name="batchSize">每批返回多少个</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>可能为空</returns>
+    /// <param name="illustId">Illustration id</param>
+    /// <param name="batchSize">Number of items per batch</param>
+    /// <returns>May be null</returns>
     public async IAsyncEnumerable<IEnumerable<IllustProfile>> GetRecommendIllustsAsync(int illustId, int batchSize = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var initUrl = $"/ajax/illust/{illustId}/recommend/init?limit={batchSize}";
         var response = await CommonGetAsync<RecommendIllustWrapper>(initUrl, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendIllustWrapper, cancellationToken);
-        // 竟然有广告
+        // There are actually ads here
         yield return response.Illusts.Where(x => x.Id != 0);
         foreach (var ids in response.NextIds.Chunk(batchSize))
         {
@@ -647,9 +648,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 小说详情（包含正文）
+    /// Novel details (including content)
     /// </summary>
-    /// <param name="novelId">小说id</param>
+    /// <param name="novelId">Novel id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<NovelInfo> GetNovelInfoAsync(int novelId, CancellationToken cancellationToken = default)
@@ -659,9 +660,9 @@ public class PixivClient : IDisposable
     }
 
     /// <summary>
-    /// 小说系列（无章节信息）
+    /// Novel series (no chapter information)
     /// </summary>
-    /// <param name="novelSeriesId">小说id</param>
+    /// <param name="novelSeriesId">Novel series id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<NovelSeries> GetNovelSeriesAsync(int novelSeriesId, CancellationToken cancellationToken = default)
@@ -671,11 +672,11 @@ public class PixivClient : IDisposable
     }
 
     /// <summary>
-    /// 小说系列的章节信息（无正文）
+    /// Chapter information of a novel series (no content)
     /// </summary>
-    /// <param name="novelSeriesId">小说id</param>
-    /// <param name="offset">章节偏移量，按章节正序</param>
-    /// <param name="limit">章节数限制</param>
+    /// <param name="novelSeriesId">Novel series id</param>
+    /// <param name="offset">Chapter offset, in positive chapter order</param>
+    /// <param name="limit">Chapter count limit</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<NovelSeriesChapter>> GetNovelSeriesChaptersAsync(int novelSeriesId, int offset, int limit = 30, CancellationToken cancellationToken = default)
@@ -687,10 +688,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 追更小说系列
+    /// Follow a novel series
     /// </summary>
-    /// <param name="novelSeriesId">小说系列id</param>
-    /// <param name="unWatch">取消追更</param>
+    /// <param name="novelSeriesId">Novel series id</param>
+    /// <param name="unWatch">Unfollow</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task WatchNovelSeriesAsync(int novelSeriesId, bool unWatch = false, CancellationToken cancellationToken = default)
@@ -701,10 +702,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 更改小说系列追更通知，追更小说系列后再开启通知
+    /// Change novel series follow notification settings, enable notifications after following the novel series
     /// </summary>
-    /// <param name="novelSeriesId">小说系列id</param>
-    /// <param name="enable">开启关闭通知</param>
+    /// <param name="novelSeriesId">Novel series id</param>
+    /// <param name="enable">Enable or disable notifications</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task ChangeNovelSeriesWatchListNotification(int novelSeriesId, bool enable = false, CancellationToken cancellationToken = default)
@@ -715,7 +716,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 小说主页内容
+    /// Novel homepage content
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -727,9 +728,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 给小说点赞，好像不能取消
+    /// Like a novel (cannot be undone)
     /// </summary>
-    /// <param name="novelId">小说id</param>
+    /// <param name="novelId">Novel id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task LikeNovelAsync(int novelId, CancellationToken cancellationToken = default)
@@ -741,11 +742,11 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 给小说的某一页加上书签
+    /// Add a bookmark to a specific page of a novel
     /// </summary>
-    /// <param name="myUserId">我的uid</param>
-    /// <param name="novelId">小说id</param>
-    /// <param name="page">页数，大于 0 标记，等于 0 删除标记</param>
+    /// <param name="myUserId">My uid</param>
+    /// <param name="novelId">Novel id</param>
+    /// <param name="page">Page number, marker if > 0, delete marker if = 0</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task MarkerNovelPageAsync(int myUserId, int novelId, int page, CancellationToken cancellationToken = default)
@@ -769,33 +770,31 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 收藏小说，返回收藏id
+    /// Bookmark a novel, returns bookmark id
     /// </summary>
-    /// <param name="novelId">小说id</param>
-    /// <param name="isPrivate">不公开</param>
-    /// <param name="comment">收藏时附加的评论</param>
-    /// <param name="tags">收藏时添加的标签，最多10个（小说标签没有翻译）</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>收藏id</returns>
+    /// <param name="novelId">Novel id</param>
+    /// <param name="isPrivate">Private</param>
+    /// <param name="comment">Additional comment when bookmarking</param>
+    /// <param name="tags">Tags added when bookmarking, maximum 10 (novel tags have no translations)</param>
+    /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkNovelAsync(int novelId, bool isPrivate = false, string comment = "", CancellationToken cancellationToken = default, params string[] tags)
     {
         var request = new AddBookmarkNovelRequest
-        {
-            NovelId = novelId,
-            IsPrivate = isPrivate,
-            Comment = comment,
-            Tags = tags.Take(10),
-        };
+        (
+            NovelId: novelId,
+            IsPrivate: isPrivate,
+            Comment: comment,
+            Tags: tags.Take(10)
+        );
         return await AddBookmarkNovelAsync(request, cancellationToken);
     }
 
 
     /// <summary>
-    /// 收藏小说，返回收藏id
+    /// Bookmark a novel, returns bookmark id
     /// </summary>
-    /// <param name="request">收藏请求</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>收藏id</returns>
+    /// <param name="request">Bookmark request</param>
+    /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkNovelAsync(AddBookmarkNovelRequest request, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/novels/bookmarks/add";
@@ -806,9 +805,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 删除收藏的小说
+    /// Delete a bookmarked novel
     /// </summary>
-    /// <param name="bookmarkId">小说id</param>
+    /// <param name="bookmarkId">Novel id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task DeleteBookmarkNovelAsync(int bookmarkId, CancellationToken cancellationToken = default)
@@ -830,10 +829,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 批量更改收藏小说的公开属性
+    /// Batch change public visibility of bookmarked novels
     /// </summary>
-    /// <param name="isPrivate">不公开</param>
-    /// <param name="bookmarkIds">收藏id</param>
+    /// <param name="isPrivate">Private</param>
+    /// <param name="bookmarkIds">Bookmark ids</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task ChangeBookmarkNovelVisibilityAsync(bool isPrivate, CancellationToken cancellationToken = default, params long[] bookmarkIds)
@@ -845,10 +844,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 批量给收藏的小说添加自定义标签
+    /// Batch add custom tags to bookmarked novels
     /// </summary>
-    /// <param name="bookmarkIds">小说id</param>
-    /// <param name="tags">自定义标签，添加后每个小说的标签不超过10个</param>
+    /// <param name="bookmarkIds">Novel id</param>
+    /// <param name="tags">Custom tags, maximum 10 tags per novel after adding</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task AddBookmarkNovelTagsAsync(IEnumerable<long> bookmarkIds, IEnumerable<string> tags, CancellationToken cancellationToken = default)
@@ -860,9 +859,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 删除收藏的小说
+    /// Delete bookmarked novels
     /// </summary>
-    /// <param name="bookmarkIds">小说id</param>
+    /// <param name="bookmarkIds">Novel id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task DeleteBookmarkNovelsAsync(CancellationToken cancellationToken = default, params long[] bookmarkIds)
@@ -874,17 +873,16 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 相关推荐小说，推荐的小说可能很多，将分批返回数据
+    /// Related recommended novels. Recommended novels can be many, so data will be returned in batches.
     /// </summary>
-    /// <param name="novelId">小说id</param>
-    /// <param name="batchSize">每批返回多少个</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>可能为空</returns>
+    /// <param name="novelId">Novel id</param>
+    /// <param name="batchSize">Number of items per batch</param>
+    /// <returns>May be null</returns>
     public async IAsyncEnumerable<IEnumerable<NovelProfile>> GetRecommendNovelsAsync(int novelId, int batchSize = 10, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var initUrl = $"/ajax/novel/{novelId}/recommend/init?limit={batchSize}";
         var response = await CommonGetAsync<RecommendNovelWrapper>(initUrl, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendNovelWrapper, cancellationToken);
-        // 竟然有广告
+        // There are actually ads here
         yield return response.Novels.Where(x => x.Id != 0);
         foreach (var ids in response.NextIds.Chunk(batchSize))
         {
@@ -903,10 +901,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 用户已收藏的插画数量
+    /// Number of illustrations bookmarked by the user
     /// </summary>
-    /// <param name="userId">用户uid</param>
-    /// <param name="isPrivate">不公开</param>
+    /// <param name="userId">User uid</param>
+    /// <param name="isPrivate">Private</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<int> GetUserBookmarkIllustCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
@@ -919,13 +917,13 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 收藏的插画
+    /// Bookmarked illustrations
     /// </summary>
-    /// <param name="userId">用户uid</param>
-    /// <param name="offset">偏移量</param>
-    /// <param name="limit">返回数量，返回数可能小于此数</param>
-    /// <param name="isPrivate">不公开</param>
-    /// <param name="tag">过滤标签</param>
+    /// <param name="userId">User uid</param>
+    /// <param name="offset">Offset</param>
+    /// <param name="limit">Number of items to return, may be less than this number</param>
+    /// <param name="isPrivate">Private</param>
+    /// <param name="tag">Filter tag</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<IllustProfile>> GetUserBookmarkIllustsAsync(int userId, int offset, int limit = 48, bool isPrivate = false, string? tag = null, CancellationToken cancellationToken = default)
@@ -942,9 +940,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 已收藏插画的所有自定义标签，包括公开和非公开，标签数过多则不会返回全部内容
+    /// All custom tags of bookmarked illustrations, including public and private. If there are too many tags, they may not all be returned.
     /// </summary>
-    /// <param name="userId">用户id</param>
+    /// <param name="userId">User id</param>
     /// <param name="returnEnglish"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -956,10 +954,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 收藏的小说数量
+    /// Number of bookmarked novels
     /// </summary>
-    /// <param name="userId">用户uid</param>
-    /// <param name="isPrivate">不公开</param>
+    /// <param name="userId">User uid</param>
+    /// <param name="isPrivate">Private</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<int> GetUserBookmarkNovelCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
@@ -971,13 +969,13 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 收藏的小说
+    /// Bookmarked novels
     /// </summary>
-    /// <param name="userId">用户id</param>
-    /// <param name="offset">偏移量</param>
-    /// <param name="limit">返回数量，返回数可能小于此数</param>
-    /// <param name="isPrivate">不公开</param>
-    /// <param name="tag">过滤标签</param>
+    /// <param name="userId">User id</param>
+    /// <param name="offset">Offset</param>
+    /// <param name="limit">Number of items to return, may be less than this number</param>
+    /// <param name="isPrivate">Private</param>
+    /// <param name="tag">Filter tag</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<NovelProfile>> GetUserBookmarkNovelsAsync(int userId, int offset, int limit = 24, string? tag = null, bool isPrivate = false, CancellationToken cancellationToken = default)
@@ -994,9 +992,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 已收藏插画的所有自定义标签，包括公开和非公开，标签数过多则不会返回全部内容
+    /// All custom tags of bookmarked novels, including public and private. If there are too many tags, they may not all be returned.
     /// </summary>
-    /// <param name="userId">用户id</param>
+    /// <param name="userId">User id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<UserBookmarkTag> GetUserBookmarkNovelTagsAsync(int userId, CancellationToken cancellationToken = default)
@@ -1014,10 +1012,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 已关注用户的数量
+    /// Number of followed users
     /// </summary>
-    /// <param name="userId">用户uid</param>
-    /// <param name="isPrivate">不公开</param>
+    /// <param name="userId">User uid</param>
+    /// <param name="isPrivate">Private</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<int> GetFollowingUserCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
@@ -1030,12 +1028,12 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 已关注的用户
+    /// Followed users
     /// </summary>
-    /// <param name="userId">用户uid</param>
-    /// <param name="offset">偏移量</param>
-    /// <param name="limit">返回数据量</param>
-    /// <param name="isPrivate">不公开</param>
+    /// <param name="userId">User uid</param>
+    /// <param name="offset">Offset</param>
+    /// <param name="limit">Number of items to return</param>
+    /// <param name="isPrivate">Private</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<FollowingUser>> GetFollowingUsersAsync(int userId, int offset, int limit = 100, bool isPrivate = false, CancellationToken cancellationToken = default)
@@ -1047,10 +1045,10 @@ public class PixivClient : IDisposable
     }
 
     /// <summary>
-    /// 已关注用户的最新插画漫画作品
+    /// Latest illustration/manga works from followed users
     /// </summary>
-    /// <param name="page">第几页，最多35页，35页后的内容和35页相同</param>
-    /// <param name="onlyR18">仅显示r18作品</param>
+    /// <param name="page">Page number, max 35. Content after page 35 is same as page 35</param>
+    /// <param name="onlyR18">Only show R18 works</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<IllustProfile>> GetFollowingUserLatestIllustsAsync(int page, bool onlyR18 = false, CancellationToken cancellationToken = default)
@@ -1061,10 +1059,10 @@ public class PixivClient : IDisposable
     }
 
     /// <summary>
-    /// 已关注用户的最新小说作品
+    /// Latest novel works from followed users
     /// </summary>
-    /// <param name="page">第几页，最多35页，35页后的内容和35页相同</param>
-    /// <param name="onlyR18">仅显示r18作品</param>
+    /// <param name="page">Page number, max 35. Content after page 35 is same as page 35</param>
+    /// <param name="onlyR18">Only show R18 works</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<NovelProfile>> GetFollowingUserLatestNovelsAsync(int page, bool onlyR18 = false, CancellationToken cancellationToken = default)
@@ -1076,10 +1074,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 添加关注用户
+    /// Add follow user
     /// </summary>
-    /// <param name="userId">用户id</param>
-    /// <param name="isPrivate">不公开</param>
+    /// <param name="userId">User id</param>
+    /// <param name="isPrivate">Private</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task AddFollowingUserAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
@@ -1105,9 +1103,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 删除关注用户
+    /// Delete follow user
     /// </summary>
-    /// <param name="userId">用户id</param>
+    /// <param name="userId">User id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task DeleteFollowingUserAsync(int userId, CancellationToken cancellationToken = default)
@@ -1130,10 +1128,10 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 更改已关注用户的公开属性
+    /// Change visibility of followed user
     /// </summary>
-    /// <param name="userId">用户id</param>
-    /// <param name="isPrivate">不公开</param>
+    /// <param name="userId">User id</param>
+    /// <param name="isPrivate">Private</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task ChangeFollowingUserVisibilityAsync(int userId, bool isPrivate, CancellationToken cancellationToken = default)
@@ -1156,12 +1154,12 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 新关注用户后推荐的相关用户
+    /// Recommended related users after following a new user
     /// </summary>
-    /// <param name="userId">关注的用户id</param>
-    /// <param name="userNumber">推荐的用户数量</param>
-    /// <param name="workNumber">每个用户展示的作品数</param>
-    /// <param name="allowR18">允许展示r18作品（存疑）</param>
+    /// <param name="userId">Followed user id</param>
+    /// <param name="userNumber">Number of recommended users</param>
+    /// <param name="workNumber">Number of works to show for each user</param>
+    /// <param name="allowR18">Allow showing R18 works (uncertain)</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<RecommendUser>> GetRecommendAfterFollowingUserAsync(int userId, int userNumber = 20, int workNumber = 3, bool allowR18 = true, CancellationToken cancellationToken = default)
@@ -1171,8 +1169,9 @@ public class PixivClient : IDisposable
         var dicIllust = response.Thumbnails.Illusts.ToDictionary(x => x.Id);
         var dicNovel = response.Thumbnails.Novels.ToDictionary(x => x.Id);
         var dicMap = response.RecommendMaps.ToDictionary(x => x.UserId);
-        foreach (var user in response.Users)
+        for (var i = 0; i < response.Users.Count; i++)
         {
+            var user = response.Users[i];
             var illusts = new List<IllustProfile>(workNumber);
             var novels = new List<NovelProfile>(workNumber);
             if (dicMap.TryGetValue(user.UserId, out var map))
@@ -1198,8 +1197,11 @@ public class PixivClient : IDisposable
                     }
                 }
             }
-            user.Illusts = illusts;
-            user.Novels = novels;
+            response.Users[i] = user with
+            {
+                Illusts = illusts,
+                Novels = novels
+            };
         }
         return response.Users;
     }
@@ -1215,7 +1217,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 搜索推荐
+    /// Search recommendations
     /// </summary>
     /// <returns></returns>
     private async Task GetSearchSuggestionAsync(CancellationToken cancellationToken)
@@ -1226,9 +1228,9 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 修改喜欢的标签
+    /// Change favorite tags
     /// </summary>
-    /// <param name="tags">所有标签</param>
+    /// <param name="tags">All tags</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task ChangeFavoriteTags(IEnumerable<string> tags, CancellationToken cancellationToken = default)
@@ -1240,7 +1242,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 搜索候选词
+    /// Search candidates
     /// </summary>
     /// <param name="keyword"></param>
     /// <param name="cancellationToken"></param>

@@ -1,13 +1,9 @@
 ﻿namespace Scighost.PixivApi.Models.Novel;
 
-internal class RecommendNovelWrapper
-{
+internal record RecommendNovelWrapper(
+    [property: JsonPropertyName("novels")]
+    List<NovelProfile> Novels,
 
-    [JsonPropertyName("novels")]
-    public List<NovelProfile> Novels { get; set; }
-
-
-    [JsonPropertyName("nextIds")]
-    public List<string> NextIds { get; set; }
-
-}
+    [property: JsonPropertyName("nextIds")]
+    List<string> NextIds
+);

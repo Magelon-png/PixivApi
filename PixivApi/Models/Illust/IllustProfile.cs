@@ -4,106 +4,72 @@ namespace Scighost.PixivApi.Models.Illust;
 
 
 /// <summary>
-/// 插画漫画的简单信息
+/// Simple information for illustrations and manga
 /// </summary>
-public class IllustProfile
-{
-    /// <summary>
-    /// 作品id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+/// <param name="Id">Work id</param>
+/// <param name="Title">Work title</param>
+/// <param name="IllustType">Work type, illustration or manga</param>
+/// <param name="XRestrict">Restriction level</param>
+/// <param name="Url">Address of the first image</param>
+/// <param name="Description">Description, HTML format</param>
+/// <param name="Tags">Original work tags, untranslated</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="UserName">Author nickname</param>
+/// <param name="Width">Pixel width of the first image</param>
+/// <param name="Height">Pixel height of the first image</param>
+/// <param name="PageCount">Number of images in the work</param>
+/// <param name="BookmarkData">Bookmark information, null if not bookmarked</param>
+/// <param name="CreateDate">Creation time</param>
+/// <param name="UpdateDate">Upload time</param>
+/// <param name="UserProfileImageUrl">User avatar image address</param>
+public record IllustProfile(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 作品标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 作品类型，插画 or 漫画
-    /// </summary>
-    [JsonPropertyName("illustType")]
-    public IllustType IllustType { get; set; }
+    [property: JsonPropertyName("illustType")]
+    IllustType IllustType,
 
-    /// <summary>
-    /// 限制级别
-    /// </summary>
-    [JsonPropertyName("xRestrict")]
-    public int XRestrict { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    int XRestrict,
 
-    /// <summary>
-    /// 第一张图片的地址
-    /// </summary>
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
+    [property: JsonPropertyName("url")]
+    string Url,
 
-    /// <summary>
-    /// 介绍，html格式
-    /// </summary>
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [property: JsonPropertyName("description")]
+    string Description,
 
-    /// <summary>
-    /// 作品原始标签，未翻译
-    /// </summary>
-    [JsonPropertyName("tags")]
-    public List<string> Tags { get; set; }
+    [property: JsonPropertyName("tags")]
+    List<string> Tags,
 
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 作者昵称
-    /// </summary>
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    /// <summary>
-    /// 第一张图片的像素宽度
-    /// </summary>
-    [JsonPropertyName("width")]
-    public int Width { get; set; }
+    [property: JsonPropertyName("width")]
+    int Width,
 
-    /// <summary>
-    /// 第一张图片的像素高度
-    /// </summary>
-    [JsonPropertyName("height")]
-    public int Height { get; set; }
+    [property: JsonPropertyName("height")]
+    int Height,
 
-    /// <summary>
-    /// 作品的图片数量
-    /// </summary>
-    [JsonPropertyName("pageCount")]
-    public int PageCount { get; set; }
+    [property: JsonPropertyName("pageCount")]
+    int PageCount,
 
-    /// <summary>
-    /// 收藏信息，为 null 时未收藏
-    /// </summary>
-    [JsonPropertyName("bookmarkData")]
-    public BookmarkData? BookmarkData { get; set; }
+    [property: JsonPropertyName("bookmarkData")]
+    BookmarkData? BookmarkData,
 
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
 
-    /// <summary>
-    /// 上传时间
-    /// </summary>
-    [JsonPropertyName("updateDate")]
-    public DateTimeOffset UpdateDate { get; set; }
+    [property: JsonPropertyName("updateDate")]
+    DateTimeOffset UpdateDate,
 
-    /// <summary>
-    /// 用户头像图片地址
-    /// </summary>
-    [JsonPropertyName("profileImageUrl")]
-    public string UserProfileImageUrl { get; set; }
-
-}
+    [property: JsonPropertyName("profileImageUrl")]
+    string UserProfileImageUrl
+);

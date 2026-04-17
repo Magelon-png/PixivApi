@@ -3,11 +3,10 @@ using Scighost.PixivApi.Models.Novel;
 
 namespace Scighost.PixivApi.Models.Common;
 
-internal class Thumbnails
-{
-    [JsonPropertyName("illust")]
-    public List<IllustProfile> Illusts { get; set; }
+internal record Thumbnails(
+    [property: JsonPropertyName("illust")]
+    List<IllustProfile> Illusts,
 
-    [JsonPropertyName("novel")]
-    public List<NovelProfile> Novels { get; set; }
-}
+    [property: JsonPropertyName("novel")]
+    List<NovelProfile> Novels
+);

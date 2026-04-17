@@ -5,48 +5,84 @@ using Scighost.PixivApi.Models.Novel;
 namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
-/// 推荐的用户
+/// Recommended user
 /// </summary>
-public class RecommendUser : UserProfile
-{
-    /// <summary>
-    /// 插画作品
-    /// </summary>
-    [JsonIgnore]
-    public List<IllustProfile> Illusts { get; set; }
+/// <param name="UserId">User uid</param>
+/// <param name="Name">Nickname</param>
+/// <param name="Image">Avatar small image</param>
+/// <param name="ImageBig">Avatar large image</param>
+/// <param name="Premium">Premium member</param>
+/// <param name="IsFollowed">Followed</param>
+/// <param name="IsMypixiv">My Pixiv friend</param>
+/// <param name="IsBlocking">Blocked</param>
+/// <param name="Comment">Personal introduction</param>
+/// <param name="FollowedBack">Followed back</param>
+/// <param name="AcceptRequest">Accept commissions</param>
+/// <param name="Illusts">Illustration works</param>
+/// <param name="Novels">Novel works</param>
+public record RecommendUser(
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 小说作品
-    /// </summary>
-    [JsonIgnore]
-    public List<NovelProfile> Novels { get; set; }
-}
+    [property: JsonPropertyName("name")]
+    string Name,
+
+    [property: JsonPropertyName("image")]
+    string Image,
+
+    [property: JsonPropertyName("imageBig")]
+    string ImageBig,
+
+    [property: JsonPropertyName("premium")]
+    bool Premium,
+
+    [property: JsonPropertyName("isFollowed")]
+    bool IsFollowed,
+
+    [property: JsonPropertyName("isMypixiv")]
+    bool IsMypixiv,
+
+    [property: JsonPropertyName("isBlocking")]
+    bool IsBlocking,
+
+    [property: JsonPropertyName("comment")]
+    string Comment,
+
+    [property: JsonPropertyName("followedBack")]
+    bool FollowedBack,
+
+    [property: JsonPropertyName("acceptRequest")]
+    bool AcceptRequest,
+
+    [property: JsonIgnore]
+    List<IllustProfile> Illusts,
+
+    [property: JsonIgnore]
+    List<NovelProfile> Novels
+) : UserProfile(UserId, Name, Image, ImageBig, Premium, IsFollowed, IsMypixiv, IsBlocking, Comment, FollowedBack, AcceptRequest);
 
 
-internal class RecommendUserResponse
-{
+internal record RecommendUserResponse(
+    [property: JsonPropertyName("recommendUsers")]
+    List<RecommendMap> RecommendMaps,
 
-    [JsonPropertyName("recommendUsers")]
-    public List<RecommendMap> RecommendMaps { get; set; }
+    [property: JsonPropertyName("thumbnails")]
+    Thumbnails Thumbnails,
 
-    [JsonPropertyName("thumbnails")]
-    public Thumbnails Thumbnails { get; set; }
-
-    [JsonPropertyName("users")]
-    public List<RecommendUser> Users { get; set; }
-
-}
+    [property: JsonPropertyName("users")]
+    List<RecommendUser> Users
+);
 
 
-internal class RecommendMap
-{
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+internal record RecommendMap(
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    [JsonPropertyName("illustIds")]
-    public List<string> IllustIds { get; set; }
+    [property: JsonPropertyName("illustIds")]
+    List<string> IllustIds,
 
-    [JsonPropertyName("novelIds")]
-    public List<string> NovelIds { get; set; }
-}
+    [property: JsonPropertyName("novelIds")]
+    List<string> NovelIds
+);

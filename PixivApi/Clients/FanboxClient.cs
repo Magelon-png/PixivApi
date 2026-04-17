@@ -48,7 +48,7 @@ public class FanboxClient : IDisposable
 
 
     /// <summary>
-    /// 内部的 HttpClient 实例
+    /// Internal HttpClient instance
     /// </summary>
     public HttpClient HttpClient => _httpClient;
     

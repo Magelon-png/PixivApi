@@ -4,8 +4,8 @@
 /// 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class FanboxResponseWrapper<T>
-{
-    [JsonPropertyName("body")]
-    public T Body { get; set; }
-}
+/// <param name="Body"></param>
+public record FanboxResponseWrapper<T>(
+    [property: JsonPropertyName("body")]
+    T Body
+);

@@ -1,20 +1,14 @@
 ﻿namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
-/// 嵌入小说正文的图片
+/// Image embedded in the novel content
 /// </summary>
-public class TextEmbeddedImage
-{
+/// <param name="NovelImageId">Image ID</param>
+/// <param name="Urls">Image links</param>
+public record TextEmbeddedImage(
+    [property: JsonPropertyName("novelImageId")]
+    int NovelImageId,
 
-    /// <summary>
-    /// 图片 id
-    /// </summary>
-    [JsonPropertyName("novelImageId")]
-    public int NovelImageId { get; set; }
-
-    /// <summary>
-    /// 图片链接
-    /// </summary>
-    [JsonPropertyName("urls")]
-    public NovelImageUrls Urls { get; set; }
-}
+    [property: JsonPropertyName("urls")]
+    NovelImageUrls Urls
+);

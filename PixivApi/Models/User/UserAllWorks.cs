@@ -8,44 +8,31 @@ namespace Scighost.PixivApi.Models.User;
 /// <summary>
 /// 
 /// </summary>
-public class UserAllWorks
-{
-    /// <summary>
-    /// 插画作品id
-    /// </summary>
-    [JsonPropertyName("illusts")]
-    [JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
-    public List<int> Illusts { get; set; }
+/// <param name="Illusts">Illustration work ids</param>
+/// <param name="Manga">Manga work ids</param>
+/// <param name="Novels">Novel work ids</param>
+/// <param name="MangaSeries">Manga series</param>
+/// <param name="NovelSeries">Novel series</param>
+/// <param name="Pickup">Featured works, too complex structure, not represented by entity classes</param>
+public record UserAllWorks(
+    [property: JsonPropertyName("illusts")]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
+    List<int> Illusts,
 
-    /// <summary>
-    /// 漫画作品id
-    /// </summary>
-    [JsonPropertyName("manga")]
-    [JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
-    public List<int> Manga { get; set; }
+    [property: JsonPropertyName("manga")]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
+    List<int> Manga,
 
-    /// <summary>
-    /// 小说作品id
-    /// </summary>
-    [JsonPropertyName("novels")]
-    [JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
-    public List<int> Novels { get; set; }
+    [property: JsonPropertyName("novels")]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
+    List<int> Novels,
 
-    /// <summary>
-    /// 漫画系列
-    /// </summary>
-    [JsonPropertyName("mangaSeries")]
-    public List<MangaSeries> MangaSeries { get; set; }
+    [property: JsonPropertyName("mangaSeries")]
+    List<MangaSeries> MangaSeries,
 
-    /// <summary>
-    /// 小说系列
-    /// </summary>
-    [JsonPropertyName("novelSeries")]
-    public List<NovelSeries> NovelSeries { get; set; }
+    [property: JsonPropertyName("novelSeries")]
+    List<NovelSeries> NovelSeries,
 
-    /// <summary>
-    /// 精选作品，结构太复杂，不用实体类表示
-    /// </summary>
-    [JsonPropertyName("pickup")]
-    public List<JsonNode> Pickup { get; set; }
-}
+    [property: JsonPropertyName("pickup")]
+    List<JsonNode> Pickup
+);

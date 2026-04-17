@@ -1,22 +1,22 @@
 ﻿namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
-/// 插画类型，插画/漫画/动图
+/// Illustration type, Illustration/Manga/Animation
 /// </summary>
 public enum IllustType
 {
     /// <summary>
-    /// 插画
+    /// Illustration
     /// </summary>
     Illustration,
 
     /// <summary>
-    /// 漫画
+    /// Manga
     /// </summary>
     Manga,
 
     /// <summary>
-    /// 动图
+    /// Animation
     /// </summary>
     Animation,
 }

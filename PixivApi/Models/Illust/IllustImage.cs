@@ -1,7 +1,7 @@
 ﻿namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
-/// 不同尺寸的图片文件地址
+/// Image file addresses of different sizes
 /// </summary>
 public record IllustImage(
     [property: JsonPropertyName("urls")]

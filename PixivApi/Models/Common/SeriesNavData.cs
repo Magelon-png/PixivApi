@@ -2,102 +2,70 @@
 
 
 /// <summary>
-/// 漫画或小说阅读时的侧栏系列数据
+/// Sidebar series data when reading manga or novels
 /// </summary>
-public class SeriesNavData
-{
-    /// <summary>
-    /// 漫画或小说，"manga" or "novel"
-    /// </summary>
-    [JsonPropertyName("seriesType")]
-    public string SeriesType { get; set; }
+/// <param name="SeriesType">Manga or novel, "manga" or "novel"</param>
+/// <param name="SeriesId">Work series id</param>
+/// <param name="Title">Manga or novel series name</param>
+/// <param name="IsConcluded">Is concluded</param>
+/// <param name="IsReplaceable">Is replaceable</param>
+/// <param name="IsWatched">Followed</param>
+/// <param name="IsNotifying">Added to follow notification list</param>
+/// <param name="Order">Position of the work in this series</param>
+/// <param name="Preview">Previous work in the series</param>
+/// <param name="Next">Next work in the series</param>
+public record SeriesNavData(
+    [property: JsonPropertyName("seriesType")]
+    string SeriesType,
 
-    /// <summary>
-    /// 作品系列id
-    /// </summary>
-    [JsonPropertyName("seriesId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int SeriesId { get; set; }
+    [property: JsonPropertyName("seriesId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int SeriesId,
 
-    /// <summary>
-    /// 漫画或小说的系列名
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("isConcluded")]
-    public bool IsConcluded { get; set; }
+    [property: JsonPropertyName("isConcluded")]
+    bool IsConcluded,
 
-    /// <summary>
-    /// 不懂
-    /// </summary>
-    [JsonPropertyName("isReplaceable")]
-    public bool IsReplaceable { get; set; }
+    [property: JsonPropertyName("isReplaceable")]
+    bool IsReplaceable,
 
-    /// <summary>
-    /// 已追更
-    /// </summary>
-    [JsonPropertyName("isWatched")]
-    public bool IsWatched { get; set; }
+    [property: JsonPropertyName("isWatched")]
+    bool IsWatched,
 
-    /// <summary>
-    /// 已添加到追更通知列表
-    /// </summary>
-    [JsonPropertyName("isNotifying")]
-    public bool IsNotifying { get; set; }
+    [property: JsonPropertyName("isNotifying")]
+    bool IsNotifying,
 
-    /// <summary>
-    /// 作品在此系列中的位置
-    /// </summary>
-    [JsonPropertyName("order")]
-    public int Order { get; set; }
+    [property: JsonPropertyName("order")]
+    int Order,
 
+    [property: JsonPropertyName("prev")]
+    SeriesNavDataPreviewOrNextData? Preview,
 
-    /// <summary>
-    /// 系列中的上一个作品
-    /// </summary>
-    [JsonPropertyName("prev")]
-    public SeriesNavDataPreviewOrNextData? Preview { get; set; }
-
-    /// <summary>
-    /// 系列中的下一个作品
-    /// </summary>
-    [JsonPropertyName("next")]
-    public SeriesNavDataPreviewOrNextData? Next { get; set; }
-
-}
+    [property: JsonPropertyName("next")]
+    SeriesNavDataPreviewOrNextData? Next
+);
 
 
 /// <summary>
-/// 作品系列中的上一个或下一个作品
+/// Previous or next work in a series
 /// </summary>
-public class SeriesNavDataPreviewOrNextData
-{
-    /// <summary>
-    /// 可用
-    /// </summary>
-    [JsonPropertyName("available")]
-    public bool Available { get; set; }
+/// <param name="Available">Available</param>
+/// <param name="Id">Work id</param>
+/// <param name="Order">Position of the work in this series</param>
+/// <param name="Title">Title</param>
+public record SeriesNavDataPreviewOrNextData(
+    [property: JsonPropertyName("available")]
+    bool Available,
 
-    /// <summary>
-    /// 作品id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 作品在此系列中的位置
-    /// </summary>
-    [JsonPropertyName("order")]
-    public int Order { get; set; }
+    [property: JsonPropertyName("order")]
+    int Order,
 
-    /// <summary>
-    /// 标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
-}
+    [property: JsonPropertyName("title")]
+    string Title
+);

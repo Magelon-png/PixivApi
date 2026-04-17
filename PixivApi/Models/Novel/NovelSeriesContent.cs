@@ -3,121 +3,84 @@
 namespace Scighost.PixivApi.Models.Novel;
 
 
-internal class NovelSeriesContentWrapper
-{
-    [JsonPropertyName("page")]
-    public NovelSeriesChapterPages Page { get; set; }
-}
+internal record NovelSeriesContentWrapper(
+    [property: JsonPropertyName("page")]
+    NovelSeriesChapterPages Page
+);
 
 /// <summary>
 /// 
 /// </summary>
-public class NovelSeriesChapterPages
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    [JsonPropertyName("seriesContents")]
-    public List<NovelSeriesChapter> SeriesContents { get; set; }
-}
+/// <param name="SeriesContents"></param>
+public record NovelSeriesChapterPages(
+    [property: JsonPropertyName("seriesContents")]
+    List<NovelSeriesChapter> SeriesContents
+);
 
 
 /// <summary>
-/// 小说系列的章节信息（无正文）
+/// Chapter information of a novel series (without content)
 /// </summary>
-public class NovelSeriesChapter
-{
+/// <param name="Id">Novel id</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="Title">Title</param>
+/// <param name="Tags">Tags</param>
+/// <param name="XRestrict">Restriction level</param>
+/// <param name="IsOriginal">Is original</param>
+/// <param name="TextLength">Character count</param>
+/// <param name="CharacterCount">Character count</param>
+/// <param name="WordCount">Word count</param>
+/// <param name="ReadingTime">Reading time, in seconds</param>
+/// <param name="BookmarkCount">Bookmark count</param>
+/// <param name="Url">Cover image</param>
+/// <param name="UploadTimestamp">Upload timestamp</param>
+/// <param name="ReuploadTimestamp">Reupload timestamp</param>
+/// <param name="BookmarkData">Bookmark information, null if not bookmarked</param>
+public record NovelSeriesChapter(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 小说id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("tags")]
+    List<string> Tags,
 
-    /// <summary>
-    /// 标签
-    /// </summary>
-    [JsonPropertyName("tags")]
-    public List<string> Tags { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    XRestrict XRestrict,
 
-    /// <summary>
-    /// 限制级别
-    /// </summary>
-    [JsonPropertyName("xRestrict")]
-    public XRestrict XRestrict { get; set; }
+    [property: JsonPropertyName("isOriginal")]
+    bool IsOriginal,
 
-    /// <summary>
-    /// 原创
-    /// </summary>
-    [JsonPropertyName("isOriginal")]
-    public bool IsOriginal { get; set; }
+    [property: JsonPropertyName("textLength")]
+    int TextLength,
 
-    /// <summary>
-    /// 字符数
-    /// </summary>
-    [JsonPropertyName("textLength")]
-    public int TextLength { get; set; }
+    [property: JsonPropertyName("characterCount")]
+    int CharacterCount,
 
-    /// <summary>
-    /// 字符数
-    /// </summary>
-    [JsonPropertyName("characterCount")]
-    public int CharacterCount { get; set; }
+    [property: JsonPropertyName("wordCount")]
+    int WordCount,
 
-    /// <summary>
-    /// 文字数
-    /// </summary>
-    [JsonPropertyName("wordCount")]
-    public int WordCount { get; set; }
+    [property: JsonPropertyName("readingTime")]
+    int ReadingTime,
 
-    /// <summary>
-    /// 阅读时间，单位秒
-    /// </summary>
-    [JsonPropertyName("readingTime")]
-    public int ReadingTime { get; set; }
+    [property: JsonPropertyName("bookmarkCount")]
+    int BookmarkCount,
 
-    /// <summary>
-    /// 收藏数
-    /// </summary>
-    [JsonPropertyName("bookmarkCount")]
-    public int BookmarkCount { get; set; }
+    [property: JsonPropertyName("url")]
+    string Url,
 
-    /// <summary>
-    /// 封面图片
-    /// </summary>
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
+    [property: JsonPropertyName("uploadTimestamp")]
+    int UploadTimestamp,
 
-    /// <summary>
-    /// 上传时间戳
-    /// </summary>
-    [JsonPropertyName("uploadTimestamp")]
-    public int UploadTimestamp { get; set; }
+    [property: JsonPropertyName("reuploadTimestamp")]
+    int ReuploadTimestamp,
 
-    /// <summary>
-    /// 重新上传时间戳
-    /// </summary>
-    [JsonPropertyName("reuploadTimestamp")]
-    public int ReuploadTimestamp { get; set; }
-
-    /// <summary>
-    /// 收藏信息，为 null 时未收藏
-    /// </summary>
-    [JsonPropertyName("bookmarkData")]
-    public BookmarkData? BookmarkData { get; set; }
-
-}
+    [property: JsonPropertyName("bookmarkData")]
+    BookmarkData? BookmarkData
+);

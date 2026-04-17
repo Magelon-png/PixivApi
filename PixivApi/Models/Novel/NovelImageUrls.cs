@@ -1,37 +1,26 @@
 ﻿namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
-/// 小说图片链接
+/// Novel image links
 /// </summary>
-public class NovelImageUrls
-{
-    /// <summary>
-    /// 128x128
-    /// </summary>
-    [JsonPropertyName("128x128")]
-    public string Mini { get; set; }
+/// <param name="Mini">128x128</param>
+/// <param name="Thumb">240x240</param>
+/// <param name="Small">480x480</param>
+/// <param name="Middle">1200x1200</param>
+/// <param name="Original">Original image</param>
+public record NovelImageUrls(
+    [property: JsonPropertyName("128x128")]
+    string Mini,
 
-    /// <summary>
-    /// 240x240
-    /// </summary>
-    [JsonPropertyName("240mw")]
-    public string Thumb { get; set; }
+    [property: JsonPropertyName("240mw")]
+    string Thumb,
 
-    /// <summary>
-    /// 480x480
-    /// </summary>
-    [JsonPropertyName("480mw")]
-    public string Small { get; set; }
+    [property: JsonPropertyName("480mw")]
+    string Small,
 
-    /// <summary>
-    /// 1200x1200
-    /// </summary>
-    [JsonPropertyName("1200x1200")]
-    public string Middle { get; set; }
+    [property: JsonPropertyName("1200x1200")]
+    string Middle,
 
-    /// <summary>
-    /// 原图
-    /// </summary>
-    [JsonPropertyName("original")]
-    public string Original { get; set; }
-}
+    [property: JsonPropertyName("original")]
+    string Original
+);

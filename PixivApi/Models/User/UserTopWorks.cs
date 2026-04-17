@@ -5,32 +5,21 @@ using Scighost.PixivApi.Models.Novel;
 namespace Scighost.PixivApi.Models.User;
 
 /// <summary>
-/// 用户最近的作品
+/// User's recent works
 /// </summary>
-public class UserTopWorks
-{
+/// <param name="Illusts">Illustrations</param>
+/// <param name="Mangas">Manga</param>
+/// <param name="Novels">Novels</param>
+public record UserTopWorks(
+    [property: JsonPropertyName("illusts")]
+    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<int, IllustProfile>))]
+    List<IllustProfile> Illusts,
 
-    /// <summary>
-    /// 插画
-    /// </summary>
-    [JsonPropertyName("illusts")]
-    [JsonConverter(typeof(DictionaryValueToListJsonConverter<int, IllustProfile>))]
-    public List<IllustProfile> Illusts { get; set; }
+    [property: JsonPropertyName("manga")]
+    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<int, IllustProfile>))]
+    List<IllustProfile> Mangas,
 
-
-    /// <summary>
-    /// 漫画
-    /// </summary>
-    [JsonPropertyName("manga")]
-    [JsonConverter(typeof(DictionaryValueToListJsonConverter<int, IllustProfile>))]
-    public List<IllustProfile> Mangas { get; set; }
-
-
-    /// <summary>
-    /// 小说
-    /// </summary>
-    [JsonPropertyName("novels")]
-    [JsonConverter(typeof(DictionaryValueToListJsonConverter<int, NovelProfile>))]
-    public List<NovelProfile> Novels { get; set; }
-
-}
+    [property: JsonPropertyName("novels")]
+    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<int, NovelProfile>))]
+    List<NovelProfile> Novels
+);

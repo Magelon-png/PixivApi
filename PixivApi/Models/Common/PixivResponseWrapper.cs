@@ -1,15 +1,14 @@
 ﻿namespace Scighost.PixivApi.Models.Common;
 
-internal sealed class PixivResponseWrapper<T>
-{
-    [JsonPropertyName("error")]
-    public bool Error { get; set; }
+internal record PixivResponseWrapper<T>(
+    [property: JsonPropertyName("error")]
+    bool Error,
 
-    [JsonPropertyName("message")]
-    public string Message { get; set; }
+    [property: JsonPropertyName("message")]
+    string Message,
 
-    [JsonPropertyName("body")]
-    public T Body { get; set; }
-}
+    [property: JsonPropertyName("body")]
+    T Body
+);
 
 

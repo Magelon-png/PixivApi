@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text.Json;
 using Scighost.PixivApi;
 
+namespace Scighost.PixivApi;
+
 public class CurlImpersonateHandler : HttpMessageHandler
 {
     private readonly string _curlPath;
@@ -32,7 +34,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
             if (!string.IsNullOrEmpty(found))
                 return found;
         }
-        catch {  }
+        catch (FileNotFoundException) {  }
         
         string os, arch, ext = "";
         string executableName = "curl-impersonate";

@@ -4,33 +4,24 @@ namespace Scighost.PixivApi.Models.Illust;
 
 
 /// <summary>
-/// 添加插画收藏请求
+/// Add illustration bookmark request
 /// </summary>
-public class AddBookmarkIllustRequest
-{
-    /// <summary>
-    /// 插画id
-    /// </summary>
-    [JsonPropertyName("illust_id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int IllustId { get; set; }
+/// <param name="IllustId">Illustration id</param>
+/// <param name="IsPrivate">Private</param>
+/// <param name="Comment">Comment</param>
+/// <param name="Tags">Custom tags</param>
+public record AddBookmarkIllustRequest(
+    [property: JsonPropertyName("illust_id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int IllustId,
 
-    /// <summary>
-    /// 不公开
-    /// </summary>
-    [JsonPropertyName("restrict")]
-    [JsonConverter(typeof(BoolToNumberJsonConverter))]
-    public bool IsPrivate { get; set; }
+    [property: JsonPropertyName("restrict")]
+    [property: JsonConverter(typeof(BoolToNumberJsonConverter))]
+    bool IsPrivate,
 
-    /// <summary>
-    /// 评论
-    /// </summary>
-    [JsonPropertyName("comment")]
-    public string Comment { get; set; }
+    [property: JsonPropertyName("comment")]
+    string Comment,
 
-    /// <summary>
-    /// 自定义标签
-    /// </summary>
-    [JsonPropertyName("tags")]
-    public IEnumerable<string> Tags { get; set; }
-}
+    [property: JsonPropertyName("tags")]
+    IEnumerable<string> Tags
+);

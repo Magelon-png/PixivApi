@@ -2,125 +2,86 @@
 
 
 /// <summary>
-/// 漫画系列
+/// Manga series
 /// </summary>
-public class MangaSeries
+/// <param name="Id">Manga series ID</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="Title">Manga series title</param>
+/// <param name="Description">Description</param>
+/// <param name="Caption">Caption</param>
+/// <param name="Total">Chapter count</param>
+/// <param name="Url">Manga series cover image</param>
+/// <param name="FirstIllustId">Illustration ID of the first chapter</param>
+/// <param name="LatestIllustId">Illustration ID of the latest chapter</param>
+/// <param name="CreateDate">Creation time</param>
+/// <param name="UpdateDate">Update time</param>
+/// <param name="IsWatched">Followed</param>
+/// <param name="IsNotifying">Follow notifications enabled</param>
+/// <param name="Illusts">Content of the manga series</param>
+public record MangaSeries(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
+
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
+
+    [property: JsonPropertyName("title")]
+    string Title,
+
+    [property: JsonPropertyName("description")]
+    string Description,
+
+    [property: JsonPropertyName("caption")]
+    string Caption,
+
+    [property: JsonPropertyName("total")]
+    int Total,
+
+    [property: JsonPropertyName("url")]
+    string Url,
+
+    [property: JsonPropertyName("firstIllustId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int FirstIllustId,
+
+    [property: JsonPropertyName("latestIllustId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int LatestIllustId,
+
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
+
+    [property: JsonPropertyName("updateDate")]
+    DateTimeOffset UpdateDate,
+
+    [property: JsonPropertyName("isWatched")]
+    bool IsWatched,
+
+    [property: JsonPropertyName("isNotifying")]
+    bool IsNotifying,
+
+    List<MangaSeriesIllust> Illusts
+)
 {
-    /// <summary>
-    /// 漫画系列id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
-
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
-
-    /// <summary>
-    /// 漫画系列标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
-
-    /// <summary>
-    /// 介绍
-    /// </summary>
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
-
-    /// <summary>
-    /// 介绍
-    /// </summary>
-    [JsonPropertyName("caption")]
-    public string Caption { get; set; }
-
-    /// <summary>
-    /// 章节数
-    /// </summary>
-    [JsonPropertyName("total")]
-    public int Total { get; set; }
-
-    /// <summary>
-    /// 漫画系列封面图片
-    /// </summary>
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
-
-    /// <summary>
-    /// 第一章的插画id
-    /// </summary>
-    [JsonPropertyName("firstIllustId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int FirstIllustId { get; set; }
-
-
-    /// <summary>
-    /// 最后一章的插画id
-    /// </summary>
-    [JsonPropertyName("latestIllustId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int LatestIllustId { get; set; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
-
-    /// <summary>
-    /// 上传时间
-    /// </summary>
-    [JsonPropertyName("updateDate")]
-    public DateTimeOffset UpdateDate { get; set; }
-
-    /// <summary>
-    /// 已追更
-    /// </summary>
-    [JsonPropertyName("isWatched")]
-    public bool IsWatched { get; set; }
-
-    /// <summary>
-    /// 已加入追更通知
-    /// </summary>
-    [JsonPropertyName("isNotifying")]
-    public bool IsNotifying { get; set; }
-
-    /// <summary>
-    /// 漫画系列的内容
-    /// </summary>
-    public List<MangaSeriesIllust> Illusts { get; set; }
-    
     /// <summary>
     /// Checks if the first chapter was returned when requesting for chapters. Otherwise, more pages exists.
     /// </summary>
     /// <returns></returns>
     public bool HasNextPage() => Total > Illusts.Count 
                                  && Illusts.All(i => i.Order != 1);
-
 }
 
 
 /// <summary>
-/// 漫画系列的内容
+/// Content of a manga series
 /// </summary>
-public class MangaSeriesIllust
-{
-    /// <summary>
-    /// 漫画 id
-    /// </summary>
-    public int IllustId { get; set; }
-
-    /// <summary>
-    /// 在系列中的排序
-    /// </summary>
-    public int Order { get; set; }
-
-    /// <summary>
-    /// 漫画信息
-    /// </summary>
-    public IllustProfile IllustProfile { get; set; }
-}
+/// <param name="IllustId">Manga ID</param>
+/// <param name="Order">Sort order in the series</param>
+/// <param name="IllustProfile">Manga information</param>
+public record MangaSeriesIllust(
+    int IllustId,
+    int Order,
+    IllustProfile IllustProfile
+);

@@ -1,12 +1,12 @@
 ﻿namespace Scighost.PixivApi.Models.Common;
 
 /// <summary>
-/// 作品的限制级别
+/// Restriction level of the work
 /// </summary>
 public enum XRestrict
 {
     /// <summary>
-    /// 全年龄
+    /// All ages
     /// </summary>
     AllAges,
 

@@ -3,181 +3,123 @@
 namespace Scighost.PixivApi.Models.Novel;
 
 /// <summary>
-/// 小说详细信息（有正文）
+/// Detailed information for novels (including content)
 /// </summary>
-public class NovelInfo
-{
-    /// <summary>
-    /// 小说id
-    /// </summary>
-    [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Id { get; set; }
+/// <param name="Id">Novel id</param>
+/// <param name="Title">Novel title</param>
+/// <param name="Description">Description, HTML format</param>
+/// <param name="BookmarkCount">Bookmark count</param>
+/// <param name="CommentCount">Comment count</param>
+/// <param name="MarkerCount">Marker count</param>
+/// <param name="CreateDate">Creation time</param>
+/// <param name="UploadDate">Upload time</param>
+/// <param name="LikeCount">Like count</param>
+/// <param name="PageCount">Number of pages in the novel, in <see cref="Content"/>, separated by "[newpage]"</param>
+/// <param name="UserId">Author uid</param>
+/// <param name="UserName">Author nickname</param>
+/// <param name="ViewCount">View count</param>
+/// <param name="XRestrict">Restriction level</param>
+/// <param name="Content">Content, known special formats include [newpage], [chapter:{chapterName}], [uploadedimage:{imageId}]</param>
+/// <param name="CoverUrl">Cover image</param>
+/// <param name="IsLike">Liked</param>
+/// <param name="Tags">Tags</param>
+/// <param name="SeriesNavData">Sidebar data for novel reading pages</param>
+/// <param name="UserNovels">IDs of all novels by the author</param>
+/// <param name="Language">Language, not necessarily reliable</param>
+/// <param name="CharacterCount">Character count</param>
+/// <param name="WordCount">Word count</param>
+/// <param name="ReadingTime">Reading time, in seconds</param>
+/// <param name="IsOriginal">Is original</param>
+/// <param name="BookmarkData">Bookmark information, null if not bookmarked</param>
+/// <param name="Marker">Which page has a marker, null if no marker</param>
+/// <param name="TextEmbeddedImages">Images embedded in the novel content, format is [uploadedimage:{id}]</param>
+public record NovelInfo(
+    [property: JsonPropertyName("id")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int Id,
 
-    /// <summary>
-    /// 小说标题
-    /// </summary>
-    [JsonPropertyName("title")]
-    public string Title { get; set; }
+    [property: JsonPropertyName("title")]
+    string Title,
 
-    /// <summary>
-    /// 介绍，html格式
-    /// </summary>
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [property: JsonPropertyName("description")]
+    string Description,
 
-    /// <summary>
-    /// 收藏数
-    /// </summary>
-    [JsonPropertyName("bookmarkCount")]
-    public int BookmarkCount { get; set; }
+    [property: JsonPropertyName("bookmarkCount")]
+    int BookmarkCount,
 
-    /// <summary>
-    /// 评论数
-    /// </summary>
-    [JsonPropertyName("commentCount")]
-    public int CommentCount { get; set; }
+    [property: JsonPropertyName("commentCount")]
+    int CommentCount,
 
-    /// <summary>
-    /// 书签数
-    /// </summary>
-    [JsonPropertyName("markerCount")]
-    public int MarkerCount { get; set; }
+    [property: JsonPropertyName("markerCount")]
+    int MarkerCount,
 
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    [JsonPropertyName("createDate")]
-    public DateTimeOffset CreateDate { get; set; }
+    [property: JsonPropertyName("createDate")]
+    DateTimeOffset CreateDate,
 
-    /// <summary>
-    /// 上传时间
-    /// </summary>
-    [JsonPropertyName("uploadDate")]
-    public DateTimeOffset UploadDate { get; set; }
+    [property: JsonPropertyName("uploadDate")]
+    DateTimeOffset UploadDate,
 
-    /// <summary>
-    /// 点赞数
-    /// </summary>
-    [JsonPropertyName("likeCount")]
-    public int LikeCount { get; set; }
+    [property: JsonPropertyName("likeCount")]
+    int LikeCount,
 
-    /// <summary>
-    /// 小说页数，正文 <see cref="Content"/> 中, 以 "[newpage]" 分割
-    /// </summary>
-    [JsonPropertyName("pageCount")]
-    public int PageCount { get; set; }
+    [property: JsonPropertyName("pageCount")]
+    int PageCount,
 
-    /// <summary>
-    /// 作者uid
-    /// </summary>
-    [JsonPropertyName("userId")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int UserId { get; set; }
+    [property: JsonPropertyName("userId")]
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int UserId,
 
-    /// <summary>
-    /// 作者昵称
-    /// </summary>
-    [JsonPropertyName("userName")]
-    public string UserName { get; set; }
+    [property: JsonPropertyName("userName")]
+    string UserName,
 
-    /// <summary>
-    /// 观看数
-    /// </summary>
-    [JsonPropertyName("viewCount")]
-    public int ViewCount { get; set; }
+    [property: JsonPropertyName("viewCount")]
+    int ViewCount,
 
-    /// <summary>
-    /// 限制级别
-    /// </summary>
-    [JsonPropertyName("xRestrict")]
-    public XRestrict XRestrict { get; set; }
+    [property: JsonPropertyName("xRestrict")]
+    XRestrict XRestrict,
 
-    /// <summary>
-    /// 正文，已知特殊格式有 [newpage]，[chapter:{chapterName}]，[uploadedimage:{imageId}]
-    /// </summary>
-    [JsonPropertyName("content")]
-    public string Content { get; set; }
+    [property: JsonPropertyName("content")]
+    string Content,
 
-    /// <summary>
-    /// 封面图片
-    /// </summary>
-    [JsonPropertyName("coverUrl")]
-    public string CoverUrl { get; set; }
+    [property: JsonPropertyName("coverUrl")]
+    string CoverUrl,
 
-    /// <summary>
-    /// 已点赞
-    /// </summary>
-    [JsonPropertyName("likeData")]
-    public bool IsLike { get; set; }
+    [property: JsonPropertyName("likeData")]
+    bool IsLike,
 
-    /// <summary>
-    /// 标签
-    /// </summary>
-    [JsonPropertyName("tags")]
-    [JsonConverter(typeof(PixivTagJsonConverter))]
-    public List<PixivTag> Tags { get; set; }
+    [property: JsonPropertyName("tags")]
+    [property: JsonConverter(typeof(PixivTagJsonConverter))]
+    List<PixivTag> Tags,
 
-    /// <summary>
-    /// 小说阅读界面的侧栏系列数据
-    /// </summary>
-    [JsonPropertyName("seriesNavData")]
-    public SeriesNavData? SeriesNavData { get; set; }
+    [property: JsonPropertyName("seriesNavData")]
+    SeriesNavData? SeriesNavData,
 
-    /// <summary>
-    /// 作者的所有小说的id
-    /// </summary>
-    [JsonPropertyName("userNovels")]
-    [JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
-    public List<int> UserNovels { get; set; }
+    [property: JsonPropertyName("userNovels")]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
+    List<int> UserNovels,
 
-    /// <summary>
-    /// 语言，不一定可靠
-    /// </summary>
-    [JsonPropertyName("language")]
-    public string Language { get; set; }
+    [property: JsonPropertyName("language")]
+    string Language,
 
-    /// <summary>
-    /// 字符数
-    /// </summary>
-    [JsonPropertyName("characterCount")]
-    public int CharacterCount { get; set; }
+    [property: JsonPropertyName("characterCount")]
+    int CharacterCount,
 
-    /// <summary>
-    /// 文字数
-    /// </summary>
-    [JsonPropertyName("wordCount")]
-    public int WordCount { get; set; }
+    [property: JsonPropertyName("wordCount")]
+    int WordCount,
 
-    /// <summary>
-    /// 阅读时间，单位秒
-    /// </summary>
-    [JsonPropertyName("readingTime")]
-    public int ReadingTime { get; set; }
+    [property: JsonPropertyName("readingTime")]
+    int ReadingTime,
 
-    /// <summary>
-    /// 原创
-    /// </summary>
-    [JsonPropertyName("isOriginal")]
-    public bool IsOriginal { get; set; }
+    [property: JsonPropertyName("isOriginal")]
+    bool IsOriginal,
 
-    /// <summary>
-    /// 收藏信息，为 null 时未收藏
-    /// </summary>
-    [JsonPropertyName("bookmarkData")]
-    public BookmarkData? BookmarkData { get; set; }
+    [property: JsonPropertyName("bookmarkData")]
+    BookmarkData? BookmarkData,
 
-    /// <summary>
-    /// 第几页有书签，为 null 时无书签
-    /// </summary>
-    [JsonPropertyName("marker")]
-    public int? Marker { get; set; }
+    [property: JsonPropertyName("marker")]
+    int? Marker,
 
-    /// <summary>
-    /// 嵌入小说正文的图片，格式为 [uploadedimage:{id}]
-    /// </summary>
-    [JsonPropertyName("textEmbeddedImages")]
-    public Dictionary<int, TextEmbeddedImage> TextEmbeddedImages { get; set; }
-
-}
+    [property: JsonPropertyName("textEmbeddedImages")]
+    Dictionary<int, TextEmbeddedImage> TextEmbeddedImages
+);
 

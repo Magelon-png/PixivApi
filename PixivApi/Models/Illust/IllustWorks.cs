@@ -3,11 +3,8 @@
 /// <summary>
 /// 
 /// </summary>
-public class IllustWorks
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    [JsonPropertyName("works")]
-    public Dictionary<string, IllustWorksInfo> Works { get; set; }
-}
+/// <param name="Works"></param>
+public record IllustWorks(
+    [property: JsonPropertyName("works")]
+    Dictionary<string, IllustWorksInfo> Works
+);

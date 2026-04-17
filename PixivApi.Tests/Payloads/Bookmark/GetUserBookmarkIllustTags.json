@@ -1,0 +1,24 @@
+﻿{
+  "error": false,
+  "message": "",
+  "body": {
+    "public": [
+      {
+        "tag": "\u672a\u5206\u985e",
+        "cnt": 10
+      }
+    ],
+    "private": [
+      {
+        "tag": "AzurLane",
+        "cnt": 1
+      },
+      {
+        "tag": "BlueArchive",
+        "cnt": 1
+      }
+    ],
+    "tooManyBookmark": false,
+    "tooManyBookmarkTags": false
+  }
+}

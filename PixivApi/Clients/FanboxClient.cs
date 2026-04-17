@@ -18,7 +18,7 @@ public class FanboxClient : IDisposable
     private const string OriginUrl = "https://www.fanbox.cc";
     private const string ReferrerUrl = "https://www.fanbox.cc/";
     private const string BaseUriHttps = "https://api.fanbox.cc/";
-    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0";
+    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0";
 
 
     private readonly HttpClient _httpClient;
@@ -58,25 +58,29 @@ public class FanboxClient : IDisposable
     /// <param name="cookie"></param>
     /// <param name="clientHandler"></param>
     /// <exception cref="PixivException"></exception>
-    public FanboxClient(string cookie, HttpClientHandler? clientHandler = null)
+    public FanboxClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
     {
         if (ValidateCookie(cookie) == false)
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;' in any order.");
         }
         _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
+        
+        var httpHandler = clientHandler ?? (HttpMessageHandler) (enableCurlImpersonate ? new CurlImpersonateHandler(curlImpersonatePath) : new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
 
-        _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
+        _httpClient = new HttpClient(httpHandler);
         _downloadHttpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
         
-
+        _httpClient.DefaultRequestVersion = HttpVersion.Version20;
         _httpClient.DefaultRequestHeaders.Add("Origin", OriginUrl);
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
-        _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
         _httpClient.DefaultRequestHeaders.Add("Referer", ReferrerUrl);
-        
+        _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
+
+
+        _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;        
         _downloadHttpClient.DefaultRequestHeaders.Add("Origin", OriginUrl);
         _downloadHttpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _downloadHttpClient.DefaultRequestHeaders.Add("Cookie", cookie);
@@ -209,19 +213,27 @@ public class FanboxClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task DownloadFileAsync(string fileUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
-        bool copyStarted = false;
-        await _resiliencePipeline.ExecuteAsync(async (token) =>
+        var retries = 0;
+        var maxRetries = 3;
+        var downloaded = false;
+        while (retries < maxRetries && !downloaded)
         {
-            if (copyStarted)
+            try
             {
-                destinationStream.Seek(0, SeekOrigin.Begin);
-                copyStarted = false;
+                using var response = await _downloadHttpClient.GetAsync(fileUrl,
+                    HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                await response.Content.CopyToAsync(destinationStream, cancellationToken);
+                downloaded = true;
             }
-            using var response = await _downloadHttpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead, token);
-            response.EnsureSuccessStatusCode();
-            copyStarted = true;
-            await response.Content.CopyToAsync(destinationStream, token);
-        }, cancellationToken);
+            catch
+            {
+                await destinationStream.FlushAsync(cancellationToken);
+                destinationStream.Seek(0, SeekOrigin.Begin);
+                retries++;
+            }
+        }
+        
     }
 
     /// <summary>

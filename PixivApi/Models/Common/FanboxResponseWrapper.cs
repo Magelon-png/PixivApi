@@ -1,0 +1,11 @@
+﻿namespace Scighost.PixivApi.Models.Common;
+
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class FanboxResponseWrapper<T>
+{
+    [JsonPropertyName("body")]
+    public T Body { get; set; }
+}

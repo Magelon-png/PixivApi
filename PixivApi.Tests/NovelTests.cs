@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using Scighost.PixivApi;
+using Scighost.PixivApi.Clients;
 
 namespace PixivApi.Tests;
 

@@ -16,7 +16,6 @@ using Scighost.PixivApi.Models.Illust;
 using Scighost.PixivApi.Models.Novel;
 using Scighost.PixivApi.Models.Search;
 using Scighost.PixivApi.Models.User;
-using Scighost.PixivApi.Models.V2.Illust;
 using Scighost.PixivApi.SerializerContexts;
 
 namespace Scighost.PixivApi.Clients;
@@ -35,7 +34,7 @@ public class PixivClient : IDisposable
 {
     
     private const string BaseUriHttps = "https://www.pixiv.net/";
-    private const string DefaultUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0";
+    private const string DefaultUserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0";
 
 
     private readonly HttpClient _httpClient;
@@ -91,22 +90,26 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="cookie">Cookie to authenticate with the API</param>
     /// <param name="clientHandler">Custom HTTP client handler for testing or other cases</param>
-    public PixivClient(string cookie, HttpClientHandler? clientHandler = null)
+    /// <param name="userAgent">Custom user agent</param>
+    public PixivClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null)
     {
         if (ValidateCookie(cookie) == false)
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;' in any order.");
         }
-        
+
         _resiliencePipeline = HttpClientHelper.GetResiliencePipeline();
 
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
 
+        _httpClient.DefaultRequestVersion = HttpVersion.Version20;
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
-        _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
         _httpClient.DefaultRequestHeaders.Add("Referer", BaseUriHttps);
+        
+        _downloadHttpClient.DefaultRequestVersion = HttpVersion.Version20;
     }
 
     #endregion
@@ -130,11 +133,10 @@ public class PixivClient : IDisposable
 
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<PixivResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
-        var response = await _resiliencePipeline.ExecuteAsync<HttpResponseMessage>(
+        var response = await _resiliencePipeline.ExecuteAsync(
             async token =>
                 await _httpClient.PostAsJsonAsync(url, value, PixivJsonSerializerContext.Default.Object, token),
             cancellationToken);
-        response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper?.Error ?? true)
         {
@@ -149,7 +151,6 @@ public class PixivClient : IDisposable
         var response =
             await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.SendAsync(message, token),
                 cancellationToken);
-        response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper?.Error ?? true)
         {
@@ -170,7 +171,12 @@ public class PixivClient : IDisposable
         }
         
         var str = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetStringAsync("/", token));
-        _token = Regex.Match(str, @"""token"":""([^""]+)""").Groups[1].Value;
+        var match = Regex.Match(
+            str,
+            @"token\\?[""']\\?:\\?[""']([^""\\]+)\\?[""']"
+        );
+
+        _token = match.Success ? match.Groups[1].Value : string.Empty;
         if (!string.IsNullOrWhiteSpace(_token))
         {
             _httpClient.DefaultRequestHeaders.Add("x-csrf-token", _token);
@@ -197,9 +203,7 @@ public class PixivClient : IDisposable
     /// <returns>The user UID or 0 if not logged</returns>
     public async Task<int> GetMyUserIdAsync()
     {
-        var url = "/";
-        var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-        response.EnsureSuccessStatusCode();
+        var response = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetAsync("/ajax/top/illust?mode=all", token));
         if (response.Headers.TryGetValues("x-userid", out var idstr))
         {
             var ids = idstr.FirstOrDefault();
@@ -517,7 +521,7 @@ public class PixivClient : IDisposable
 
 
     /// <summary>
-    /// 批量更改收藏插画的公开属性
+    /// This function requires GetTokenAsync to have been called once.
     /// </summary>
     /// <param name="isPrivate">不公开</param>
     /// <param name="bookmarkIds">收藏id</param>
@@ -526,7 +530,10 @@ public class PixivClient : IDisposable
     public async Task ChangeBookmarkIllustVisibilityAsync(bool isPrivate, CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/illusts/bookmarks/edit_restrict";
-        var obj = new { bookmarkIds = bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)), bookmarkRestrict = isPrivate ? "private" : "public" };
+        var obj = new ChangeBookmarkIllustVisibilityRequest(
+            bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)),
+            isPrivate ? "private" : "public"
+        );
         await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
@@ -542,7 +549,9 @@ public class PixivClient : IDisposable
     public async Task AddBookmarkIllustTagsAsync(IEnumerable<long> bookmarkIds, IEnumerable<string> tags, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/illusts/bookmarks/add_tags";
-        var obj = new { bookmarkIds = bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)), tags };
+        var obj = new AddBookmarkIllustTagsRequest( 
+            bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)),
+             tags);
         await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
@@ -556,7 +565,7 @@ public class PixivClient : IDisposable
     public async Task DeleteBookmarkIllustsAsync(CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/illusts/bookmarks/remove";
-        var obj = new { bookmarkIds = bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)) };
+        var obj = new DeleteBookmarkIllustsRequest(bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)));
         await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
@@ -607,20 +616,26 @@ public class PixivClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task DownloadIllustAsync(string illustUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
-        bool copyStarted = false;
-        await _resiliencePipeline.ExecuteAsync(async token =>
+        var retries = 0;
+        var maxRetries = 3;
+        var downloaded = false;
+        while (retries < maxRetries && !downloaded)
         {
-            if (copyStarted)
+            try
             {
-                destinationStream.Seek(0, SeekOrigin.Begin);
+                using var response = await _downloadHttpClient.GetAsync(illustUrl,
+                    HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                await response.Content.CopyToAsync(destinationStream, cancellationToken);
+                downloaded = true;
             }
-
-            copyStarted = true;
-            using var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
-            response.EnsureSuccessStatusCode();
-            await response.Content.CopyToAsync(destinationStream, cancellationToken);
-        }, cancellationToken);
-        
+            catch
+            {
+                await destinationStream.FlushAsync();
+                destinationStream.Seek(0, SeekOrigin.Begin);
+                retries++;
+            }
+        }
     }
 
 
@@ -1262,21 +1277,21 @@ public class PixivClient : IDisposable
     /// <param name="keywords">Search term to use</param>
     /// <param name="orderBy">Ordering of the search</param>
     /// <param name="searchAge">Safe, R18 or all</param>
-    /// <param name="searchType">Kind of search</param>
+    /// <param name="searchTarget">Kind of search</param>
     /// <param name="searchExact">If the tag of the work must exactly match with the provided keyword.
     /// If more than 1 keyword is passed, partial search will be used.</param>
     /// <param name="lang">Language of the search to correctly populate the tag translation property</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<IllustSearchResult> SearchIllustrationsAsync(int page, string[] keywords, SearchOrder orderBy, 
-        SearchAge searchAge = SearchAge.AnyAge, SearchType searchType = SearchType.IllustAndUgoira, 
+        SearchAge searchAge = SearchAge.AnyAge, SearchTarget searchTarget = SearchTarget.IllustAndUgoira, 
         bool searchExact = true, SearchLanguage? lang = null, CancellationToken cancellationToken = default)
     {
         if (keywords.Length == 0)
         {
             throw new ArgumentException("Keywords cannot be empty", nameof(keywords));
         }
-        var queryString = HttpUtility.ParseQueryString(string.Empty);
+        var queryString = HttpUtility.ParseQueryString(String.Empty);
         var keyword = string.Join(" ", keywords);
         if (keywords.Length != 1 || 
             (keywords.Length == 1 && keywords[0].Contains(' '))
@@ -1291,7 +1306,7 @@ public class PixivClient : IDisposable
         queryString["p"] = page.ToString(NumberFormatInfo.InvariantInfo);
         queryString["csw"] = 0.ToString(NumberFormatInfo.InvariantInfo);
         queryString["s_mode"] = searchExact ? "s_tag_full" : "s_tag";
-        queryString["type"] = searchType.ToStringFast(true);
+        queryString["type"] = searchTarget.ToStringFast(true);
         if (lang is not null)
         {
             queryString["lang"] = lang.Value.ToStringFast(true);

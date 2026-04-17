@@ -1,7 +1,9 @@
 using System.Net;
 using System.Text;
 using Scighost.PixivApi;
-using Scighost.PixivApi.Search;
+using Scighost.PixivApi.Clients;
+using Scighost.PixivApi.Models.Search;
+using Scighost.PixivApi.Models.Illust;
 
 namespace PixivApi.Tests;
 

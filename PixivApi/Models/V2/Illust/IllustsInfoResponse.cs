@@ -6,8 +6,9 @@ namespace Scighost.PixivApi.Models.V2.Illust;
 /// 
 /// </summary>
 /// <param name="Illusts"></param>
+/// <param name="NextUrl"></param>
 public record IllustsInfoResponse(
     [property: JsonPropertyName("illusts")]
-    List<IllustInfo> Illusts,
+    List<IllustInfoV2> Illusts,
     [property: JsonPropertyName("next_url")]
     string NextUrl);

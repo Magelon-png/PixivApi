@@ -3,33 +3,34 @@
 namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
-/// Detailed information for illustrations and manga, with some useless fields ignored
+/// 
 /// </summary>
-/// <param name="Id">Illustration/manga id</param>
-/// <param name="Title">Illustration/manga title</param>
-/// <param name="Description">Description, HTML format</param>
-/// <param name="IllustType">Work type, illustration or manga</param>
-/// <param name="CreateDate">Creation date</param>
-/// <param name="UploadDate">Upload date</param>
-/// <param name="XRestrict">Restriction level</param>
-/// <param name="Urls">File addresses of different image sizes for the first page. For more images, call <see cref="PixivClient.GetIllustPagesAsync(int)"/></param>
-/// <param name="Tags">Work tags</param>
-/// <param name="UserId">Author uid</param>
-/// <param name="UserName">Author nickname</param>
-/// <param name="UserAccount">Username of the logged-in account (unclear why this is exposed)</param>
-/// <param name="UserIllusts">IDs of all illustrations by the author</param>
-/// <param name="IsLike">Liked</param>
-/// <param name="Width">Pixel width of the first image</param>
-/// <param name="Height">Pixel height of the first image</param>
-/// <param name="PageCount">Number of images in the work</param>
-/// <param name="BookmarkCount">Bookmark count</param>
-/// <param name="LikeCount">Like count</param>
-/// <param name="CommentCount">Comment count</param>
-/// <param name="ResponseCount">Response count</param>
-/// <param name="ViewCount">View count</param>
-/// <param name="IsOriginal">Is original</param>
-/// <param name="SeriesNavData">Sidebar data for manga reading pages</param>
-/// <param name="BookmarkData">Bookmark information, null if not bookmarked</param>
+/// <param name="Id"></param>
+/// <param name="Title"></param>
+/// <param name="Description"></param>
+/// <param name="IllustType"></param>
+/// <param name="CreateDate"></param>
+/// <param name="UploadDate"></param>
+/// <param name="XRestrict"></param>
+/// <param name="Urls"></param>
+/// <param name="Tags"></param>
+/// <param name="UserId"></param>
+/// <param name="UserName"></param>
+/// <param name="UserAccount"></param>
+/// <param name="UserIllusts"></param>
+/// <param name="IsLike"></param>
+/// <param name="Width"></param>
+/// <param name="Height"></param>
+/// <param name="PageCount"></param>
+/// <param name="BookmarkCount"></param>
+/// <param name="LikeCount"></param>
+/// <param name="CommentCount"></param>
+/// <param name="ResponseCount"></param>
+/// <param name="ViewCount"></param>
+/// <param name="IsOriginal"></param>
+/// <param name="SeriesNavData"></param>
+/// <param name="BookmarkData"></param>
+[JsonSerializable(typeof(IllustInfo), TypeInfoPropertyName = "IllustInfoV1")]
 public record IllustInfo(
     [property: JsonPropertyName("id")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]

@@ -40,7 +40,7 @@ public sealed class FanboxTests
 
         var plans = await _fanboxClient.GetSupportingPlansAsync();
 
-        Assert.AreEqual(1, plans.Length);
+        Assert.HasCount(1, plans);
     }
 
     [TestMethod]
@@ -52,7 +52,7 @@ public sealed class FanboxTests
 
         var creators = await _fanboxClient.GetFollowedCreatorsAsync();
 
-        Assert.AreEqual(1, creators.Length);
+        Assert.HasCount(1, creators);
     }
 
     [DataRow("emorimiku",
@@ -67,7 +67,7 @@ public sealed class FanboxTests
 
         var pages = await _fanboxClient.GetCreatorPostPaginationAsync(creatorId);
 
-        Assert.AreEqual(expectedPageCount, pages.Length);
+        Assert.HasCount(expectedPageCount, pages);
         Assert.IsTrue(pages.Any(p => p == urlToFind));
     }
 
@@ -85,7 +85,7 @@ public sealed class FanboxTests
 
         var postInfoList = await _fanboxClient.GetCreatorPostsFromPaginationAsync(url);
 
-        Assert.AreEqual(expectedPostCount, postInfoList.Length);
+        Assert.HasCount(expectedPostCount, postInfoList);
         var expectedExistingPost = postInfoList.FirstOrDefault(p => p.Id == postIdToFind);
         Assert.IsNotNull(expectedExistingPost);
         Assert.AreEqual(postIdToFind, expectedExistingPost.Id);

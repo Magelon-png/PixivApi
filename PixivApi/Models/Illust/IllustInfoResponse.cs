@@ -6,7 +6,7 @@ namespace Scighost.PixivApi.Models.Illust;
 /// All fields for illustration and manga details
 /// </summary>
 [Obsolete("Not used.")]
-internal record IllustInfoResponse(
+internal sealed record IllustInfoResponse(
     [property: JsonPropertyName("illustId")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     int IllustId,

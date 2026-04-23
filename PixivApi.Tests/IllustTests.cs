@@ -50,7 +50,7 @@ public sealed class IllustTests
 
         var pages = await _pixivClient.GetIllustPagesAsync(illustId);
 
-        Assert.AreEqual(expectedPages, pages.Count);
+        Assert.HasCount(expectedPages, pages);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public sealed class IllustTests
 
         var illustInfo = await _pixivClient.GetAnimateIllustMetaAsync(illustId);
 
-        Assert.AreEqual(frameCount, illustInfo.Frames.Count);
+        Assert.HasCount(frameCount, illustInfo.Frames);
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public sealed class IllustTests
         var mangaSeries = await _pixivClient.GetMangaSeriesAsync(seriesId, page);
 
         Assert.AreEqual(totalChapters, mangaSeries.Total);
-        Assert.AreEqual(receivedChapters, mangaSeries.Illusts.Count);
+        Assert.HasCount(receivedChapters, mangaSeries.Illusts);
         Assert.AreEqual(hasNextPage, mangaSeries.HasNextPage());
     }
 

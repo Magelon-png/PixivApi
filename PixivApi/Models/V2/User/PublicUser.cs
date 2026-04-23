@@ -1,14 +1,16 @@
 ﻿namespace Scighost.PixivApi.Models.V2.User;
 
 /// <summary>
-/// 
+/// Represents a public user profile information.
 /// </summary>
-/// <param name="Id"></param>
-/// <param name="ProfileImageUrls"></param>
-/// <param name="Name"></param>
-/// <param name="Account">Will resolve to the user ID since it is not public information</param>
-/// <param name="IsFollowed"></param>
-/// <param name="Comment">Not null when retrieved from comments</param>
+/// <param name="Id">The unique identifier of the user.</param>
+/// <param name="ProfileImageUrls">The profile image URLs for the user.</param>
+/// <param name="Name">The display name of the user.</param>
+/// <param name="Account">Will resolve to the user ID since it is not public information.</param>
+/// <param name="IsFollowed">Whether the authenticated user is following this user.</param>
+/// <param name="IsAccessBlockingUser">Whether the user is blocking access.</param>
+/// <param name="AcceptRequests">Whether the user accepts requests.</param>
+/// <param name="Comment">Not null when retrieved from comments.</param>
 public record PublicUser(
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]

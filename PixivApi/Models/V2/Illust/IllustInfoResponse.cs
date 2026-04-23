@@ -2,7 +2,11 @@
 
 namespace Scighost.PixivApi.Models.V2.Illust;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Illust"></param>
 public record IllustInfoResponse(
     [property: JsonPropertyName("illust")]
-    IllustInfo Illust
+    IllustInfoV2 Illust
     );

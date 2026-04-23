@@ -55,7 +55,7 @@ public class BookmarkTests
 
         var bookmarks = await _pixivClient.GetUserBookmarkIllustsAsync(userId, offset, limit, isPrivate, tag);
 
-        Assert.AreEqual(limit, bookmarks.Count);
+        Assert.HasCount(limit, bookmarks);
     }
 
     [TestMethod]

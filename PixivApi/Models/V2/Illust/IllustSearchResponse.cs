@@ -2,9 +2,16 @@
 
 namespace Scighost.PixivApi.Models.V2.Illust;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Illusts"></param>
+/// <param name="NextUrl"></param>
+/// <param name="SearchSpanLimit"></param>
+/// <param name="ShowAi"></param>
 public record IllustSearchResponse(
     [property: JsonPropertyName("illusts")]
-    List<IllustInfo> Illusts,
+    List<IllustInfoV2> Illusts,
     [property: JsonPropertyName("next_url")]
     string NextUrl,
     [property: JsonPropertyName("search_span_limit")]

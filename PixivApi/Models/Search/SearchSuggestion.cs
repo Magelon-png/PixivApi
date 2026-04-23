@@ -1,11 +1,11 @@
 ﻿namespace Scighost.PixivApi.Models.Search;
 
-internal record SearchSuggestion(
+internal sealed record SearchSuggestion(
     List<string> MyFavoriteTags
 );
 
 
-internal record SearchRecommendTag(
+internal sealed record SearchRecommendTag(
     string Tag,
     List<string> Ids
 );

@@ -6,7 +6,7 @@ namespace Scighost.PixivApi.Models.Novel;
 /// All fields for novel details
 /// </summary>
 [Obsolete("Not used.")]
-internal record NovelInfoResponse(
+internal sealed record NovelInfoResponse(
     [property: JsonPropertyName("bookmarkCount")]
     int BookmarkCount,
 
@@ -81,10 +81,6 @@ internal record NovelInfoResponse(
 
     [property: JsonPropertyName("pollData")]
     object PollData,
-
-    /// <summary>
-    /// Which page of the article was bookmarked
-    /// </summary>
     [property: JsonPropertyName("marker")]
     int? Marker,
 

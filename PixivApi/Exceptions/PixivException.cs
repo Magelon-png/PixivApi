@@ -5,11 +5,7 @@
 /// </summary>
 public class PixivException : Exception
 {
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="message"></param>
+    /// <inheritdoc />
     public PixivException(string? message, Exception? innerException = null) : base(message, innerException) { }
 
 }

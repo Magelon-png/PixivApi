@@ -1,6 +1,6 @@
 ﻿namespace Scighost.PixivApi.Models.Novel;
 
-internal record BookmarkNovelWrapper(
+internal sealed record BookmarkNovelWrapper(
     [property: JsonPropertyName("total")]
     int Total,
 

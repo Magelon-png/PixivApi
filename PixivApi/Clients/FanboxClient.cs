@@ -51,12 +51,15 @@ public class FanboxClient : IDisposable
     /// Internal HttpClient instance
     /// </summary>
     public HttpClient HttpClient => _httpClient;
-    
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="cookie"></param>
     /// <param name="clientHandler"></param>
+    /// <param name="userAgent"></param>
+    /// <param name="enableCurlImpersonate"></param>
+    /// <param name="curlImpersonatePath"></param>
     /// <exception cref="PixivException"></exception>
     public FanboxClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
     {

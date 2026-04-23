@@ -222,9 +222,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Retrives information for the specified user
     /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="userId">The ID of the user</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserInfo"/> object containing the user's information</returns>
     public async Task<UserInfo> GetUserInfoAsync(int userId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}?full=1";
@@ -234,7 +234,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Get the top works for the specified user
     /// </summary>
-    /// <returns></returns>
+    /// <param name="userId">The ID of the user</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserTopWorks"/> object containing the user's top works</returns>
     public async Task<UserTopWorks> GetUserTopWorksAsync(int userId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/profile/top";
@@ -244,9 +246,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Get all works for the specified user
     /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>The all ids for illustrations, mangas, ...</returns>
+    /// <param name="userId">The ID of the user</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserAllWorks"/> object containing the all ids for illustrations, mangas, etc.</returns>
     public async Task<UserAllWorks> GetUserAllWorksAsync(int userId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/profile/all";
@@ -263,9 +265,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Illustration details
     /// </summary>
-    /// <param name="illustId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="illustId">The ID of the illustration</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="IllustInfo"/> object containing the illustration details</returns>
     public async Task<IllustInfo> GetIllustInfoAsync(int illustId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/illust/{illustId}";
@@ -273,11 +275,11 @@ public class PixivClient : IDisposable
     }
 
     /// <summary> Get the information for the provided illustration ids</summary>
-    /// <param name="userId"></param>
-    /// <param name="illustIds"></param>
-    /// <param name="useEnglish"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="userId">The ID of the user</param>
+    /// <param name="illustIds">The collection of illustration IDs</param>
+    /// <param name="useEnglish">Whether to use English for the tags and other metadata</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="IllustWorks"/> object containing the illustration information</returns>
     public async Task<IllustWorks> GetUserIllustsAsync(int userId, ICollection<int> illustIds, bool useEnglish = false, CancellationToken cancellationToken = default)
     {
         if (illustIds.Count > 24)
@@ -311,9 +313,9 @@ public class PixivClient : IDisposable
     /// <param name="tag">Tag to filter by</param>
     /// <param name="page">Page to search. Starts at 1</param>
     /// <param name="limit">Number of items to retrieve. Recommended to keep at default unless the API changes</param>
-    /// <param name="lang"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="lang">Search language</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserIllustsByTag"/> object containing the filtered illustrations</returns>
     public async Task<UserIllustsByTag> GetUserIllustsByTagAsync(int userId, string tag, uint page, uint limit = 48, SearchLanguage? lang = null, CancellationToken cancellationToken = default)
     {
         if (page == 0)
@@ -336,9 +338,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// All images in the illustration (requires login)
     /// </summary>
-    /// <param name="illustId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="illustId">The ID of the illustration</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="IllustImage"/> objects representing the pages of the illustration</returns>
     public async Task<List<IllustImage>> GetIllustPagesAsync(int illustId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/illust/{illustId}/pages";
@@ -348,9 +350,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Ugoira/Animation data (login required)
     /// </summary>
-    /// <param name="illustId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="illustId">The ID of the illustration</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="AnimateIllustMeta"/> object containing the animation data</returns>
     public async Task<AnimateIllustMeta> GetAnimateIllustMetaAsync(int illustId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/illust/{illustId}/ugoira_meta";
@@ -368,8 +370,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="seriesId">Manga series id</param>
     /// <param name="page">Page number, reverse order, 12 items per page</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="MangaSeries"/> object containing the manga series information</returns>
     public async Task<MangaSeries> GetMangaSeriesAsync(int seriesId, int page = 1, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/series/{seriesId}?p={page}";
@@ -397,8 +399,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="mangaSeriesId">Novel series id</param>
     /// <param name="unWatch">Unfollow</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task WatchMangaSeriesAsync(int mangaSeriesId, bool unWatch = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/illust/series/{mangaSeriesId}/{(unWatch ? "unwatch" : "watch")}";
@@ -411,8 +413,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="mangaSeriesId">Novel series id</param>
     /// <param name="enable">Enable or disable notifications</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task ChangeMangaSeriesWatchListNotification(int mangaSeriesId, bool enable = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/illust/series/{mangaSeriesId}/watchlist/notification/{(enable ? "turn_on" : "turn_off")}";
@@ -428,6 +430,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/top/illust?mode=all";
         // todo
+        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -439,15 +442,16 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/top/manga?mode=all";
         // todo
+        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
     /// <summary>
     /// Like an illustration (cannot be undone)
     /// </summary>
-    /// <param name="illustId"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="illustId">The ID of the illustration</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task LikeIllustAsync(int illustId, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/illusts/like";
@@ -462,6 +466,7 @@ public class PixivClient : IDisposable
     /// <param name="illustId">Illustration id</param>
     /// <param name="isPrivate">Private</param>
     /// <param name="comment">Additional comment when bookmarking</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="tags">Tags added when bookmarking, use untranslated original tags, maximum 10</param>
     /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkIllustAsync(int illustId, bool isPrivate = false, string comment = "",  CancellationToken cancellationToken = default, params string[] tags)
@@ -481,6 +486,7 @@ public class PixivClient : IDisposable
     /// Bookmark an illustration, returns bookmark id
     /// </summary>
     /// <param name="request">Bookmark request</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkIllustAsync(AddBookmarkIllustRequest request, CancellationToken cancellationToken = default)
     {
@@ -502,8 +508,8 @@ public class PixivClient : IDisposable
     /// Delete a bookmarked illustration
     /// </summary>
     /// <param name="bookmarkId">Bookmark id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task DeleteBookmarkIllustAsync(int bookmarkId, CancellationToken cancellationToken = default)
     {
         const string url = "/rpc/index.php";
@@ -526,9 +532,9 @@ public class PixivClient : IDisposable
     /// This function requires GetTokenAsync to have been called once.
     /// </summary>
     /// <param name="isPrivate">Private</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="bookmarkIds">Bookmark ids</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task ChangeBookmarkIllustVisibilityAsync(bool isPrivate, CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/illusts/bookmarks/edit_restrict";
@@ -546,8 +552,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="bookmarkIds">Bookmark ids</param>
     /// <param name="tags">Custom tags, maximum 10 tags per illustration after adding</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task AddBookmarkIllustTagsAsync(IEnumerable<long> bookmarkIds, IEnumerable<string> tags, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/illusts/bookmarks/add_tags";
@@ -562,8 +568,8 @@ public class PixivClient : IDisposable
     /// Batch delete bookmarked illustrations
     /// </summary>
     /// <param name="bookmarkIds">Bookmark ids</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task DeleteBookmarkIllustsAsync(CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/illusts/bookmarks/remove";
@@ -577,7 +583,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="illustId">Illustration id</param>
     /// <param name="batchSize">Number of items per batch</param>
-    /// <returns>May be null</returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>An asynchronous enumerable of illustration batches</returns>
     public async IAsyncEnumerable<IEnumerable<IllustProfile>> GetRecommendIllustsAsync(int illustId, int batchSize = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var initUrl = $"/ajax/illust/{illustId}/recommend/init?limit={batchSize}";
@@ -592,11 +599,11 @@ public class PixivClient : IDisposable
     }
 
     /// <summary>
-    /// 
+    /// Downloads an illustration as a stream.
     /// </summary>
-    /// <param name="illustUrl"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="illustUrl">The URL of the illustration to download</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="Stream"/> containing the illustration data</returns>
     public async Task<Stream> DownloadIllustAsync(string illustUrl, CancellationToken cancellationToken = default)
     {
         return await _resiliencePipeline.ExecuteAsync(async token =>
@@ -610,11 +617,12 @@ public class PixivClient : IDisposable
     }
     
     /// <summary>
-    /// 
+    /// Downloads an illustration and copies it to the provided destination stream.
     /// </summary>
-    /// <param name="illustUrl"></param>
-    /// <param name="destinationStream"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="illustUrl">The URL of the illustration to download</param>
+    /// <param name="destinationStream">The stream to which the illustration data will be copied</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task DownloadIllustAsync(string illustUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
         var retries = 0;
@@ -632,7 +640,7 @@ public class PixivClient : IDisposable
             }
             catch
             {
-                await destinationStream.FlushAsync();
+                await destinationStream.FlushAsync(cancellationToken);
                 destinationStream.Seek(0, SeekOrigin.Begin);
                 retries++;
             }
@@ -651,8 +659,8 @@ public class PixivClient : IDisposable
     /// Novel details (including content)
     /// </summary>
     /// <param name="novelId">Novel id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="NovelInfo"/> object containing the novel details</returns>
     public async Task<NovelInfo> GetNovelInfoAsync(int novelId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/{novelId}";
@@ -663,8 +671,8 @@ public class PixivClient : IDisposable
     /// Novel series (no chapter information)
     /// </summary>
     /// <param name="novelSeriesId">Novel series id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="NovelSeries"/> object containing the novel series information</returns>
     public async Task<NovelSeries> GetNovelSeriesAsync(int novelSeriesId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series/{novelSeriesId}";
@@ -677,8 +685,8 @@ public class PixivClient : IDisposable
     /// <param name="novelSeriesId">Novel series id</param>
     /// <param name="offset">Chapter offset, in positive chapter order</param>
     /// <param name="limit">Chapter count limit</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="NovelSeriesChapter"/> objects</returns>
     public async Task<List<NovelSeriesChapter>> GetNovelSeriesChaptersAsync(int novelSeriesId, int offset, int limit = 30, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series_content/{novelSeriesId}?limit={limit}&last_order={offset}&order_by=asc";
@@ -692,8 +700,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="novelSeriesId">Novel series id</param>
     /// <param name="unWatch">Unfollow</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task WatchNovelSeriesAsync(int novelSeriesId, bool unWatch = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series/{novelSeriesId}/{(unWatch ? "unwatch" : "watch")}";
@@ -706,8 +714,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="novelSeriesId">Novel series id</param>
     /// <param name="enable">Enable or disable notifications</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task ChangeNovelSeriesWatchListNotification(int novelSeriesId, bool enable = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series/{novelSeriesId}/watchlist/notification/{(enable ? "turn_on" : "turn_off")}";
@@ -724,6 +732,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/top/novel?mode=all";
         // todo
+        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -731,8 +740,8 @@ public class PixivClient : IDisposable
     /// Like a novel (cannot be undone)
     /// </summary>
     /// <param name="novelId">Novel id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task LikeNovelAsync(int novelId, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/novels/like";
@@ -747,8 +756,8 @@ public class PixivClient : IDisposable
     /// <param name="myUserId">My uid</param>
     /// <param name="novelId">Novel id</param>
     /// <param name="page">Page number, marker if > 0, delete marker if = 0</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task MarkerNovelPageAsync(int myUserId, int novelId, int page, CancellationToken cancellationToken = default)
     {
         const string url = "/novel/rpc_marker.php";
@@ -775,6 +784,7 @@ public class PixivClient : IDisposable
     /// <param name="novelId">Novel id</param>
     /// <param name="isPrivate">Private</param>
     /// <param name="comment">Additional comment when bookmarking</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="tags">Tags added when bookmarking, maximum 10 (novel tags have no translations)</param>
     /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkNovelAsync(int novelId, bool isPrivate = false, string comment = "", CancellationToken cancellationToken = default, params string[] tags)
@@ -794,6 +804,7 @@ public class PixivClient : IDisposable
     /// Bookmark a novel, returns bookmark id
     /// </summary>
     /// <param name="request">Bookmark request</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>Bookmark id</returns>
     public async Task<long> AddBookmarkNovelAsync(AddBookmarkNovelRequest request, CancellationToken cancellationToken = default)
     {
@@ -808,8 +819,8 @@ public class PixivClient : IDisposable
     /// Delete a bookmarked novel
     /// </summary>
     /// <param name="bookmarkId">Novel id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task DeleteBookmarkNovelAsync(int bookmarkId, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/novels/bookmarks/delete";
@@ -832,9 +843,9 @@ public class PixivClient : IDisposable
     /// Batch change public visibility of bookmarked novels
     /// </summary>
     /// <param name="isPrivate">Private</param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="bookmarkIds">Bookmark ids</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task ChangeBookmarkNovelVisibilityAsync(bool isPrivate, CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/novels/bookmarks/edit_restrict";
@@ -848,8 +859,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="bookmarkIds">Novel id</param>
     /// <param name="tags">Custom tags, maximum 10 tags per novel after adding</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task AddBookmarkNovelTagsAsync(IEnumerable<long> bookmarkIds, IEnumerable<string> tags, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/novels/bookmarks/add_tags";
@@ -861,9 +872,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Delete bookmarked novels
     /// </summary>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="bookmarkIds">Novel id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task DeleteBookmarkNovelsAsync(CancellationToken cancellationToken = default, params long[] bookmarkIds)
     {
         const string url = "/ajax/novels/bookmarks/remove";
@@ -877,7 +888,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="novelId">Novel id</param>
     /// <param name="batchSize">Number of items per batch</param>
-    /// <returns>May be null</returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>An asynchronous enumerable of novel batches</returns>
     public async IAsyncEnumerable<IEnumerable<NovelProfile>> GetRecommendNovelsAsync(int novelId, int batchSize = 10, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var initUrl = $"/ajax/novel/{novelId}/recommend/init?limit={batchSize}";
@@ -905,8 +917,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="userId">User uid</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The total number of bookmarked illustrations</returns>
     public async Task<int> GetUserBookmarkIllustCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/illusts/bookmarks?tag=&offset=0&limit=1&rest={(isPrivate ? "hide" : "show")}";
@@ -924,8 +936,8 @@ public class PixivClient : IDisposable
     /// <param name="limit">Number of items to return, may be less than this number</param>
     /// <param name="isPrivate">Private</param>
     /// <param name="tag">Filter tag</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="IllustProfile"/> objects</returns>
     public async Task<List<IllustProfile>> GetUserBookmarkIllustsAsync(int userId, int offset, int limit = 48, bool isPrivate = false, string? tag = null, CancellationToken cancellationToken = default)
     {
         limit = Math.Clamp(limit, 1, 100);
@@ -943,9 +955,9 @@ public class PixivClient : IDisposable
     /// All custom tags of bookmarked illustrations, including public and private. If there are too many tags, they may not all be returned.
     /// </summary>
     /// <param name="userId">User id</param>
-    /// <param name="returnEnglish"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="returnEnglish">Whether to return English tags</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserBookmarkTag"/> object containing the tags</returns>
     public async Task<UserBookmarkTag> GetUserBookmarkIllustTagsAsync(int userId, bool returnEnglish = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/illusts/bookmark/tags{(returnEnglish ? "?lang=en" : string.Empty)}";
@@ -958,8 +970,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="userId">User uid</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The total number of bookmarked novels</returns>
     public async Task<int> GetUserBookmarkNovelCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/novels/bookmarks?tag=&offset=0&limit=1&rest={(isPrivate ? "hide" : "show")}";
@@ -976,8 +988,8 @@ public class PixivClient : IDisposable
     /// <param name="limit">Number of items to return, may be less than this number</param>
     /// <param name="isPrivate">Private</param>
     /// <param name="tag">Filter tag</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="NovelProfile"/> objects</returns>
     public async Task<List<NovelProfile>> GetUserBookmarkNovelsAsync(int userId, int offset, int limit = 24, string? tag = null, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         limit = Math.Clamp(limit, 1, 100);
@@ -995,8 +1007,8 @@ public class PixivClient : IDisposable
     /// All custom tags of bookmarked novels, including public and private. If there are too many tags, they may not all be returned.
     /// </summary>
     /// <param name="userId">User id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserBookmarkTag"/> object containing the tags</returns>
     public async Task<UserBookmarkTag> GetUserBookmarkNovelTagsAsync(int userId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/novels/bookmark/tags";
@@ -1016,8 +1028,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="userId">User uid</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>The total number of followed users</returns>
     public async Task<int> GetFollowingUserCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/following?offset=0&limit=1&rest={(isPrivate ? "hide" : "show")}";
@@ -1034,8 +1046,8 @@ public class PixivClient : IDisposable
     /// <param name="offset">Offset</param>
     /// <param name="limit">Number of items to return</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="FollowingUser"/> objects</returns>
     public async Task<List<FollowingUser>> GetFollowingUsersAsync(int userId, int offset, int limit = 100, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         limit = Math.Clamp(limit, 0, 100);
@@ -1049,8 +1061,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="page">Page number, max 35. Content after page 35 is same as page 35</param>
     /// <param name="onlyR18">Only show R18 works</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="IllustProfile"/> objects</returns>
     public async Task<List<IllustProfile>> GetFollowingUserLatestIllustsAsync(int page, bool onlyR18 = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/follow_latest/illust?p={page}&mode={(onlyR18 ? "r18" : "all")}";
@@ -1063,8 +1075,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="page">Page number, max 35. Content after page 35 is same as page 35</param>
     /// <param name="onlyR18">Only show R18 works</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="NovelProfile"/> objects</returns>
     public async Task<List<NovelProfile>> GetFollowingUserLatestNovelsAsync(int page, bool onlyR18 = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/follow_latest/novel?p={page}&mode={(onlyR18 ? "r18" : "all")}";
@@ -1078,8 +1090,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="userId">User id</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task AddFollowingUserAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         const string url = "/bookmark_add.php";
@@ -1106,8 +1118,8 @@ public class PixivClient : IDisposable
     /// Delete follow user
     /// </summary>
     /// <param name="userId">User id</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task DeleteFollowingUserAsync(int userId, CancellationToken cancellationToken = default)
     {
         const string url = "/rpc_group_setting.php";
@@ -1132,8 +1144,8 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="userId">User id</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task ChangeFollowingUserVisibilityAsync(int userId, bool isPrivate, CancellationToken cancellationToken = default)
     {
         const string url = "/rpc/index.php";
@@ -1160,8 +1172,8 @@ public class PixivClient : IDisposable
     /// <param name="userNumber">Number of recommended users</param>
     /// <param name="workNumber">Number of works to show for each user</param>
     /// <param name="allowR18">Allow showing R18 works (uncertain)</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="RecommendUser"/> objects</returns>
     public async Task<List<RecommendUser>> GetRecommendAfterFollowingUserAsync(int userId, int userNumber = 20, int workNumber = 3, bool allowR18 = true, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/recommends?userNum={userNumber}&workNum={workNumber}&isR18={allowR18}";
@@ -1224,6 +1236,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/search/suggestion?mode=all";
         // todo
+        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -1231,8 +1244,8 @@ public class PixivClient : IDisposable
     /// Change favorite tags
     /// </summary>
     /// <param name="tags">All tags</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
     public async Task ChangeFavoriteTags(IEnumerable<string> tags, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/favorite_tags/save";
@@ -1244,9 +1257,9 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Search candidates
     /// </summary>
-    /// <param name="keyword"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="keyword">The keyword to search for</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A list of <see cref="SearchCandidate"/> objects</returns>
     public async Task<List<SearchCandidate>> GetSearchCandidatesAsync(string keyword, CancellationToken cancellationToken = default)
     {
         var url = $"/rpc/cps.php?keyword={keyword}";
@@ -1255,7 +1268,7 @@ public class PixivClient : IDisposable
         {
             var list = array.Deserialize<List<SearchCandidate>>(PixivJsonSerializerContext.Default.ListSearchCandidate);
             bool? any = false;
-            foreach (var candidate in list)
+            foreach (var candidate in list ?? [])
             {
                 any = true;
                 break;
@@ -1263,7 +1276,7 @@ public class PixivClient : IDisposable
 
             if (any ?? false)
             {
-                return list;
+                return list ?? [];
             }
         }
         return new List<SearchCandidate>();
@@ -1283,8 +1296,8 @@ public class PixivClient : IDisposable
     /// <param name="searchExact">If the tag of the work must exactly match with the provided keyword.
     /// If more than 1 keyword is passed, partial search will be used.</param>
     /// <param name="lang">Language of the search to correctly populate the tag translation property</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="IllustSearchResult"/> object containing the search results</returns>
     public async Task<IllustSearchResult> SearchIllustrationsAsync(int page, string[] keywords, SearchOrder orderBy, 
         SearchAge searchAge = SearchAge.AnyAge, SearchTarget searchTarget = SearchTarget.IllustAndUgoira, 
         bool searchExact = true, SearchLanguage? lang = null, CancellationToken cancellationToken = default)
@@ -1327,7 +1340,7 @@ public class PixivClient : IDisposable
     #endregion
 
     /// <summary>
-    /// 
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     public void Dispose()
     {

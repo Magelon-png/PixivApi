@@ -119,7 +119,7 @@ public record NovelSeries(
 );
 
 
-internal class NovelSeriesCoverJsonConverter : JsonConverter<NovelImageUrls>
+internal sealed class NovelSeriesCoverJsonConverter : JsonConverter<NovelImageUrls>
 {
     public override NovelImageUrls? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -137,7 +137,7 @@ internal class NovelSeriesCoverJsonConverter : JsonConverter<NovelImageUrls>
     /// Cover image wrapper
     /// </summary>
     /// <param name="Urls">Covers of different sizes</param>
-    public record NovelSeriesCoverUrlsWrapper(
+    public sealed record NovelSeriesCoverUrlsWrapper(
         [property: JsonPropertyName("urls")]
         NovelImageUrls Urls
     );

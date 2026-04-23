@@ -6,6 +6,8 @@ namespace Scighost.PixivApi.Models.Fanbox;
 /// <param name="Text"></param>
 /// <param name="Images">The images in the post. Can sometimes be replaced by ImageMap</param>
 /// <param name="ImageMap">If the post contains images seperated by text, this property will be populated instead of Images</param>
+/// <param name="FileMap"></param>
+/// /// <param name="Blocks"></param>
 /// <param name="Files">If the post has files attached (ie: a zip), you will retrieve these in this property</param>
 public record PostContent(
     [property: JsonPropertyName("text")]

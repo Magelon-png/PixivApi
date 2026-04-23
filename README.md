@@ -5,7 +5,6 @@
 
 Expected breaking changes for V2:
 
-- Changing multiple classes to use `uint` instead of `int` for properties that do not go into the negative and are at risk of overflowing (ie: illustration Ids)
 - Various changes in namespaces
 
 During the 0.x version period, the availability and stability of the API are not guaranteed, and method signatures may change at any time.

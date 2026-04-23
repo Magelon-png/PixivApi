@@ -3,7 +3,7 @@
 namespace Scighost.PixivApi.Models.Common;
 
 
-internal class DictionaryKeyToListJsonConverter<T> : JsonConverter<List<T>> where T : notnull
+internal sealed class DictionaryKeyToListJsonConverter<T> : JsonConverter<List<T>> where T : notnull
 {
     public override List<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -25,7 +25,7 @@ internal class DictionaryKeyToListJsonConverter<T> : JsonConverter<List<T>> wher
 }
 
 
-internal class DictionaryValueToListJsonConverter<TKey, TValue> : JsonConverter<List<TValue>> where TKey : notnull
+internal sealed class DictionaryValueToListJsonConverter<TKey, TValue> : JsonConverter<List<TValue>> where TKey : notnull
 {
     public override List<TValue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -47,7 +47,7 @@ internal class DictionaryValueToListJsonConverter<TKey, TValue> : JsonConverter<
 }
 
 
-internal class BoolToNumberJsonConverter : JsonConverter<bool>
+internal sealed class BoolToNumberJsonConverter : JsonConverter<bool>
 {
     public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

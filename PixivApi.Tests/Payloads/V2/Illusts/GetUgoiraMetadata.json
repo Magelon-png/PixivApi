@@ -1,0 +1,20 @@
+{
+  "ugoira_metadata": {
+    "frames": [
+      {
+        "delay": 100,
+        "file": "frame1.jpg"
+      },
+      {
+        "delay": 200,
+        "file": "frame2.jpg"
+      }
+    ],
+    "zip_urls": {
+      "original": "https://example.com/ugoira.zip",
+      "large": "https://example.com/ugoira_large.zip",
+      "medium": "https://example.com/ugoira_medium.zip",
+      "small": "https://example.com/ugoira_small.zip"
+    }
+  }
+}

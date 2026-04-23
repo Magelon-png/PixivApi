@@ -1,0 +1,48 @@
+{
+  "next_url": null,
+  "novels": [
+    {
+      "id": 3030,
+      "user": {
+        "account": "ranking_novel_artist",
+        "id": 3131,
+        "is_followed": true,
+        "name": "Ranking Novel Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/ranking_novel_profile.jpg",
+          "large": "https://example.com/ranking_novel_profile_large.jpg",
+          "medium": "https://example.com/ranking_novel_profile_medium.jpg",
+          "small": "https://example.com/ranking_novel_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Ranking Novel",
+      "caption": "Top ranked novel",
+      "create_date": "2024-05-01T00:00:00+00:00",
+      "text_length": 10000,
+      "total_bookmarks": 500,
+      "total_comments": 40,
+      "total_view": 10000,
+      "tags": [
+        {
+          "name": "ranking_novel",
+          "count": 200,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/ranking_novel.jpg",
+        "large": "https://example.com/ranking_novel_large.jpg",
+        "medium": "https://example.com/ranking_novel_medium.jpg",
+        "small": "https://example.com/ranking_novel_small.jpg"
+      },
+      "series": {
+        "id": 5,
+        "title": "Ranking Series"
+      },
+      "page_count": 10,
+      "restrict": 0
+    }
+  ]
+}

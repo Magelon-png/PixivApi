@@ -1,0 +1,12 @@
+{
+  "application_info": {
+    "notice_exists": true,
+    "notice_id": "123",
+    "notice_important": false,
+    "notice_message": "Update available",
+    "store_url": "https://play.google.com/store/apps/details?id=com.pixiv.app",
+    "update_available": true,
+    "update_message": "New version released",
+    "update_required": false
+  }
+}

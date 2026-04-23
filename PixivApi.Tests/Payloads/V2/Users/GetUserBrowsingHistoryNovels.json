@@ -1,0 +1,45 @@
+{
+  "next_url": null,
+  "novels": [
+    {
+      "id": 3636,
+      "user": {
+        "account": "browsing_novel_artist",
+        "id": 3737,
+        "is_followed": false,
+        "name": "Browsing Novel Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/browsing_novel_profile.jpg",
+          "large": "https://example.com/browsing_novel_profile_large.jpg",
+          "medium": "https://example.com/browsing_novel_profile_medium.jpg",
+          "small": "https://example.com/browsing_novel_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Browsing Novel",
+      "caption": "From browsing history",
+      "create_date": "2024-08-01T00:00:00+00:00",
+      "text_length": 2500,
+      "total_bookmarks": 30,
+      "total_comments": 3,
+      "total_view": 600,
+      "tags": [
+        {
+          "name": "browsing_novel",
+          "count": 6,
+          "is_registered": false
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/browsing_novel.jpg",
+        "large": "https://example.com/browsing_novel_large.jpg",
+        "medium": "https://example.com/browsing_novel_medium.jpg",
+        "small": "https://example.com/browsing_novel_small.jpg"
+      },
+      "series": null,
+      "page_count": 2,
+      "restrict": 0
+    }
+  ]
+}

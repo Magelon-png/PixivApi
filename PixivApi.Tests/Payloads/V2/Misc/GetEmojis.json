@@ -1,0 +1,15 @@
+
+{
+  "emoji_definitions": [
+    {
+      "image_url_medium": "https://example.com/emoji_medium.jpg",
+      "image_urls": {
+        "original": "https://example.com/emoji.jpg",
+        "large": "https://example.com/emoji_large.jpg",
+        "medium": "https://example.com/emoji_medium.jpg",
+        "small": "https://example.com/emoji_small.jpg"
+      },
+      "slug": "smile"
+    }
+  ]
+}

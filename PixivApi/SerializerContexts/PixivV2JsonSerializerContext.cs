@@ -1,4 +1,5 @@
 ﻿using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Novel;
 using Scighost.PixivApi.Models.V2.Common;
 using Scighost.PixivApi.Models.V2.Illust;
 using Scighost.PixivApi.Models.V2.Novel;
@@ -26,6 +27,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(UserBookmarkTagsResponse))]
 [JsonSerializable(typeof(TrendingTagsResponse))]
 [JsonSerializable(typeof(WalkthroughResponse))]
+[JsonSerializable(typeof(List<TagV2>))]
 internal sealed partial class PixivV2JsonSerializerContext : JsonSerializerContext
 {
 }

@@ -1,0 +1,23 @@
+{
+  "comments": [
+    {
+      "comment": "Nice artwork!",
+      "date": "2023-01-01T12:00:00+00:00",
+      "id": 12345,
+      "user": {
+        "account": "commenter",
+        "id": 999,
+        "is_followed": false,
+        "name": "Commenter User",
+        "profile_image_urls": {
+          "original": "https://example.com/profile.jpg",
+          "large": "https://example.com/profile_large.jpg",
+          "medium": "https://example.com/profile_medium.jpg",
+          "small": "https://example.com/profile_small.jpg"
+        }
+      }
+    }
+  ],
+  "next_url": null,
+  "total_comments": 1
+}

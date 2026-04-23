@@ -1,0 +1,52 @@
+{
+  "illusts": [
+    {
+      "id": 789,
+      "user": {
+        "account": "artist",
+        "id": 456,
+        "is_followed": true,
+        "name": "Artist Name",
+        "profile_image_urls": {
+          "original": "https://example.com/artist_profile.jpg",
+          "large": "https://example.com/artist_profile_large.jpg",
+          "medium": "https://example.com/artist_profile_medium.jpg",
+          "small": "https://example.com/artist_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Ranking Art",
+      "caption": "Top ranked illustration",
+      "create_date": "2023-02-01T00:00:00+00:00",
+      "width": 1000,
+      "height": 800,
+      "tools": ["Digital"],
+      "total_bookmarks": 500,
+      "total_comments": 20,
+      "total_view": 10000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "ranking",
+          "count": 100,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/ranking.jpg",
+        "large": "https://example.com/ranking_large.jpg",
+        "medium": "https://example.com/ranking_medium.jpg",
+        "small": "https://example.com/ranking_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/ranking_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null
+}

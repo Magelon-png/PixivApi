@@ -1,0 +1,23 @@
+{
+  "comments": [
+    {
+      "comment": "Great novel!",
+      "date": "2024-04-01T12:00:00+00:00",
+      "id": 2828,
+      "user": {
+        "account": "novel_commenter",
+        "id": 2929,
+        "is_followed": false,
+        "name": "Novel Commenter",
+        "profile_image_urls": {
+          "original": "https://example.com/novel_comment_profile.jpg",
+          "large": "https://example.com/novel_comment_profile_large.jpg",
+          "medium": "https://example.com/novel_comment_profile_medium.jpg",
+          "small": "https://example.com/novel_comment_profile_small.jpg"
+        }
+      }
+    }
+  ],
+  "next_url": null,
+  "total_comments": 1
+}

@@ -1,0 +1,52 @@
+{
+  "illusts": [
+    {
+      "id": 1010,
+      "user": {
+        "account": "popular_artist",
+        "id": 1111,
+        "is_followed": true,
+        "name": "Popular Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/popular_profile.jpg",
+          "large": "https://example.com/popular_profile_large.jpg",
+          "medium": "https://example.com/popular_profile_medium.jpg",
+          "small": "https://example.com/popular_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": true,
+      "title": "Popular Art",
+      "caption": "Very popular illustration",
+      "create_date": "2023-07-01T00:00:00+00:00",
+      "width": 1300,
+      "height": 1000,
+      "tools": ["Popular Tool"],
+      "total_bookmarks": 1000,
+      "total_comments": 50,
+      "total_view": 20000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "popular",
+          "count": 200,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/popular.jpg",
+        "large": "https://example.com/popular_large.jpg",
+        "medium": "https://example.com/popular_medium.jpg",
+        "small": "https://example.com/popular_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/popular_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null
+}

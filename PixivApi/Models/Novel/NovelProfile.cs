@@ -1,4 +1,5 @@
 ﻿using Scighost.PixivApi.Models.Common;
+using System.Text.Json.Serialization;
 
 namespace Scighost.PixivApi.Models.Novel;
 
@@ -36,6 +37,7 @@ public record NovelProfile(
     string Url,
 
     [property: JsonPropertyName("tags")]
+    [property: JsonConverter(typeof(NovelTagsJsonConverter))]
     List<string> Tags,
 
     [property: JsonPropertyName("userId")]
@@ -73,4 +75,3 @@ public record NovelProfile(
     [property: JsonPropertyName("profileImageUrl")]
     string? UserProfileImageUrl
 );
-

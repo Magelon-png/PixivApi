@@ -1,0 +1,13 @@
+{
+  "bookmark_detail": {
+    "is_bookmarked": true,
+    "restrict": "public",
+    "tags": [
+      {
+        "name": "illust_bookmark",
+        "count": 10,
+        "is_registered": true
+      }
+    ]
+  }
+}

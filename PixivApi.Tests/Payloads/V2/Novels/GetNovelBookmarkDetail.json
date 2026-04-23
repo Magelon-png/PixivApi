@@ -1,0 +1,13 @@
+{
+  "bookmark_detail": {
+    "is_bookmarked": true,
+    "restrict": "public",
+    "tags": [
+      {
+        "name": "novel_bookmark",
+        "count": 15,
+        "is_registered": true
+      }
+    ]
+  }
+}

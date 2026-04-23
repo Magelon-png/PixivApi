@@ -1,0 +1,48 @@
+{
+  "next_url": null,
+  "novels": [
+    {
+      "id": 2020,
+      "user": {
+        "account": "novel_artist",
+        "id": 2121,
+        "is_followed": true,
+        "name": "Novel Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/novel_profile.jpg",
+          "large": "https://example.com/novel_profile_large.jpg",
+          "medium": "https://example.com/novel_profile_medium.jpg",
+          "small": "https://example.com/novel_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Follow Novel",
+      "caption": "Novel from followed user",
+      "create_date": "2023-12-01T00:00:00+00:00",
+      "text_length": 5000,
+      "total_bookmarks": 100,
+      "total_comments": 10,
+      "total_view": 2000,
+      "tags": [
+        {
+          "name": "novel_tag",
+          "count": 50,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/novel.jpg",
+        "large": "https://example.com/novel_large.jpg",
+        "medium": "https://example.com/novel_medium.jpg",
+        "small": "https://example.com/novel_small.jpg"
+      },
+      "series": {
+        "id": 2,
+        "title": "Follow Series"
+      },
+      "page_count": 5,
+      "restrict": 0
+    }
+  ]
+}

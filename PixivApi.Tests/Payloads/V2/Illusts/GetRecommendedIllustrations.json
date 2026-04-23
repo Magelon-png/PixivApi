@@ -1,0 +1,113 @@
+{
+  "home_ranking_illusts": [
+    {
+      "id": 1212,
+      "user": {
+        "account": "ranking_artist",
+        "id": 1313,
+        "is_followed": false,
+        "name": "Ranking Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/ranking_profile.jpg",
+          "large": "https://example.com/ranking_profile_large.jpg",
+          "medium": "https://example.com/ranking_profile_medium.jpg",
+          "small": "https://example.com/ranking_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Home Ranking Art",
+      "caption": "Home ranking illustration",
+      "create_date": "2023-08-01T00:00:00+00:00",
+      "width": 1400,
+      "height": 1100,
+      "tools": ["Ranking Tool"],
+      "total_bookmarks": 800,
+      "total_comments": 40,
+      "total_view": 15000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "home_ranking",
+          "count": 150,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/home_ranking.jpg",
+        "large": "https://example.com/home_ranking_large.jpg",
+        "medium": "https://example.com/home_ranking_medium.jpg",
+        "small": "https://example.com/home_ranking_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/home_ranking_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "illusts": [
+    {
+      "id": 1414,
+      "user": {
+        "account": "recommended_artist",
+        "id": 1515,
+        "is_followed": true,
+        "name": "Recommended Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/recommended_profile.jpg",
+          "large": "https://example.com/recommended_profile_large.jpg",
+          "medium": "https://example.com/recommended_profile_medium.jpg",
+          "small": "https://example.com/recommended_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Recommended Art",
+      "caption": "Recommended illustration",
+      "create_date": "2023-09-01T00:00:00+00:00",
+      "width": 1200,
+      "height": 950,
+      "tools": ["Recommended Tool"],
+      "total_bookmarks": 300,
+      "total_comments": 25,
+      "total_view": 8000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "recommended",
+          "count": 75,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/recommended.jpg",
+        "large": "https://example.com/recommended_large.jpg",
+        "medium": "https://example.com/recommended_medium.jpg",
+        "small": "https://example.com/recommended_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/recommended_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null,
+  "ranking_label_illust": {
+    "title": "Top Recommended",
+    "width": 500,
+    "height": 400,
+    "user_name": "Top Artist",
+    "image_urls": {
+      "original": "https://example.com/label.jpg",
+      "large": "https://example.com/label_large.jpg",
+      "medium": "https://example.com/label_medium.jpg",
+      "small": "https://example.com/label_small.jpg"
+    }
+  }
+}

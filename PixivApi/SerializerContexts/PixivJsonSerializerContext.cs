@@ -43,6 +43,6 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(PixivResponseWrapper<IllustSearchResult>))]
 [JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesCoverJsonConverter>))]
 [JsonSerializable(typeof(NovelSeriesCoverJsonConverter.NovelSeriesCoverUrlsWrapper))]
-internal partial class PixivJsonSerializerContext : JsonSerializerContext
+internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
 {
 }

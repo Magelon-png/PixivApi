@@ -3,7 +3,7 @@
 namespace Scighost.PixivApi.Models.Novel;
 
 
-internal record NovelSeriesContentWrapper(
+internal sealed record NovelSeriesContentWrapper(
     [property: JsonPropertyName("page")]
     NovelSeriesChapterPages Page
 );

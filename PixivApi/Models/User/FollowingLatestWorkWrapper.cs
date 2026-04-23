@@ -3,7 +3,7 @@
 namespace Scighost.PixivApi.Models.User;
 
 
-internal record FollowingLatestWorkWrapper(
+internal sealed record FollowingLatestWorkWrapper(
     [property: JsonPropertyName("thumbnails")]
     Thumbnails Thumbnails
 );

@@ -63,7 +63,7 @@ public record RecommendUser(
 ) : UserProfile(UserId, Name, Image, ImageBig, Premium, IsFollowed, IsMypixiv, IsBlocking, Comment, FollowedBack, AcceptRequest);
 
 
-internal record RecommendUserResponse(
+internal sealed record RecommendUserResponse(
     [property: JsonPropertyName("recommendUsers")]
     List<RecommendMap> RecommendMaps,
 
@@ -75,7 +75,7 @@ internal record RecommendUserResponse(
 );
 
 
-internal record RecommendMap(
+internal sealed record RecommendMap(
     [property: JsonPropertyName("userId")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     int UserId,

@@ -49,7 +49,7 @@ public class NovelTests
 
         var novelChapters = await _pixivClient.GetNovelSeriesChaptersAsync(novelSeriesId, offset);
 
-        Assert.AreEqual(expectedEpisodes, novelChapters.Count);
+        Assert.HasCount(expectedEpisodes, novelChapters);
     }
 
     [TestCleanup]

@@ -1,6 +1,6 @@
 ﻿namespace Scighost.PixivApi.Models.Common;
 
-internal record PixivResponseWrapper<T>(
+internal sealed record PixivResponseWrapper<T>(
     [property: JsonPropertyName("error")]
     bool Error,
 

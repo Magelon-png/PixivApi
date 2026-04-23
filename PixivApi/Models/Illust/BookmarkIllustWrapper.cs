@@ -1,6 +1,6 @@
 ﻿namespace Scighost.PixivApi.Models.Illust;
 
-internal record BookmarkIllustWrapper(
+internal sealed record BookmarkIllustWrapper(
     [property: JsonPropertyName("total")]
     int Total,
 

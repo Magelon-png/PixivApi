@@ -4,6 +4,9 @@ using Scighost.PixivApi.Models.Fanbox;
 namespace Scighost.PixivApi.SerializerContexts;
 
 
+/// <summary>
+/// 
+/// </summary>
 [JsonSerializable(typeof(object))]
 [JsonSerializable(typeof(FanboxResponseWrapper<string[]>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<SupportingPlan[]>))]

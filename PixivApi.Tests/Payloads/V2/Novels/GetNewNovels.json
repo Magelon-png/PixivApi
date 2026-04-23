@@ -1,0 +1,48 @@
+{
+  "next_url": null,
+  "novels": [
+    {
+      "id": 2626,
+      "user": {
+        "account": "new_novel_artist",
+        "id": 2727,
+        "is_followed": false,
+        "name": "New Novel Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/new_novel_profile.jpg",
+          "large": "https://example.com/new_novel_profile_large.jpg",
+          "medium": "https://example.com/new_novel_profile_medium.jpg",
+          "small": "https://example.com/new_novel_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "New Novel",
+      "caption": "Latest novel",
+      "create_date": "2024-03-01T00:00:00+00:00",
+      "text_length": 6000,
+      "total_bookmarks": 75,
+      "total_comments": 8,
+      "total_view": 1500,
+      "tags": [
+        {
+          "name": "new_novel",
+          "count": 30,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/new_novel.jpg",
+        "large": "https://example.com/new_novel_large.jpg",
+        "medium": "https://example.com/new_novel_medium.jpg",
+        "small": "https://example.com/new_novel_small.jpg"
+      },
+      "series": {
+        "id": 4,
+        "title": "New Series"
+      },
+      "page_count": 6,
+      "restrict": 0
+    }
+  ]
+}

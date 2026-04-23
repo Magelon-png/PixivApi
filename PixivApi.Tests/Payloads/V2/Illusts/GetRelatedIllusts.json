@@ -1,0 +1,52 @@
+{
+  "illusts": [
+    {
+      "id": 202,
+      "user": {
+        "account": "related_artist",
+        "id": 303,
+        "is_followed": false,
+        "name": "Related Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/related_profile.jpg",
+          "large": "https://example.com/related_profile_large.jpg",
+          "medium": "https://example.com/related_profile_medium.jpg",
+          "small": "https://example.com/related_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": true,
+      "title": "Related Art",
+      "caption": "Similar illustration",
+      "create_date": "2023-03-01T00:00:00+00:00",
+      "width": 1200,
+      "height": 900,
+      "tools": ["Tablet"],
+      "total_bookmarks": 200,
+      "total_comments": 15,
+      "total_view": 5000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "related",
+          "count": 50,
+          "is_registered": false
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/related.jpg",
+        "large": "https://example.com/related_large.jpg",
+        "medium": "https://example.com/related_medium.jpg",
+        "small": "https://example.com/related_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/related_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null
+}

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NetEscapades.EnumGenerators;
+using System.Text.Json.Serialization;
 
 namespace Scighost.PixivApi.Models.V2.Illust;
 
@@ -30,6 +31,7 @@ public record BookmarkDetail(
 /// 
 /// </summary>
 [EnumExtensions]
+[JsonConverter(typeof(JsonStringEnumConverter<BookmarkRestrictionScope>))]
 public enum BookmarkRestrictionScope
 {
     /// <summary>

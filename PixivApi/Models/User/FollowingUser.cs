@@ -29,7 +29,7 @@ public record FollowingUser(
     List<NovelProfile> Novels
 );
 
-internal record FollowingUserWrapper(
+internal sealed record FollowingUserWrapper(
     [property: JsonPropertyName("total")]
     int Total,
 

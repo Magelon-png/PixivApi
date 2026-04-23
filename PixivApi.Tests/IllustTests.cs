@@ -41,6 +41,17 @@ public sealed class IllustTests
     }
 
     [TestMethod]
+    public async Task GetIllustHomePageAsync()
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/top/illust?mode=all",
+            () => OkJson("Illust/GetIllustHomePage.json"));
+        
+        var response = await _pixivClient.GetIllustHomePageAsync();
+        Assert.HasCount(1614, response.TagTranslation); 
+    }
+
+    [TestMethod]
     [DataRow(68972163, 3)]
     public async Task GetIllustPagesAsync(int illustId, int expectedPages)
     {

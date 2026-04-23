@@ -426,11 +426,10 @@ public class PixivClient : IDisposable
     /// Illustration homepage content
     /// </summary>
     /// <returns></returns>
-    private async Task GetIllustHomePageAsync(CancellationToken cancellationToken = default)
+    public async Task<IllustHomePageResponse> GetIllustHomePageAsync(CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/top/illust?mode=all";
-        // todo
-        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        return await CommonGetAsync<IllustHomePageResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustHomePageResponse, cancellationToken);
     }
 
 

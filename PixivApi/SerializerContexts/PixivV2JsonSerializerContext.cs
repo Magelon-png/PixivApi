@@ -27,7 +27,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(UserBookmarkTagsResponse))]
 [JsonSerializable(typeof(TrendingTagsResponse))]
 [JsonSerializable(typeof(WalkthroughResponse))]
-[JsonSerializable(typeof(List<TagV2>))]
+[JsonSerializable(typeof(List<NovelTag>))]
 internal sealed partial class PixivV2JsonSerializerContext : JsonSerializerContext
 {
 }

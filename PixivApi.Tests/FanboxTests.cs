@@ -42,6 +42,19 @@ public sealed class FanboxTests
 
         Assert.HasCount(1, plans);
     }
+    
+    [TestMethod]
+    [DataRow("test", 2)]
+    public async Task GetCreatorSupportingPlansAsync(string creatorId, int expectedPlanCount)
+    {
+        _handler.When(
+            $"https://api.fanbox.cc/plan.listCreator?creatorId={creatorId}",
+            () => OkJson("Fanbox/GetCreatorSupportingPlans.json"));
+
+        var plans = await _fanboxClient.GetCreatorSupportingPlansAsync(creatorId);
+
+        Assert.HasCount(2, plans);
+    }
 
     [TestMethod]
     public async Task GetFollowedCreatorsAsync()
@@ -111,6 +124,137 @@ public sealed class FanboxTests
         {
             Assert.IsNull(postInfo.Body);
         }
+    }
+
+    [DataRow("test", 0, 109, 50, 1)]
+    [TestMethod]
+    public async Task GetCreatorPostsByCreatorIdAsync(string searchTerm, int currentPage, int expectedPostCount, int expectedItemCount,
+        int? expectedNextPage)
+    {
+        _handler.When(
+            $"https://api.fanbox.cc/creator.search?q={searchTerm}&page={currentPage}",
+            () => OkJson("Fanbox/SearchCreators.json"));
+        
+        var result = await _fanboxClient.SearchCreatorsAsync(searchTerm, currentPage);
+        
+        Assert.AreEqual(expectedPostCount, result.Count);
+        Assert.HasCount(expectedItemCount, result.Items);
+        Assert.AreEqual(expectedNextPage, result.NextPage);
+    }
+
+    [TestMethod]
+    public async Task GetRecommendedCreatorsAsync()
+    {
+        _handler.When(
+            "https://api.fanbox.cc/creator.getRecommended",
+            () => OkJson("Fanbox/GetRecommendedCreators.json"));
+
+        var result = await _fanboxClient.GetRecommendedCreatorsAsync();
+
+        Assert.IsNotNull(result);
+        Assert.HasCount(1, result.Creators);
+        Assert.AreEqual("testcreator", result.Creators[0].CreatorId);
+    }
+
+    [TestMethod]
+    public async Task GetRecommendedCreatorsAsync_WithLimit()
+    {
+        _handler.When(
+            "https://api.fanbox.cc/creator.getRecommended?limit=10",
+            () => OkJson("Fanbox/GetRecommendedCreators.json"));
+
+        var result = await _fanboxClient.GetRecommendedCreatorsAsync(10);
+
+        Assert.IsNotNull(result);
+        Assert.HasCount(1, result.Creators);
+        Assert.AreEqual("testcreator", result.Creators[0].CreatorId);
+    }
+
+    [TestMethod]
+    public async Task GetFollowedPixivCreators()
+    {
+        _handler.When(
+            "https://api.fanbox.cc/creator.listPixiv",
+            () => OkJson("Fanbox/GetRecommendedCreators.json"));
+
+        var result = await _fanboxClient.GetFollowedPixivCreators();
+
+        Assert.IsNotNull(result);
+        Assert.HasCount(1, result.Creators);
+        Assert.AreEqual("testcreator", result.Creators[0].CreatorId);
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public async Task GetHomePagePostsAsync(bool supportedPostsOnly)
+    {
+        if(supportedPostsOnly)
+        {
+            _handler.When(
+                $"https://api.fanbox.cc/post.listSupporting?limit=10",
+                () => OkJson("Fanbox/GetHomePagePosts.json"));
+        }
+        else
+        {
+            _handler.When(
+                $"https://api.fanbox.cc/post.listHome?limit=10",
+                () => OkJson("Fanbox/GetHomePagePosts.json"));
+        }
+        
+        var response = await _fanboxClient.GetHomePagePostsAsync(supportedPostsOnly);
+        
+        Assert.IsNotNull(response);
+        Assert.IsNotNull(response.Items);
+        Assert.HasCount(10, response.Items);
+        
+        _handler.When(response.NextUrl, 
+            () => OkJson("Fanbox/GetHomePagePosts-NextUrl.json"));
+        
+        response = await _fanboxClient.GetHomePagePostsAsync(nextUrl: response.NextUrl);
+        Assert.IsNotNull(response);
+        Assert.IsNull(response.NextUrl);
+        Assert.HasCount(0, response.Items);
+    }
+    
+    [TestMethod]
+    public async Task GetNotificationAsync()
+    {
+        _handler.When(
+            "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0",
+            () => OkJson("Fanbox/GetNotification.json"));
+
+        var result = await _fanboxClient.GetNotificationAsync();
+
+        Assert.IsNotNull(result);
+        Assert.HasCount(1, result.items);
+        Assert.AreEqual("notification123", result.items[0].Id);
+        Assert.IsTrue(result.items[0].IsUnread);
+    }
+
+    [TestMethod]
+    public async Task GetNotificationAsync_WithCommentOnly()
+    {
+        _handler.When(
+            "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=1",
+            () => OkJson("Fanbox/GetNotification.json"));
+
+        var result = await _fanboxClient.GetNotificationAsync(commentOnly: true);
+
+        Assert.IsNotNull(result);
+        Assert.HasCount(1, result.items);
+    }
+
+    [TestMethod]
+    public async Task GetNotificationAsync_WithNextUrl()
+    {
+        var nextUrl = "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&lastId=notification123";
+        _handler.When(nextUrl, () => OkJson("Fanbox/GetNotification.json"));
+
+        var result = await _fanboxClient.GetNotificationAsync(nextUrl: nextUrl);
+
+        Assert.IsNotNull(result);
+        Assert.HasCount(1, result.items);
     }
 
     [TestCleanup]

@@ -6,7 +6,7 @@ namespace Scighost.PixivApi.Models.Novel;
 /// <summary>
 /// Simple tag structure for V2 API responses
 /// </summary>
-internal sealed record TagV2(
+internal sealed record NovelTag(
     [property: JsonPropertyName("name")]
     string Name,
     [property: JsonPropertyName("count")]
@@ -23,14 +23,14 @@ internal sealed class NovelTagsJsonConverter : JsonConverter<List<string>>
 {
     public override List<string>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var tags = JsonSerializer.Deserialize<List<TagV2>>(ref reader, options);
+        var tags = JsonSerializer.Deserialize<List<NovelTag>>(ref reader, options);
         return tags?.Select(t => t.Name).ToList();
     }
 
     public override void Write(Utf8JsonWriter writer, List<string> value, JsonSerializerOptions options)
     {
         // For writing, convert back to Tag objects with just name
-        var tags = value.Select(name => new TagV2(Name: name, Count: null, IsRegistered: null)).ToList();
+        var tags = value.Select(name => new NovelTag(Name: name, Count: null, IsRegistered: null)).ToList();
         JsonSerializer.Serialize(writer, tags, options);
     }
 }

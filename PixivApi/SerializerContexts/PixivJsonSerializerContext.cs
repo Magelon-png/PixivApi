@@ -13,6 +13,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(object))]
 [JsonSerializable(typeof(Dictionary<int, object>))]
 [JsonSerializable(typeof(Dictionary<int, IllustProfile>))]
+[JsonSerializable(typeof(List<NovelTag>))]
 [JsonSerializable(typeof(PixivTagInternal))]
 [JsonSerializable(typeof(PixivResponseWrapper<List<SearchCandidate>>))]
 [JsonSerializable(typeof(PixivResponseWrapper<string>))]
@@ -43,6 +44,10 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(PixivResponseWrapper<IllustSearchResult>))]
 [JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesCoverJsonConverter>))]
 [JsonSerializable(typeof(NovelSeriesCoverJsonConverter.NovelSeriesCoverUrlsWrapper))]
+[JsonSerializable(typeof(PixivResponseWrapper<IllustHomePageResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<MangaHomePageResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<NovelHomePageResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<GetSearchSuggestionResponse>))]
 internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
 {
 }

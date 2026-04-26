@@ -41,6 +41,17 @@ public sealed class IllustTests
     }
 
     [TestMethod]
+    public async Task GetIllustHomePageAsync()
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/top/illust?mode=all",
+            () => OkJson("Illust/GetIllustHomePage.json"));
+        
+        var response = await _pixivClient.GetIllustHomePageAsync();
+        Assert.HasCount(1614, response.TagTranslation); 
+    }
+
+    [TestMethod]
     [DataRow(68972163, 3)]
     public async Task GetIllustPagesAsync(int illustId, int expectedPages)
     {
@@ -96,6 +107,37 @@ public sealed class IllustTests
 
         Assert.AreEqual(totalPages, result.Illust.LastPage);
         Assert.AreEqual(totalItems, result.Illust.Total);
+    }
+
+    [TestMethod]
+    [DataRow(233)]
+    public async Task GetMangaHomePageAsync(int totalThumbnails)
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/top/manga?mode=all",
+            () => OkJson("Illust/GetMangaHomePage.json"));
+        
+        var response = await _pixivClient.GetMangaHomePageAsync();
+        Assert.IsNotNull(response.Thumbnails.Illusts);
+        Assert.HasCount(totalThumbnails, response.Thumbnails.Illusts);
+    }
+
+    [TestMethod]
+    [DataRow(207, 78, 53, 38)]
+    public async Task GetSearchSuggestionAsync(int expectedThumbnailsCount, int expectedTagTranslationCount,
+        int expectedIllustTagsCount, int expectedNovelTagsCount)
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/search/suggestion?mode=all",
+            () => OkJson("Illust/GetSearchSuggestion.json"));
+        
+        var result = await _pixivClient.GetSearchSuggestionAsync();
+        
+        Assert.IsNotNull(result.Thumbnails);
+        Assert.HasCount(expectedThumbnailsCount, result.Thumbnails);
+        Assert.HasCount(expectedTagTranslationCount, result.TagTranslation);
+        Assert.HasCount(expectedIllustTagsCount, result.PopularTags.Illust);
+        Assert.HasCount(expectedNovelTagsCount, result.PopularTags.Novel!);
     }
 
     [TestCleanup]

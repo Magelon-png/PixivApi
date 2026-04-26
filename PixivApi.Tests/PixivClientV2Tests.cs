@@ -204,10 +204,23 @@ public sealed class PixivClientV2Tests
     public async Task SearchIllustsAsync()
     {
         _handler.When(
-            "https://app-api.pixiv.net/v1/search/illust",
+            "https://app-api.pixiv.net/v1/search/illust?word=test&sort=date_desc&search_target=partial_match_for_tags",
             () => OkJson("V2/Illusts/SearchIllusts.json"));
 
         var result = await _pixivClientV2.SearchIllustsAsync("test", SearchOrderV2.DateDescending);
+
+        Assert.IsNotNull(result);
+    }
+
+    [TestMethod]
+    public async Task SearchIllustsAsync_WithOptionalParameters()
+    {
+        _handler.When(
+            "https://app-api.pixiv.net/v1/search/illust?word=test&sort=date_desc&search_target=partial_match_for_tags&bookmark_num=100&duration=within_last_week&offset=10",
+            () => OkJson("V2/Illusts/SearchIllusts.json"));
+
+        var result = await _pixivClientV2.SearchIllustsAsync("test", SearchOrderV2.DateDescending, 
+            SearchTarget.PartialMatchForTags, BookmarkCount.Hundred, SearchPeriod.LastWeek, null, 10);
 
         Assert.IsNotNull(result);
     }

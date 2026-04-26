@@ -437,11 +437,10 @@ public class PixivClient : IDisposable
     /// Manga homepage content
     /// </summary>
     /// <returns></returns>
-    private async Task GetMangaHomePageAsync(CancellationToken cancellationToken = default)
+    public async Task<MangaHomePageResponse> GetMangaHomePageAsync(CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/top/manga?mode=all";
-        // todo
-        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        return await CommonGetAsync<MangaHomePageResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperMangaHomePageResponse, cancellationToken);
     }
 
 
@@ -725,13 +724,12 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Novel homepage content
     /// </summary>
-    /// <param name="cancellationToken"></param>
+    /// <param name="cancellationToken">The cancellation token</param>
     /// <returns></returns>
-    private async Task GetNovelHomePageAsync(CancellationToken cancellationToken = default)
+    public async Task<NovelHomePageResponse> GetNovelHomePageAsync(CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/top/novel?mode=all";
-        // todo
-        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        return await CommonGetAsync<NovelHomePageResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelHomePageResponse, cancellationToken);
     }
 
 
@@ -1231,11 +1229,10 @@ public class PixivClient : IDisposable
     /// Search recommendations
     /// </summary>
     /// <returns></returns>
-    private async Task GetSearchSuggestionAsync(CancellationToken cancellationToken)
+    public async Task<GetSearchSuggestionResponse> GetSearchSuggestionAsync(CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/search/suggestion?mode=all";
-        // todo
-        await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        return await CommonGetAsync<GetSearchSuggestionResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperGetSearchSuggestionResponse, cancellationToken);
     }
 
 
@@ -1359,3 +1356,4 @@ public class PixivClient : IDisposable
 
     }
 }
+

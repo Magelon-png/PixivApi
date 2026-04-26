@@ -60,3 +60,44 @@ internal sealed class BoolToNumberJsonConverter : JsonConverter<bool>
         writer.WriteNumberValue(value ? 1 : 0);
     }
 }
+
+
+internal sealed class EmptyArrayAsDictionaryJsonConverter<TKey, TValue> : JsonConverter<Dictionary<TKey, TValue>> 
+    where TKey : notnull
+{
+    public override Dictionary<TKey, TValue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            // If it's an array (even if empty), return an empty dictionary
+            // Read through the array without using Skip() since it may be partial JSON
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+            {
+                // Just iterate through the array elements
+            }
+            return new Dictionary<TKey, TValue>();
+        }
+        else if (reader.TokenType == JsonTokenType.StartObject)
+        {
+            // Normal dictionary deserialization
+            return JsonSerializer.Deserialize<Dictionary<TKey, TValue>>(ref reader, options);
+        }
+        
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dictionary<TKey, TValue> value, JsonSerializerOptions options)
+    {
+        if (value.Count == 0)
+        {
+            // Write empty array instead of empty object
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+        }
+        else
+        {
+            // Normal dictionary serialization
+            writer.WriteRawValue(JsonSerializer.Serialize(value, options));
+        }
+    }
+}

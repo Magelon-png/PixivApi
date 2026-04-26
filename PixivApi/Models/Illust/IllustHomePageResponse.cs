@@ -16,7 +16,7 @@ namespace Scighost.PixivApi.Models.Illust;
 /// <param name="ZoneConfig"></param>
 public record IllustHomePageResponse(
     [property: JsonPropertyName("tagTranslation")] Dictionary<string, TopIllustTagTranslation> TagTranslation,
-    [property: JsonPropertyName("thumbnails")] ThumbnailsHomePage Thumbnails,
+    [property: JsonPropertyName("thumbnails")] ThumbnailsIllustHomePage Thumbnails,
     [property: JsonPropertyName("illustSeries")] object[] IllustSeries,
     [property: JsonPropertyName("requests")] Requests[] Requests,
     [property: JsonPropertyName("users")] Users[] Users,
@@ -267,7 +267,9 @@ public record Plan(
 public record PlanTitle(
     [property: JsonPropertyName("planOriginalTitle")] string PlanOriginalTitle,
     [property: JsonPropertyName("planOriginalTitleLang")] string PlanOriginalTitleLang,
-    [property: JsonPropertyName("planTranslationTitle")] Dictionary<string, PlanTranslationTitle> PlanTranslationTitle
+    [property: JsonPropertyName("planTranslationTitle")] 
+    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverter<string, PlanTranslationTitle>))]
+    Dictionary<string, PlanTranslationTitle> PlanTranslationTitle
 );
 
 /// <summary>
@@ -291,7 +293,9 @@ public record PlanDescription(
     [property: JsonPropertyName("planOriginalDescription")] string PlanOriginalDescription,
     [property: JsonPropertyName("planOriginalDescriptionHtml")] string PlanOriginalDescriptionHtml,
     [property: JsonPropertyName("planOriginalLang")] string PlanOriginalLang,
-    [property: JsonPropertyName("planTranslationDescription")] Dictionary<string, PlanTranslationDescription> PlanTranslationDescription
+    [property: JsonPropertyName("planTranslationDescription")] 
+    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverter<string, PlanTranslationDescription>))]
+    Dictionary<string, PlanTranslationDescription> PlanTranslationDescription
 );
 
 /// <summary>
@@ -455,8 +459,10 @@ public record Commission(
 /// <param name="CompleteRequestIds"></param>
 /// <param name="UserEventIds"></param>
 public record Page(
-    [property: JsonPropertyName("tags")] Tags[] Tags,
-    [property: JsonPropertyName("follow")] int[] Follow,
+    [property: JsonPropertyName("tags")] IllustMangaTags[] Tags,
+    [property: JsonPropertyName("follow")] 
+    [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    int[] Follow,
     [property: JsonPropertyName("mypixiv")] object[] Mypixiv,
     [property: JsonPropertyName("recommend")] Recommend Recommend,
     [property: JsonPropertyName("recommendByTag")] RecommendByTag[] RecommendByTag,
@@ -481,7 +487,7 @@ public record Page(
 /// </summary>
 /// <param name="Tag"></param>
 /// <param name="Ids"></param>
-public record Tags(
+public record IllustMangaTags(
     [property: JsonPropertyName("tag")] string Tag,
     [property: JsonPropertyName("ids")] int[] Ids
 );

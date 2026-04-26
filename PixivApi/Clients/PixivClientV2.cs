@@ -532,6 +532,8 @@ public partial class PixivClientV2 : IDisposable
             queryString["offset"] = offset.Value.ToString(NumberFormatInfo.InvariantInfo);
         }
         
+        url = url + "?" + queryString;
+        
         return await CommonGetAsync<IllustSearchResponse>(url, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
     }
 

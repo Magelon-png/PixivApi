@@ -109,6 +109,37 @@ public sealed class IllustTests
         Assert.AreEqual(totalItems, result.Illust.Total);
     }
 
+    [TestMethod]
+    [DataRow(233)]
+    public async Task GetMangaHomePageAsync(int totalThumbnails)
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/top/manga?mode=all",
+            () => OkJson("Illust/GetMangaHomePage.json"));
+        
+        var response = await _pixivClient.GetMangaHomePageAsync();
+        Assert.IsNotNull(response.Thumbnails.Illusts);
+        Assert.HasCount(totalThumbnails, response.Thumbnails.Illusts);
+    }
+
+    [TestMethod]
+    [DataRow(207, 78, 53, 38)]
+    public async Task GetSearchSuggestionAsync(int expectedThumbnailsCount, int expectedTagTranslationCount,
+        int expectedIllustTagsCount, int expectedNovelTagsCount)
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/search/suggestion?mode=all",
+            () => OkJson("Illust/GetSearchSuggestion.json"));
+        
+        var result = await _pixivClient.GetSearchSuggestionAsync();
+        
+        Assert.IsNotNull(result.Thumbnails);
+        Assert.HasCount(expectedThumbnailsCount, result.Thumbnails);
+        Assert.HasCount(expectedTagTranslationCount, result.TagTranslation);
+        Assert.HasCount(expectedIllustTagsCount, result.PopularTags.Illust);
+        Assert.HasCount(expectedNovelTagsCount, result.PopularTags.Novel!);
+    }
+
     [TestCleanup]
     public void Cleanup()
     {

@@ -52,6 +52,20 @@ public class NovelTests
         Assert.HasCount(expectedEpisodes, novelChapters);
     }
 
+    [TestMethod]
+    [DataRow(207)]
+    public async Task GetNovelHomePageAsync(int expectedNovels)
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/top/novel?mode=all",
+            () => OkJson("Novel/GetNovelHomePage.json"));
+        
+        var response = await _pixivClient.GetNovelHomePageAsync();
+        Assert.IsNotNull(response.Thumbnails);
+        Assert.HasCount(0, response.Thumbnails.Illusts);
+        Assert.HasCount(expectedNovels, response.Thumbnails.Novels);
+    }
+
     [TestCleanup]
     public void Cleanup()
     {

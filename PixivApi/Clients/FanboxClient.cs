@@ -1,6 +1,9 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Net.Http.Json;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization.Metadata;
+using System.Web;
 using Polly;
 using Scighost.PixivApi.Exceptions;
 using Scighost.PixivApi.Helpers;
@@ -146,6 +149,19 @@ public class FanboxClient : IDisposable
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="creatorId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<SupportingPlan[]> GetCreatorSupportingPlansAsync(string creatorId, CancellationToken cancellationToken = default)
+    {
+        var url = $"plan.listCreator?creatorId={creatorId}";
+        var response = await CommonGetAsync<SupportingPlan[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
+        return response;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<FollowedCreator[]> GetFollowedCreatorsAsync(CancellationToken cancellationToken = default)
@@ -154,6 +170,50 @@ public class FanboxClient : IDisposable
         var response = await CommonGetAsync<FollowedCreator[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperFollowedCreatorArray, cancellationToken);
         return response;
     }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="searchTerm"></param>
+    /// <param name="page">First page at 0</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<CreatorSearchResult> SearchCreatorsAsync(string searchTerm, int page = 0, CancellationToken cancellationToken = default)
+    {
+        var url = $"creator.search?q={Uri.EscapeDataString(searchTerm)}&page={page}";
+        var response = await CommonGetAsync<CreatorSearchResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperCreatorSearchResult, cancellationToken);
+        return response;
+    }
+    
+    /// <summary>
+    /// Get recommended creators
+    /// </summary>
+    /// <param name="limit">Optional limit for the number of creators</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Search result with recommended creators</returns>
+    public async Task<SearchRecommendCreatorsResult> GetRecommendedCreatorsAsync(int? limit = null, CancellationToken cancellationToken = default)
+    {
+        var url = "creator.getRecommended";
+        if(limit.HasValue)        {
+            url += $"?limit={limit.Value}";
+        }
+        var response = await CommonGetAsync<SearchRecommendCreatorsResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSearchRecommendCreatorsResult, cancellationToken);
+        return response;
+    }
+
+    /// <summary>
+    /// Get followed Pixiv creators
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Search result with followed Pixiv creators</returns>
+    public async Task<SearchRecommendCreatorsResult> GetFollowedPixivCreators(
+        CancellationToken cancellationToken = default)
+    {
+        var url = "creator.listPixiv";
+        var response = await CommonGetAsync<SearchRecommendCreatorsResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSearchRecommendCreatorsResult, cancellationToken);
+        return response;
+    }
+    
 
     /// <summary>
     /// 
@@ -180,6 +240,7 @@ public class FanboxClient : IDisposable
         var response = await CommonGetAsync<PostListItem[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostListItemArray, cancellationToken);
         return response;
     }
+    
 
     /// <summary>
     /// 
@@ -192,6 +253,67 @@ public class FanboxClient : IDisposable
         var url = $"post.info?postId={postId}";
         var response = await CommonGetAsync<PostInfo>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostInfo, cancellationToken);
         return response;
+    }
+
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="getSupportedCreatorsOnly">When false, returns both followed and supported creators' posts</param>
+    /// <param name="nextUrl"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<HomePagePostItems> GetHomePagePostsAsync(bool getSupportedCreatorsOnly = false, string? nextUrl = null, CancellationToken cancellationToken = default)
+    {
+        var url = getSupportedCreatorsOnly ? "post.listSupporting" : "post.listHome";
+        
+        if(nextUrl != null)
+        {
+            url = nextUrl.Replace(BaseUriHttps, "");
+        }
+        else
+        {
+            url += "?limit=10";
+        }
+        return await CommonGetAsync<HomePagePostItems>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperHomePagePostItems, cancellationToken);
+    }
+
+    /// <summary>
+    /// Get notifications
+    /// </summary>
+    /// <param name="nextUrl">URL for next page</param>
+    /// <param name="commentOnly">Whether to get only comment notifications</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Notification result</returns>
+    public async Task<GetNotificationResult> GetNotificationAsync(string? nextUrl = null, bool commentOnly = false,
+        CancellationToken cancellationToken = default)
+    {
+        var url = "bell.list";
+        
+        if(nextUrl != null)
+        {
+            url = nextUrl.Replace(BaseUriHttps, "");
+        }
+        else
+        {
+            url += "?limit=10&skipConvertUnreadNotification=0";
+            if (commentOnly)
+            {
+                url += "&commentOnly=1";
+            }
+        }
+        return await CommonGetAsync<GetNotificationResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperGetNotificationResult, cancellationToken);
+    }
+
+    /// <summary>
+    /// Marks all newsletter notifications as read.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async Task MarkNewsletterNotificationsAsReadAsync(CancellationToken cancellationToken = default)
+    {
+        var url = "newsletter.markAsReadAll";
+        
+        await CommonPostAsync<EmptyResponse>(url, new EmptyResponse(),FanboxJsonSerializerContext.Default.FanboxResponseWrapperEmptyResponse, cancellationToken);
     }
     
     /// <summary>
@@ -260,3 +382,8 @@ public class FanboxClient : IDisposable
 
     }
 }
+
+/// <summary>
+/// Empty response for API calls that don't return data
+/// </summary>
+public record EmptyResponse();

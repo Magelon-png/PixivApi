@@ -27,4 +27,4 @@ public record SupportingPlan(
     [property: JsonPropertyName("hasAdultContent")]
     bool HasAdultContent,
     [property: JsonPropertyName("paymentMethod")]
-    string PaymentMethod);
+    string? PaymentMethod);

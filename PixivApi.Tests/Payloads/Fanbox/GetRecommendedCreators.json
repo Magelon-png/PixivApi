@@ -1,0 +1,19 @@
+{
+  "body": {
+    "creators": [
+      {
+        "user": {
+          "userId": "12345",
+          "name": "Test Creator",
+          "iconUrl": "https://example.com/icon.jpg"
+        },
+        "creatorId": "testcreator",
+        "description": "A test creator",
+        "hasAdultContent": false,
+        "coverImageUrl": "https://example.com/cover.jpg",
+        "profileLinks": [],
+        "profileItems": []
+      }
+    ]
+  }
+}

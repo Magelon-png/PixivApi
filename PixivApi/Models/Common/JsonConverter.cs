@@ -5,6 +5,25 @@ using Scighost.PixivApi.SerializerContexts;
 
 namespace Scighost.PixivApi.Models.Common;
 
+internal sealed class DictionaryKeyToListJsonConverter<T> : JsonConverterFactory
+{
+    public override bool CanConvert(Type typeToConvert)
+    {
+        return typeToConvert == typeof(List<int>);
+    }
+
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (typeToConvert == typeof(List<int>))
+        {
+            return new DictionaryKeyToListJsonConverterInt32();
+        }
+        
+
+        throw new NotSupportedException($"Type {typeToConvert} is not supported by {nameof(DictionaryKeyToListJsonConverter<T>)}.");
+    }
+}
+
 
 internal sealed class DictionaryKeyToListJsonConverterInt32 : JsonConverter<List<int>>
 {
@@ -27,6 +46,28 @@ internal sealed class DictionaryKeyToListJsonConverterInt32 : JsonConverter<List
     }
 }
 
+internal sealed class DictionaryValueToListJsonConverter<T> : JsonConverterFactory
+{
+    public override bool CanConvert(Type typeToConvert)
+    {
+        return typeToConvert == typeof(List<NovelProfile>) ||
+               typeToConvert == typeof(List<IllustProfile>);
+    }
+
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (typeToConvert == typeof(List<NovelProfile>))
+        {
+            return new DictionaryValueToListJsonConverterNovelProfile();
+        }
+        else if (typeToConvert == typeof(List<IllustProfile>))
+        {
+            return new DictionaryValueToListJsonConverterIllustProfile();
+        }
+
+        throw new NotSupportedException($"Type {typeToConvert} is not supported by {nameof(DictionaryValueToListJsonConverter<T>)}.");
+    }
+}
 
 internal sealed class DictionaryValueToListJsonConverterNovelProfile : JsonConverter<List<NovelProfile>>
 {

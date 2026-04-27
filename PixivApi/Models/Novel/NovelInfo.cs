@@ -95,7 +95,7 @@ public record NovelInfo(
     SeriesNavData? SeriesNavData,
 
     [property: JsonPropertyName("userNovels")]
-    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverterInt32))]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
     List<int> UserNovels,
 
     [property: JsonPropertyName("language")]

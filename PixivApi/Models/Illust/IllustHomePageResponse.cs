@@ -268,7 +268,7 @@ public record PlanTitle(
     [property: JsonPropertyName("planOriginalTitle")] string PlanOriginalTitle,
     [property: JsonPropertyName("planOriginalTitleLang")] string PlanOriginalTitleLang,
     [property: JsonPropertyName("planTranslationTitle")] 
-    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverterPlanTranslationTitle))]
+    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverter<PlanTranslationTitle>))]
     Dictionary<string, PlanTranslationTitle> PlanTranslationTitle
 );
 
@@ -295,7 +295,7 @@ public record PlanDescription(
     [property: JsonPropertyName("planOriginalDescriptionHtml")] string PlanOriginalDescriptionHtml,
     [property: JsonPropertyName("planOriginalLang")] string PlanOriginalLang,
     [property: JsonPropertyName("planTranslationDescription")] 
-    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverterPlanTranslationDescription))]
+    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverter<PlanTranslationDescription>))]
     Dictionary<string, PlanTranslationDescription> PlanTranslationDescription
 );
 

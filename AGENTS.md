@@ -16,6 +16,8 @@
 # Run all tests (unit + integration)
 dotnet test
 
+Note: Never run the integration tests automatically. Never ask if the user wants to run them. It should be a manual operation from the user.
+
 # Build solution
 dotnet build
 
@@ -35,7 +37,7 @@ await client.GetTokenAsync(); // Must call before POST/PUT operations
 
 ### Test Infrastructure
 - **Unit Tests**: `PixivApi.Tests/` uses MSTest with mock payloads in `Payloads/` directory
-- **Integration Tests**: `PixivApi.IntegrationTests/` for live API calls (requires real credentials)
+- **Integration Tests**: `PixivApi.IntegrationTests/` for live API calls (requires real credentials). Should never be ran by an agent.
 - **Test Handler**: `TestHttpMessageHandler` in tests allows injecting mock responses without real HTTP calls
 
 ## Project-Specific Patterns

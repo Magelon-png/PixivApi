@@ -126,6 +126,28 @@ internal sealed class BoolToNumberJsonConverter : JsonConverter<bool>
     }
 }
 
+internal sealed class EmptyArrayAsDictionaryJsonConverter<T> : JsonConverterFactory
+{
+    public override bool CanConvert(Type typeToConvert)
+    {
+        return typeToConvert == typeof(Dictionary<string, PlanTranslationDescription>) ||
+               typeToConvert == typeof(Dictionary<string, PlanTranslationTitle>);
+    }
+
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (typeToConvert == typeof(Dictionary<string, PlanTranslationDescription>))
+        {
+            return new EmptyArrayAsDictionaryJsonConverterPlanTranslationDescription();
+        }
+        else if (typeToConvert == typeof(Dictionary<string, PlanTranslationTitle>))
+        {
+            return new EmptyArrayAsDictionaryJsonConverterPlanTranslationTitle();
+        }
+
+        throw new NotSupportedException($"Type {typeToConvert} is not supported by {nameof(EmptyArrayAsDictionaryJsonConverter<T>)}.");
+    }
+}
 
 internal sealed class EmptyArrayAsDictionaryJsonConverterPlanTranslationDescription : JsonConverter<Dictionary<string, PlanTranslationDescription>> 
 {

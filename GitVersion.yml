@@ -7,11 +7,11 @@ branches:
     increment: Patch
   develop:
     regex: ^dev/.*$
-    tag: alpha
+    tag: beta
     increment: Minor
     source-branches: ['main']
   feature:
     regex: ^feature/.*$
-    tag: beta
+    tag: alpha
     increment: Minor
     source-branches: ['develop', 'main']

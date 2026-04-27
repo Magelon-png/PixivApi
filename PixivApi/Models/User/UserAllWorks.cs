@@ -16,15 +16,15 @@ namespace Scighost.PixivApi.Models.User;
 /// <param name="Pickup">Featured works, too complex structure, not represented by entity classes</param>
 public record UserAllWorks(
     [property: JsonPropertyName("illusts")]
-    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverterInt32))]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
     List<int> Illusts,
 
     [property: JsonPropertyName("manga")]
-    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverterInt32))]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
     List<int> Manga,
 
     [property: JsonPropertyName("novels")]
-    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverterInt32))]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
     List<int> Novels,
 
     [property: JsonPropertyName("mangaSeries")]

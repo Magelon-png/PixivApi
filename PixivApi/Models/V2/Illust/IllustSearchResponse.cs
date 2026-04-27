@@ -15,7 +15,7 @@ public record IllustSearchResponse(
     [property: JsonPropertyName("next_url")]
     string NextUrl,
     [property: JsonPropertyName("search_span_limit")]
-    uint SearchSpanLimit,
+    int SearchSpanLimit,
     [property: JsonPropertyName("show_ai")]
     bool ShowAi
     );

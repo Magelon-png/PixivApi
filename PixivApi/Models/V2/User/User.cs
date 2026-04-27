@@ -16,7 +16,7 @@ public record User(
     ProfileImageUrls ProfileImageUrls,
     [property: JsonPropertyName("id"), 
                JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    uint Id,
+    int Id,
     [property: JsonPropertyName("name")]
     string Name,
     [property: JsonPropertyName("account")]

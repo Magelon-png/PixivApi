@@ -4,9 +4,8 @@
 		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<NoWarn>CS0657</NoWarn>
+		<NoWarn>CS0657;NU5104;NU5100</NoWarn>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <MSBuildTreatWarningsAsErrors>true</MSBuildTreatWarningsAsErrors>
 		<Version>0.1.12</Version>
 		<RootNamespace>Scighost.PixivApi</RootNamespace>
 		<AssemblyName>Scighost.PixivApi</AssemblyName>
@@ -20,8 +19,10 @@
 		<PackageTags>Pixiv</PackageTags>
 		<AnalysisMode>Recommended</AnalysisMode>
 		<AotCompatible>true</AotCompatible>
+        <ToolPackageRuntimeIdentifiers>win-x64;win-arm64;linux-x64;linux-arm64;osx-arm64;osx-x64</ToolPackageRuntimeIdentifiers>
 
-		<PackageId Condition="'$(RuntimeIdentifier)' == ''">Magelon-png.PixivApi</PackageId>
+		<PackageId Condition="'$(RuntimeIdentifier)' == 'any'">Magelon-png.PixivApi</PackageId>
+        <PackageId Condition="'$(RuntimeIdentifier)' == ''">Magelon-png.PixivApi.curl-impersonate</PackageId>
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'win-x64'">Magelon-png.PixivApi.win-x64</PackageId>
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'win-arm64'">Magelon-png.PixivApi.win-arm64</PackageId>
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'linux-x64'">Magelon-png.PixivApi.linux-x64</PackageId>
@@ -35,7 +36,7 @@
     </PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.5.0" />
 	  <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta21" />
 	</ItemGroup>
 

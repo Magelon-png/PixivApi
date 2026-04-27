@@ -1,0 +1,17 @@
+next-version: 2.0.0
+mode: ContinuousDeployment
+branches:
+  main:
+    regex: ^main$
+    tag: ''
+    increment: Patch
+  develop:
+    regex: ^dev/.*$
+    tag: alpha
+    increment: Minor
+    source-branches: ['main']
+  feature:
+    regex: ^feature/.*$
+    tag: beta
+    increment: Minor
+    source-branches: ['develop', 'main']

@@ -217,7 +217,7 @@ public partial class PixivClientV2 : IDisposable
 
         if (response.StatusCode == HttpStatusCode.OK)
         {
-            var responseData = await JsonSerializer.DeserializeAsync<OauthLoginResponse>(await response.Content.ReadAsStreamAsync());
+            var responseData = await JsonSerializer.DeserializeAsync<OauthLoginResponse>(await response.Content.ReadAsStreamAsync(), PixivV2JsonSerializerContext.Default.OauthLoginResponse);
             _refreshToken = responseData?.RefreshToken ?? throw new ArgumentNullException(null, "Refresh token is null");
             if (_httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
@@ -247,7 +247,7 @@ public partial class PixivClientV2 : IDisposable
 
         if (response.StatusCode == HttpStatusCode.OK)
         {
-            var responseData = await JsonSerializer.DeserializeAsync<OauthLoginResponse>(await response.Content.ReadAsStreamAsync());
+            var responseData = await JsonSerializer.DeserializeAsync<OauthLoginResponse>(await response.Content.ReadAsStreamAsync(), PixivV2JsonSerializerContext.Default.OauthLoginResponse);
             _refreshToken = responseData?.RefreshToken ?? throw new ArgumentNullException(null, "Refresh token is null");
             
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", responseData.AccessToken);

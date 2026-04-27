@@ -48,6 +48,17 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(PixivResponseWrapper<MangaHomePageResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<NovelHomePageResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<GetSearchSuggestionResponse>))]
+[JsonSerializable(typeof(List<NovelTag>))]
+[JsonSerializable(typeof(List<PixivTag>))]
+[JsonSerializable(typeof(List<PixivTagInternal>))]
+[JsonSerializable(typeof(Dictionary<string, PlanTranslationTitle>))]
+[JsonSerializable(typeof(Dictionary<string, PlanTranslationDescription>))]
+[JsonSerializable(typeof(List<IllustProfile>))]
+[JsonSerializable(typeof(Dictionary<int, IllustProfile>))]
+[JsonSerializable(typeof(List<NovelProfile>))]
+[JsonSerializable(typeof(Dictionary<int, NovelProfile>))]
+[JsonSerializable(typeof(List<int>))]
+[JsonSerializable(typeof(Dictionary<int, object>))]
 internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
 {
 }

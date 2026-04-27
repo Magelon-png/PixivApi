@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Scighost.PixivApi.SerializerContexts;
 
 namespace Scighost.PixivApi.Models.Novel;
 
@@ -23,7 +24,7 @@ internal sealed class NovelTagsJsonConverter : JsonConverter<List<string>>
 {
     public override List<string>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        var tags = JsonSerializer.Deserialize<List<NovelTag>>(ref reader, options);
+        var tags = JsonSerializer.Deserialize<List<NovelTag>>(ref reader, PixivJsonSerializerContext.Default.ListNovelTag);
         return tags?.Select(t => t.Name).ToList();
     }
 
@@ -31,6 +32,6 @@ internal sealed class NovelTagsJsonConverter : JsonConverter<List<string>>
     {
         // For writing, convert back to Tag objects with just name
         var tags = value.Select(name => new NovelTag(Name: name, Count: null, IsRegistered: null)).ToList();
-        JsonSerializer.Serialize(writer, tags, options);
+        JsonSerializer.Serialize(writer, tags, PixivJsonSerializerContext.Default.ListNovelTag);
     }
 }

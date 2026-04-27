@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Scighost.PixivApi.SerializerContexts;
 
 namespace Scighost.PixivApi.Models.Common;
 
@@ -70,11 +71,11 @@ internal sealed class PixivTagJsonConverter : JsonConverter<List<PixivTag>>
     {
         if (reader.TokenType == JsonTokenType.StartArray)
         {
-            return JsonSerializer.Deserialize<List<PixivTag>>(ref reader, options);
+            return JsonSerializer.Deserialize<List<PixivTag>>(ref reader, PixivJsonSerializerContext.Default.ListPixivTag);
         }
         else
         {
-            var tag = JsonSerializer.Deserialize<PixivTagInternal>(ref reader, options);
+            var tag = JsonSerializer.Deserialize<PixivTagInternal>(ref reader, PixivJsonSerializerContext.Default.PixivTagInternal);
             return tag?.Tags.Select(t => new PixivTag(
                 Deletable: t.Deletable,
                 Locked: t.Locked,
@@ -89,6 +90,6 @@ internal sealed class PixivTagJsonConverter : JsonConverter<List<PixivTag>>
 
     public override void Write(Utf8JsonWriter writer, List<PixivTag> value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, options));
+        writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.ListPixivTag));
     }
 }

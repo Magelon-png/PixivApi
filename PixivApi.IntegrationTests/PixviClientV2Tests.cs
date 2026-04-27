@@ -29,7 +29,7 @@ public class PixviClientV2Tests
         });
         var client = new PixivClientV2();
         var url = client.GetCodeLoginUrl();
-        string token = null;
+        string? token = null;
         page.Request += (_, request) =>
         {
             if (request.Url.StartsWith("https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"))
@@ -44,10 +44,10 @@ public class PixviClientV2Tests
         //Get input inside fieldSet
         var loginInput = fieldsets[0];
         await loginInput.ClickAsync();
-        await loginInput.PressSequentiallyAsync(Environment.GetEnvironmentVariable("PIXIV_USERNAME"));
+        await loginInput.PressSequentiallyAsync(Environment.GetEnvironmentVariable("PIXIV_USERNAME")!);
         var passwordInput = fieldsets.Last();
         await passwordInput.ClickAsync();
-        await passwordInput.PressSequentiallyAsync(Environment.GetEnvironmentVariable("PIXIV_PASSWORD"));
+        await passwordInput.PressSequentiallyAsync(Environment.GetEnvironmentVariable("PIXIV_PASSWORD")!);
         var loginButton = page.GetByRole(AriaRole.Button, new() { Name = "Log In", Exact = true });
         await loginButton.ClickAsync();
         var retries = 0;

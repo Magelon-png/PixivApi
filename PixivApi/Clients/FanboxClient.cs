@@ -110,7 +110,7 @@ public class FanboxClient : IDisposable
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
         var response =  await _resiliencePipeline.ExecuteAsync(
-            async token => await _httpClient.PostAsJsonAsync(url, value, token), cancellationToken);
+            async token => await _httpClient.PostAsJsonAsync(url, value, FanboxJsonSerializerContext.Default.Object,token), cancellationToken);
         response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync<FanboxResponseWrapper<T>>(jsonTypeInfo, cancellationToken);
         if (wrapper is null)

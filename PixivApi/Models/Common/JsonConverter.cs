@@ -1,48 +1,72 @@
 ﻿using System.Text.Json;
+using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
+using Scighost.PixivApi.SerializerContexts;
 
 namespace Scighost.PixivApi.Models.Common;
 
 
-internal sealed class DictionaryKeyToListJsonConverter<T> : JsonConverter<List<T>> where T : notnull
+internal sealed class DictionaryKeyToListJsonConverterInt32 : JsonConverter<List<int>>
 {
-    public override List<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override List<int>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.StartArray)
         {
-            return JsonSerializer.Deserialize<List<T>>(ref reader, options);
+            return JsonSerializer.Deserialize<List<int>>(ref reader, PixivJsonSerializerContext.Default.ListInt32);
         }
         else
         {
-            var dic = JsonSerializer.Deserialize<Dictionary<T, object>>(ref reader, options);
+            var dic = JsonSerializer.Deserialize<Dictionary<int, object>>(ref reader, PixivJsonSerializerContext.Default.DictionaryInt32Object);
             return dic?.Keys.ToList();
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, List<T> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, List<int> value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, options));
+        writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.ListInt32));
     }
 }
 
 
-internal sealed class DictionaryValueToListJsonConverter<TKey, TValue> : JsonConverter<List<TValue>> where TKey : notnull
+internal sealed class DictionaryValueToListJsonConverterNovelProfile : JsonConverter<List<NovelProfile>>
 {
-    public override List<TValue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override List<NovelProfile>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.StartArray)
         {
-            return JsonSerializer.Deserialize<List<TValue>>(ref reader, options);
+            return JsonSerializer.Deserialize<List<NovelProfile>>(ref reader, PixivJsonSerializerContext.Default.ListNovelProfile);
         }
         else
         {
-            var dic = JsonSerializer.Deserialize<Dictionary<TKey, TValue>>(ref reader, options);
+            var dic = JsonSerializer.Deserialize<Dictionary<int, NovelProfile>>(ref reader, PixivJsonSerializerContext.Default.DictionaryInt32NovelProfile);
             return dic?.Values.ToList();
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, List<TValue> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, List<NovelProfile> value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, options));
+        writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.ListNovelProfile));
+    }
+}
+
+internal sealed class DictionaryValueToListJsonConverterIllustProfile : JsonConverter<List<IllustProfile>>
+{
+    public override List<IllustProfile>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            return JsonSerializer.Deserialize<List<IllustProfile>>(ref reader, PixivJsonSerializerContext.Default.ListIllustProfile);
+        }
+        else
+        {
+            var dic = JsonSerializer.Deserialize<Dictionary<int, IllustProfile>>(ref reader, PixivJsonSerializerContext.Default.DictionaryInt32IllustProfile);
+            return dic?.Values.ToList();
+        }
+    }
+
+    public override void Write(Utf8JsonWriter writer, List<IllustProfile> value, JsonSerializerOptions options)
+    {
+        writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.ListIllustProfile));
     }
 }
 
@@ -62,10 +86,9 @@ internal sealed class BoolToNumberJsonConverter : JsonConverter<bool>
 }
 
 
-internal sealed class EmptyArrayAsDictionaryJsonConverter<TKey, TValue> : JsonConverter<Dictionary<TKey, TValue>> 
-    where TKey : notnull
+internal sealed class EmptyArrayAsDictionaryJsonConverterPlanTranslationDescription : JsonConverter<Dictionary<string, PlanTranslationDescription>> 
 {
-    public override Dictionary<TKey, TValue>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Dictionary<string, PlanTranslationDescription>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.StartArray)
         {
@@ -75,18 +98,18 @@ internal sealed class EmptyArrayAsDictionaryJsonConverter<TKey, TValue> : JsonCo
             {
                 // Just iterate through the array elements
             }
-            return new Dictionary<TKey, TValue>();
+            return new Dictionary<string, PlanTranslationDescription>();
         }
         else if (reader.TokenType == JsonTokenType.StartObject)
         {
             // Normal dictionary deserialization
-            return JsonSerializer.Deserialize<Dictionary<TKey, TValue>>(ref reader, options);
+            return JsonSerializer.Deserialize<Dictionary<string, PlanTranslationDescription>>(ref reader, PixivJsonSerializerContext.Default.DictionaryStringPlanTranslationDescription);
         }
         
         return null;
     }
 
-    public override void Write(Utf8JsonWriter writer, Dictionary<TKey, TValue> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, Dictionary<string, PlanTranslationDescription> value, JsonSerializerOptions options)
     {
         if (value.Count == 0)
         {
@@ -97,7 +120,46 @@ internal sealed class EmptyArrayAsDictionaryJsonConverter<TKey, TValue> : JsonCo
         else
         {
             // Normal dictionary serialization
-            writer.WriteRawValue(JsonSerializer.Serialize(value, options));
+            writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.DictionaryStringPlanTranslationDescription));
+        }
+    }
+}
+
+internal sealed class EmptyArrayAsDictionaryJsonConverterPlanTranslationTitle : JsonConverter<Dictionary<string, PlanTranslationTitle>> 
+{
+    public override Dictionary<string, PlanTranslationTitle>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            // If it's an array (even if empty), return an empty dictionary
+            // Read through the array without using Skip() since it may be partial JSON
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+            {
+                // Just iterate through the array elements
+            }
+            return new Dictionary<string, PlanTranslationTitle>();
+        }
+        else if (reader.TokenType == JsonTokenType.StartObject)
+        {
+            // Normal dictionary deserialization
+            return JsonSerializer.Deserialize<Dictionary<string, PlanTranslationTitle>>(ref reader, PixivJsonSerializerContext.Default.DictionaryStringPlanTranslationTitle);
+        }
+        
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dictionary<string, PlanTranslationTitle> value, JsonSerializerOptions options)
+    {
+        if (value.Count == 0)
+        {
+            // Write empty array instead of empty object
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+        }
+        else
+        {
+            // Normal dictionary serialization
+            writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.DictionaryStringPlanTranslationTitle));
         }
     }
 }

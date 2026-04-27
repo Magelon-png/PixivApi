@@ -72,7 +72,7 @@ public record IllustInfo(
     string UserAccount,
 
     [property: JsonPropertyName("userIllusts")]
-    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
+    [property: JsonConverter(typeof(DictionaryKeyToListJsonConverterInt32))]
     List<int> UserIllusts,
 
     [property: JsonPropertyName("likeData")]

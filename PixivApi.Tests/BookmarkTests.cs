@@ -16,7 +16,7 @@ public class BookmarkTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -106,6 +106,24 @@ public class BookmarkTests
             () => OkJson("Bookmark/ChangeBookmarkIllustVisibility.json"));
 
         await _pixivClient.DeleteBookmarkIllustsAsync(default, 123456789L, 987654321L);
+    }
+
+    [TestMethod]
+    public async Task GetUserBookmarkNovelCountAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetUserBookmarkNovelsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetUserBookmarkNovelTagsAsync()
+    {
+        //TODO
     }
 
     [TestCleanup]

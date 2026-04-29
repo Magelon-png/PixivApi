@@ -15,7 +15,7 @@ public class UserTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -92,6 +92,72 @@ public class UserTests
                                                     i.PageCount == 3));
         Assert.HasCount(24, userTopWorks.Mangas);
         Assert.IsEmpty(userTopWorks.Novels);
+    }
+
+    [TestMethod]
+    public async Task GetFollowingUserCountAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetFollowingUsersAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetFollowingUserLatestIllustsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetFollowingUserLatestNovelsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task AddFollowingUserAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task DeleteFollowingUserAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task ChangeFollowingUserVisibilityAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetRecommendAfterFollowingUserAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetTokenAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task ChangeFavoriteTags()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetSearchCandidatesAsync()
+    {
+        //TODO
     }
 
     [TestCleanup]

@@ -15,7 +15,7 @@ public class NovelTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -64,6 +64,72 @@ public class NovelTests
         Assert.IsNotNull(response.Thumbnails);
         Assert.HasCount(0, response.Thumbnails.Illusts);
         Assert.HasCount(expectedNovels, response.Thumbnails.Novels);
+    }
+
+    [TestMethod]
+    public async Task GetNovelSeriesAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task WatchNovelSeriesAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task ChangeNovelSeriesWatchListNotification()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task LikeNovelAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task MarkerNovelPageAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task AddBookmarkNovelAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task DeleteBookmarkNovelAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task ChangeBookmarkNovelVisibilityAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task AddBookmarkNovelTagsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task DeleteBookmarkNovelsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetRecommendNovelsAsync()
+    {
+        //TODO
     }
 
     [TestCleanup]

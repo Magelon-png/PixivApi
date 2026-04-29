@@ -15,7 +15,7 @@ public sealed class FanboxTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _fanboxClient = new FanboxClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;", clientHandler: _handler);
+        _fanboxClient = new FanboxClient(cfBm: "xxx", cfClearance: "yyy", fanboxsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -27,8 +27,8 @@ public sealed class FanboxTests
     [TestMethod]
     public void ShouldFindCurlImpersonateExecutable()
     {
-        using var client = new FanboxClient("__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;",
-            null, null, true);
+        using var client = new FanboxClient(cfBm: "xxx", cfClearance: "yyy", fanboxsessid: "zzz",
+            enableCurlImpersonate: true);
     }
 
     [TestMethod]

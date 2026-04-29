@@ -17,7 +17,7 @@ public sealed class IllustTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -138,6 +138,60 @@ public sealed class IllustTests
         Assert.HasCount(expectedTagTranslationCount, result.TagTranslation);
         Assert.HasCount(expectedIllustTagsCount, result.PopularTags.Illust);
         Assert.HasCount(expectedNovelTagsCount, result.PopularTags.Novel!);
+    }
+
+    [TestMethod]
+    public async Task GetUserIllustsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetUserIllustsByTagAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task WatchMangaSeriesAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task ChangeMangaSeriesWatchListNotification()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task LikeIllustAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task AddBookmarkIllustAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task DeleteBookmarkIllustAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task GetRecommendIllustsAsync()
+    {
+        //TODO
+    }
+
+    [TestMethod]
+    public async Task DownloadIllustAsync()
+    {
+        //TODO
     }
 
     [TestCleanup]

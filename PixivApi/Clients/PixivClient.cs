@@ -88,11 +88,23 @@ public class PixivClient : IDisposable
     /// <summary>
     /// Pixiv client allowing to interact with the Pixiv API
     /// </summary>
-    /// <param name="cookie">Cookie to authenticate with the API</param>
+    /// <param name="cfBm">__cf_bm cookie value</param>
+    /// <param name="cfClearance">cf_clearance cookie value</param>
+    /// <param name="phpsessid">PHPSESSID cookie value</param>
+    /// <param name="additionalCookies">Additional cookies to append</param>
     /// <param name="clientHandler">Custom HTTP client handler for testing or other cases</param>
     /// <param name="userAgent">Custom user agent</param>
-    public PixivClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null)
+    public PixivClient(string cfBm, string cfClearance, string phpsessid, Dictionary<string, string>? additionalCookies = null, HttpMessageHandler? clientHandler = null, string? userAgent = null)
     {
+        var cookie = $"__cf_bm={cfBm}; cf_clearance={cfClearance}; PHPSESSID={phpsessid};";
+        if (additionalCookies != null)
+        {
+            foreach (var kvp in additionalCookies)
+            {
+                cookie += $" {kvp.Key}={kvp.Value};";
+            }
+        }
+
         if (ValidateCookie(cookie) == false)
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;' in any order.");

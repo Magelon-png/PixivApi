@@ -48,6 +48,8 @@ jobs:
       run: dotnet build --no-restore -c ${{ matrix.configuration }}
     - name: Test
       run: dotnet test --verbosity normal
+    - name: Test AOT
+      run: dotnet test --verbosity normal -p:RunAotTest=true
 
   publish:
     runs-on: ubuntu-latest

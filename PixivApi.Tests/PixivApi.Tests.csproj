@@ -5,6 +5,15 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <!-- Enable Microsoft.Testing.Platform, this is an opt-in feature -->
+        <EnableMSTestRunner>true</EnableMSTestRunner>
+        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+        <OutputType>exe</OutputType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(RunAotTest)' == 'true'">
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
 
     <ItemGroup>

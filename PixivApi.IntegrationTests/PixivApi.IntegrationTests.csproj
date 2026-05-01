@@ -1,4 +1,4 @@
-<Project Sdk="MSTest.Sdk/3.6.4">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
@@ -10,6 +10,7 @@
           For more information, visit https://learn.microsoft.com/dotnet/core/testing/unit-testing-platform-integration-dotnet-test#show-failure-per-test
           -->
         <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+        <IsTestProject Condition="'$(RunIntegrations)' != 'true'">false</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,15 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.1.0" />
-      <PackageReference Update="MSTest.TestFramework" Version="4.0.2" />
-      <PackageReference Update="MSTest.Analyzers" Version="4.0.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-      <PackageReference Update="MSTest.TestAdapter" Version="4.0.2" />
-      <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.0.2" />
+      <PackageReference Include="Microsoft.Playwright" Version="1.59.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.0" />
+        <PackageReference Include="MSTest" Version="4.2.1" />
     </ItemGroup>
 
 </Project>

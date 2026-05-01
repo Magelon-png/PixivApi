@@ -1,0 +1,52 @@
+{
+  "illusts": [
+    {
+      "id": 404,
+      "user": {
+        "account": "followed_artist",
+        "id": 505,
+        "is_followed": true,
+        "name": "Followed Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/followed_profile.jpg",
+          "large": "https://example.com/followed_profile_large.jpg",
+          "medium": "https://example.com/followed_profile_medium.jpg",
+          "small": "https://example.com/followed_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Follow Art",
+      "caption": "From followed user",
+      "create_date": "2023-04-01T00:00:00+00:00",
+      "width": 800,
+      "height": 1200,
+      "tools": ["Paint"],
+      "total_bookmarks": 100,
+      "total_comments": 10,
+      "total_view": 2000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "follow",
+          "count": 25,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/follow.jpg",
+        "large": "https://example.com/follow_large.jpg",
+        "medium": "https://example.com/follow_medium.jpg",
+        "small": "https://example.com/follow_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/follow_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null
+}

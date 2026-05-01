@@ -1,0 +1,59 @@
+{
+  "home_ranking_novels": [],
+  "next_url": null,
+  "novels": [
+    {
+      "id": 2222,
+      "user": {
+        "account": "novel_recommended_artist",
+        "id": 2323,
+        "is_followed": false,
+        "name": "Novel Recommended Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/novel_rec_profile.jpg",
+          "large": "https://example.com/novel_rec_profile_large.jpg",
+          "medium": "https://example.com/novel_rec_profile_medium.jpg",
+          "small": "https://example.com/novel_rec_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Recommended Novel",
+      "caption": "Recommended novel",
+      "create_date": "2024-01-01T00:00:00+00:00",
+      "text_length": 8000,
+      "total_bookmarks": 200,
+      "total_comments": 20,
+      "total_view": 4000,
+      "tags": [
+        {
+          "name": "recommended_novel",
+          "count": 100,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/novel_rec.jpg",
+        "large": "https://example.com/novel_rec_large.jpg",
+        "medium": "https://example.com/novel_rec_medium.jpg",
+        "small": "https://example.com/novel_rec_small.jpg"
+      },
+      "series": {
+        "id": 3,
+        "title": "Recommended Series"
+      },
+      "page_count": 8,
+      "restrict": 0
+    }
+  ],
+  "ranking_label_novel": {
+    "image_urls": {
+      "original": "https://example.com/novel_label.jpg",
+      "large": "https://example.com/novel_label_large.jpg",
+      "medium": "https://example.com/novel_label_medium.jpg",
+      "small": "https://example.com/novel_label_small.jpg"
+    },
+    "title": "Top Novel",
+    "user_name": "Top Novelist"
+  }
+}

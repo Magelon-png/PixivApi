@@ -1,0 +1,52 @@
+{
+  "illusts": [
+    {
+      "id": 1818,
+      "user": {
+        "account": "search_artist",
+        "id": 1919,
+        "is_followed": false,
+        "name": "Search Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/search_profile.jpg",
+          "large": "https://example.com/search_profile_large.jpg",
+          "medium": "https://example.com/search_profile_medium.jpg",
+          "small": "https://example.com/search_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Search Art",
+      "caption": "Found in search",
+      "create_date": "2023-11-01T00:00:00+00:00",
+      "width": 900,
+      "height": 600,
+      "tools": ["Search Tool"],
+      "total_bookmarks": 80,
+      "total_comments": 7,
+      "total_view": 1200,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "search",
+          "count": 20,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/search.jpg",
+        "large": "https://example.com/search_large.jpg",
+        "medium": "https://example.com/search_medium.jpg",
+        "small": "https://example.com/search_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/search_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null
+}

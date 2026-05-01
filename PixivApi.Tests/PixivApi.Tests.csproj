@@ -5,15 +5,19 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <!-- Enable Microsoft.Testing.Platform, this is an opt-in feature -->
+        <EnableMSTestRunner>true</EnableMSTestRunner>
+        <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+        <OutputType>exe</OutputType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(RunAotTest)' == 'true'">
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-        <PackageReference Include="MSTest" Version="4.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
+        <PackageReference Include="MSTest" Version="4.2.2" />
     </ItemGroup>
 
     <ItemGroup>

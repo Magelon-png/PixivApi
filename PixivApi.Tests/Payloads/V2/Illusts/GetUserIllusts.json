@@ -1,0 +1,52 @@
+{
+  "illusts": [
+    {
+      "id": 456,
+      "user": {
+        "account": "testuser",
+        "id": 123,
+        "is_followed": false,
+        "name": "Test User",
+        "profile_image_urls": {
+          "original": "https://example.com/profile.jpg",
+          "large": "https://example.com/profile_large.jpg",
+          "medium": "https://example.com/profile_medium.jpg",
+          "small": "https://example.com/profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Sample Illust",
+      "caption": "A sample illustration",
+      "create_date": "2023-01-01T00:00:00+00:00",
+      "width": 800,
+      "height": 600,
+      "tools": ["Photoshop"],
+      "total_bookmarks": 10,
+      "total_comments": 5,
+      "total_view": 100,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "tag1",
+          "count": 50,
+          "is_registered": true
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/original.jpg",
+        "large": "https://example.com/large.jpg",
+        "medium": "https://example.com/medium.jpg",
+        "small": "https://example.com/small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null
+}

@@ -1,6 +1,7 @@
-﻿using System.Net;
+using System.Net;
 using System.Text;
 using Scighost.PixivApi;
+using Scighost.PixivApi.Clients;
 
 namespace PixivApi.Tests;
 
@@ -14,7 +15,7 @@ public class UserTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -47,17 +48,17 @@ public class UserTests
 
         var userWorks = await _pixivClient.GetUserAllWorksAsync(userId);
 
-        Assert.AreEqual(38, userWorks.Illusts.Count);
-        Assert.AreEqual(82, userWorks.Manga.Count);
-        Assert.AreEqual(0, userWorks.Novels.Count);
-        Assert.AreEqual(3, userWorks.MangaSeries.Count);
+        Assert.HasCount(38, userWorks.Illusts);
+        Assert.HasCount(82, userWorks.Manga);
+        Assert.IsEmpty(userWorks.Novels);
+        Assert.HasCount(3, userWorks.MangaSeries);
         Assert.IsTrue(userWorks.MangaSeries.Any(ms => ms is { Id: 281351, Total: 9 }));
-        Assert.AreEqual(0, userWorks.NovelSeries.Count);
-        Assert.AreEqual(3, userWorks.Pickup.Count);
+        Assert.IsEmpty(userWorks.NovelSeries);
+        Assert.HasCount(3, userWorks.Pickup);
         Assert.IsTrue(userWorks.Pickup.Any(
-            p => p["title"]
+            p => p["title"]?
                 .GetValue<string>()
-                .Equals("二人の神さま憑き", StringComparison.OrdinalIgnoreCase)));
+                .Equals("二人の神さま憑き", StringComparison.OrdinalIgnoreCase) ?? false));
     }
 
     [TestMethod]
@@ -85,12 +86,77 @@ public class UserTests
 
         var userTopWorks = await _pixivClient.GetUserTopWorksAsync(userId);
 
-        Assert.AreEqual(24, userTopWorks.Illusts.Count);
+        Assert.HasCount(24, userTopWorks.Illusts);
         Assert.IsTrue(userTopWorks.Illusts.Any(i => i.Id == 109500041 &&
                                                     i.Tags.Contains("HololiveID") &&
                                                     i.PageCount == 3));
-        Assert.AreEqual(24, userTopWorks.Mangas.Count);
-        Assert.AreEqual(0, userTopWorks.Novels.Count);
+        Assert.HasCount(24, userTopWorks.Mangas);
+        Assert.IsEmpty(userTopWorks.Novels);
+    }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserCountAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUsersAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserLatestIllustsAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserLatestNovelsAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task AddFollowingUserAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task DeleteFollowingUserAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeFollowingUserVisibilityAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetRecommendAfterFollowingUserAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeFavoriteTags()
+    // {
+    //     
+    // }
+
+    [TestMethod]
+    public async Task GetSearchCandidatesAsync()
+    {
+        _handler.When(
+            "https://www.pixiv.net/rpc/cps.php?keyword=hina",
+            () => OkJson("User/GetSearchCandidates.json"));
+        
+        var response = await _pixivClient.GetSearchCandidatesAsync("hina");
+        Assert.HasCount(10, response);
     }
 
     [TestCleanup]

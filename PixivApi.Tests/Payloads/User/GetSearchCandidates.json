@@ -1,0 +1,64 @@
+{
+  "candidates": [
+    {
+      "tag_name": "\u6bd4\u90a3\u540d\u5c45\u5929\u5b50",
+      "access_count": "214149281",
+      "type": "romaji",
+      "tag_translation": "hinanaitennshi"
+    },
+    {
+      "tag_name": "\u65e5\u5411\u7fd4\u967d",
+      "access_count": "204352120",
+      "type": "romaji",
+      "tag_translation": "hinatashouyou"
+    },
+    {
+      "tag_name": "\u9375\u5c71\u96db",
+      "access_count": "90060926",
+      "tag_translation": "hina kagiyama",
+      "type": "tag_translation"
+    },
+    {
+      "tag_name": "\u65e5\u5411\u5275",
+      "access_count": "87381931",
+      "type": "romaji",
+      "tag_translation": "hinatahajime"
+    },
+    {
+      "tag_name": "\u30d2\u30ca\u3071\u3044",
+      "access_count": "72305953",
+      "type": "romaji",
+      "tag_translation": "hinapai"
+    },
+    {
+      "tag_name": "\u6c37\u5ddd\u65e5\u83dc",
+      "access_count": "70687658",
+      "tag_translation": "Hina Hikawa",
+      "type": "tag_translation"
+    },
+    {
+      "tag_name": "\u96db\u9db4\u3042\u3044",
+      "access_count": "60016136",
+      "type": "romaji",
+      "tag_translation": "hinatsuruai"
+    },
+    {
+      "tag_name": "\u65e5\u5411",
+      "access_count": "50961496",
+      "type": "romaji",
+      "tag_translation": "hinatayahyuuganado"
+    },
+    {
+      "tag_name": "\u30d2\u30ca\u30bf",
+      "access_count": "49334068",
+      "type": "romaji",
+      "tag_translation": "hinata"
+    },
+    {
+      "tag_name": "\u30d2\u30ca",
+      "access_count": "43018372",
+      "type": "tag_translation",
+      "tag_translation": "Hina"
+    }
+  ]
+}

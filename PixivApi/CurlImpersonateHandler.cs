@@ -10,11 +10,19 @@ using System.Linq;
 using System.Text.Json;
 using Scighost.PixivApi;
 
+namespace Scighost.PixivApi;
+
+/// <inheritdoc />
 public class CurlImpersonateHandler : HttpMessageHandler
 {
     private readonly string _curlPath;
     private readonly string _impersonationProfile; 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="curlPath"></param>
+    /// <param name="impersonationProfile"></param>
     public CurlImpersonateHandler(string? curlPath = null, string impersonationProfile = "chrome")
     {
         _impersonationProfile = impersonationProfile;
@@ -32,7 +40,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
             if (!string.IsNullOrEmpty(found))
                 return found;
         }
-        catch {  }
+        catch (FileNotFoundException) {  }
         
         string os, arch, ext = "";
         string executableName = "curl-impersonate";
@@ -77,6 +85,7 @@ public class CurlImpersonateHandler : HttpMessageHandler
             $"- Bundle attendu : \"{bundledPath}\"");
     }
 
+    /// <inheritdoc />
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var argsList = new System.Collections.Generic.List<string>
@@ -147,7 +156,10 @@ public class CurlImpersonateHandler : HttpMessageHandler
                     CreateNoWindow = true
                 };
                 using (var proc = Process.Start(chmod))
-                    await proc.WaitForExitAsync(cancellationToken);
+                {
+                    if(proc is not null)
+                        await proc.WaitForExitAsync(cancellationToken);
+                }
             }
             catch { }
         }
@@ -244,6 +256,12 @@ public class CurlImpersonateHandler : HttpMessageHandler
         return response;
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="profile"></param>
+    /// <returns></returns>
+    /// <exception cref="FileNotFoundException"></exception>
     public static string FindCurlImpersonateExecutable(string profile)
     {
         string exeName =
@@ -269,6 +287,11 @@ public class CurlImpersonateHandler : HttpMessageHandler
         throw new FileNotFoundException($"Impossible de trouver '{exeName}' dans le PATH ni dans les emplacements habituels.");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public static string ShellEscape(string input)
     {
         if (string.IsNullOrEmpty(input)) return "\"\"";
@@ -290,14 +313,14 @@ public class CurlImpersonateHandler : HttpMessageHandler
         }
     }
 
-    private class ProcessStream : Stream
+     sealed class ProcessStream : Stream
     {
         private readonly Stream _stdout;
         private readonly Process _proc;
         private readonly StringBuilder _errorBuffer;
         private readonly Task _errorTask;
-        private bool _disposed = false;
-        private bool _processExited = false;
+        private bool _disposed;
+        private bool _processExited;
 
         public ProcessStream(Stream stdout, Process proc)
         {

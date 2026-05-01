@@ -3,13 +3,17 @@ using Scighost.PixivApi;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Scighost.PixivApi.Clients;
 
 namespace PixivApi.Tests;
 
 [TestClass]
 public class UserAgentTests
 {
-    private const string Cookie = "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;";
+    private const string CfBm = "xxx";
+    private const string CfClearance = "yyy";
+    private const string Phpsessid = "zzz";
+    private const string Fanboxsessid = "zzz";
     private const string CustomUA = "CustomUA/1.0";
 
     [TestMethod]
@@ -21,7 +25,7 @@ public class UserAgentTests
             Content = new StringContent("{\"error\":false,\"body\":{}}")
         });
 
-        var client = new PixivClient(Cookie, handler, CustomUA);
+        var client = new PixivClient(CfBm, CfClearance, Phpsessid, clientHandler: handler, userAgent: CustomUA);
         await client.GetUserInfoAsync(123);
 
         Assert.AreEqual(CustomUA, handler.LastRequest?.Headers.UserAgent.ToString());
@@ -30,7 +34,7 @@ public class UserAgentTests
     [TestMethod]
     public void PixivClient_UsesDefaultUserAgent_WhenNoneProvided()
     {
-        var client = new PixivClient(Cookie);
+        var client = new PixivClient(CfBm, CfClearance, Phpsessid);
         Assert.IsNotNull(client.HttpClient.DefaultRequestHeaders.UserAgent.ToString());
     }
 
@@ -43,7 +47,7 @@ public class UserAgentTests
             Content = new StringContent("{\"body\":[]}")
         });
 
-        var client = new FanboxClient("__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;", handler, CustomUA);
+        var client = new FanboxClient(CfBm, CfClearance, Fanboxsessid, clientHandler: handler, userAgent: CustomUA);
         await client.GetSupportingPlansAsync();
 
         Assert.AreEqual(CustomUA, handler.LastRequest?.Headers.UserAgent.ToString());

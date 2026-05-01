@@ -1,0 +1,71 @@
+﻿using System.Text.Json.Nodes;
+using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Illust;
+using Scighost.PixivApi.Models.Novel;
+using Scighost.PixivApi.Models.Search;
+using Scighost.PixivApi.Models.User;
+using IllustInfo = Scighost.PixivApi.Models.Illust.IllustInfo;
+
+namespace Scighost.PixivApi.SerializerContexts;
+
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(object))]
+[JsonSerializable(typeof(Dictionary<int, object>))]
+[JsonSerializable(typeof(Dictionary<int, IllustProfile>))]
+[JsonSerializable(typeof(List<NovelTag>))]
+[JsonSerializable(typeof(PixivTagInternal))]
+[JsonSerializable(typeof(PixivResponseWrapper<List<SearchCandidate>>))]
+[JsonSerializable(typeof(PixivResponseWrapper<string>))]
+[JsonSerializable(typeof(PixivResponseWrapper<JsonNode>))]
+[JsonSerializable(typeof(PixivResponseWrapper<UserInfo>))]
+[JsonSerializable(typeof(PixivResponseWrapper<UserTopWorks>))]
+[JsonSerializable(typeof(PixivResponseWrapper<UserAllWorks>))]
+[JsonSerializable(typeof(PixivResponseWrapper<IllustInfo>))]
+[JsonSerializable(typeof(PixivResponseWrapper<IllustWorks>))]
+[JsonSerializable(typeof(PixivResponseWrapper<UserIllustsByTag>))]
+[JsonSerializable(typeof(PixivResponseWrapper<List<IllustImage>>))]
+[JsonSerializable(typeof(PixivResponseWrapper<AnimateIllustMeta>))]
+[JsonSerializable(typeof(PixivResponseWrapper<MangaSeriesResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<RecommendIllustWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<NovelInfo>))]
+[JsonSerializable(typeof(PixivResponseWrapper<NovelSeries>))]
+[JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesContentWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<RecommendNovelWrapper>))]
+[JsonSerializable(typeof(ChangeBookmarkIllustVisibilityRequest))]
+[JsonSerializable(typeof(AddBookmarkIllustTagsRequest))]
+[JsonSerializable(typeof(DeleteBookmarkIllustsRequest))]
+[JsonSerializable(typeof(PixivResponseWrapper<BookmarkIllustWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<BookmarkNovelWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<BookmarkNovelWrapperV2>))]
+[JsonSerializable(typeof(PixivResponseWrapper<UserBookmarkTag>))]
+[JsonSerializable(typeof(PixivResponseWrapper<FollowingUserWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<FollowingLatestWorkWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<RecommendUserResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<IllustSearchResult>))]
+[JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesCoverJsonConverter>))]
+[JsonSerializable(typeof(NovelSeriesCoverJsonConverter.NovelSeriesCoverUrlsWrapper))]
+[JsonSerializable(typeof(PixivResponseWrapper<IllustHomePageResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<MangaHomePageResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<NovelHomePageResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<GetSearchSuggestionResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<ChangeMangaSeriesWatchListNotificationResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<AddBookmarkIllustResponse>))]
+[JsonSerializable(typeof(SearchCandidateWrapper))]
+[JsonSerializable(typeof(List<NovelTag>))]
+[JsonSerializable(typeof(List<PixivTag>))]
+[JsonSerializable(typeof(List<PixivTagInternal>))]
+[JsonSerializable(typeof(Dictionary<string, PlanTranslationTitle>))]
+[JsonSerializable(typeof(Dictionary<string, PlanTranslationDescription>))]
+[JsonSerializable(typeof(List<IllustProfile>))]
+[JsonSerializable(typeof(Dictionary<int, IllustProfile>))]
+[JsonSerializable(typeof(List<NovelProfile>))]
+[JsonSerializable(typeof(Dictionary<int, NovelProfile>))]
+[JsonSerializable(typeof(List<int>))]
+[JsonSerializable(typeof(Dictionary<int, object>))]
+[JsonSerializable(typeof(Dictionary<int, string>))]
+[JsonSerializable(typeof(DeleteBookmarkIllustBatchRequest))]
+[JsonSerializable(typeof(DeleteBookmarkIllustRequest))]
+internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
+{
+}

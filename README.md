@@ -3,11 +3,13 @@
 
 # Pixiv Api
 
-Expected breaking changes for V2:
 
-- Various changes in namespaces
+## 2.0.1 Breaking changes
 
-During the 0.x version period, the availability and stability of the API are not guaranteed, and method signatures may change at any time.
+- Various namespaces changes. Clients are now in the `Scighost.PixivApi.Clients` namespace. While models are under `Scighost.PixivApi.Models`.
+- The `PixivClient` now takes 3 different parameters for the cookie.
+- Support for proxies has been removed.
+
 
 ## Existing Features
 
@@ -23,6 +25,8 @@ During the 0.x version period, the availability and stability of the API are not
   - Latest works
   - Bookmarked works
   - Related recommendations
+- Support for Fanbox APIs
+- Partial support for the Pixiv App API
 - ...
 
 ## Getting Started
@@ -31,7 +35,20 @@ Pixiv's login process uses Cloudflare protection, which is basically impossible 
 
 Pixiv's images use hotlink protection. When downloading images, you need to add `Referer`: `https://www.pixiv.net/`
 
-> PixivClient is the request class for all APIs. Some APIs are listed below. Explore more during use or check the source code.
+> PixivClient is the request class for all APIs regarding the pixiv website. Some APIs are listed below. Explore more during use or check the source code.
+
+### Choosing a package
+
+This library provides the following packages:
+
+- `Magelon-png.PixivApi` - The complete API without any additional binaries
+- `Magelon-png.PixivApi.CurlImpersonate` - The complete API with curl-impersonate binaries for every platform available
+- `Magelon-png.PixivApi.{runtime-identifier}` - The complete API compiled for a specific platform including curl-impersonate binaries for that specific platform.
+
+If you do not plan to use the curl-impersonate feature of the client or plan to include your own binaries in your end-user application, use the `Magelon-png.PixivApi` package.
+
+#### IMPORTANT NOTE: The curl-impersonate feature is provided for convenience only, not tested on Windows and support is not guaranteed. Use at your own risk.
+
 
 ### Constructing Client
 

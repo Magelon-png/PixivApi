@@ -631,7 +631,7 @@ public class PixivClient : IDisposable
     {
         return await _resiliencePipeline.ExecuteAsync(async token =>
         {
-            var response = await _downloadHttpClient.GetAsync(illustUrl, token);
+            using var response = await _downloadHttpClient.GetAsync(illustUrl, token);
             var content = await response.Content.ReadAsStreamAsync(token);
         
             return content;
@@ -645,8 +645,8 @@ public class PixivClient : IDisposable
     /// <param name="illustUrl">The URL of the illustration to download</param>
     /// <param name="destinationStream">The stream to which the illustration data will be copied</param>
     /// <param name="cancellationToken">The cancellation token</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public async Task DownloadIllustAsync(string illustUrl, Stream destinationStream, CancellationToken cancellationToken = default)
+    /// <returns>A task that represents the asynchronous operation. Returns true if download is successful, false otherwise</returns>
+    public async Task<bool> DownloadIllustAsync(string illustUrl, Stream destinationStream, CancellationToken cancellationToken = default)
     {
         var retries = 0;
         var maxRetries = 3;
@@ -655,21 +655,93 @@ public class PixivClient : IDisposable
         {
             try
             {
-                using var response = await _downloadHttpClient.GetAsync(illustUrl,
-                    HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                await response.Content.CopyToAsync(destinationStream, cancellationToken);
-                downloaded = true;
+                await _resiliencePipeline.ExecuteAsync(async token =>
+                {
+                    using var response = await _downloadHttpClient.GetAsync(illustUrl,
+                        HttpCompletionOption.ResponseHeadersRead, token);
+                    response.EnsureSuccessStatusCode();
+                    await response.Content.CopyToAsync(destinationStream, token);
+                    downloaded = true;
+                }, cancellationToken);
             }
             catch
             {
+                if (destinationStream.CanSeek)
+                {
+                    destinationStream.Seek(0, SeekOrigin.Begin);
+                }
+
                 await destinationStream.FlushAsync(cancellationToken);
-                destinationStream.Seek(0, SeekOrigin.Begin);
                 retries++;
             }
         }
+        return downloaded;
     }
+    
+    /// <summary>
+    /// Downloads an illustration and copies it to the provided destination stream.
+    /// </summary>
+    /// <param name="illustUrl">The URL of the illustration to download</param>
+    /// <param name="destinationStream">The stream to which the illustration data will be copied</param>
+    /// <param name="progress">Interface that can be used to follow the download progress</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation. Returns true if download is successful, false otherwise</returns>
+    public async Task<bool> DownloadIllustAsync(string illustUrl, Stream destinationStream, IProgress<DownloadProgress>? progress = null, CancellationToken cancellationToken = default)
+    {
+        var retries = 0;
+        var maxRetries = 3;
+        var downloaded = false;
 
+        while (retries < maxRetries && !downloaded)
+        {
+            try
+            {
+                await _resiliencePipeline.ExecuteAsync(async token =>
+                {
+                    using var response = await _downloadHttpClient.GetAsync(
+                        illustUrl,
+                        HttpCompletionOption.ResponseHeadersRead,
+                        token);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var totalBytes = response.Content.Headers.ContentLength;
+
+                    await using var stream = await response.Content.ReadAsStreamAsync(token);
+
+                    var buffer = new byte[81920];
+                    long totalRead = 0;
+                    int bytesRead;
+
+                    while ((bytesRead = await stream.ReadAsync(buffer, token)) > 0)
+                    {
+                        await destinationStream.WriteAsync(buffer.AsMemory(0, bytesRead), token);
+
+                        totalRead += bytesRead;
+
+                        progress?.Report(new DownloadProgress(totalRead, totalBytes));
+                    }
+
+                    downloaded = true;
+                }, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch
+            {
+                if (destinationStream.CanSeek)
+                {
+                    destinationStream.Seek(0, SeekOrigin.Begin);
+                }
+
+                await destinationStream.FlushAsync(cancellationToken);
+                retries++;
+            }
+        }
+        return downloaded;
+    }
 
     #endregion
 
@@ -1379,4 +1451,18 @@ public class PixivClient : IDisposable
         _downloadHttpClient.Dispose();
 
     }
+}
+
+/// <summary>
+/// Download progress information
+/// </summary>
+/// <param name="BytesRead">Current bytes read from the http call</param>
+/// <param name="TotalBytes">Total bytes expected to be read from the http call</param>
+public record DownloadProgress(long BytesRead, long? TotalBytes)
+{
+    /// <summary>
+    /// Percentage of the download completed. Returns 100 if TotalBytes is null.
+    /// </summary>
+    public double? Percentage =>
+        TotalBytes.HasValue ? (double)BytesRead / TotalBytes.Value * 100 : null;
 }

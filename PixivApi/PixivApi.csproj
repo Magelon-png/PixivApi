@@ -14,7 +14,8 @@
 		<Description>Pixiv Web Api</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageProjectUrl>https://github.com/Magelon-png/PixivApi</PackageProjectUrl>
-		<RepositoryUrl>hhttps://github.com/Magelon-png/PixivApi</RepositoryUrl>
+		<RepositoryUrl>https://github.com/Magelon-png/PixivApi</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Pixiv</PackageTags>
 		<AnalysisMode>Recommended</AnalysisMode>
@@ -22,7 +23,7 @@
         <ToolPackageRuntimeIdentifiers>win-x64;win-arm64;linux-x64;linux-arm64;osx-arm64;osx-x64</ToolPackageRuntimeIdentifiers>
         
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'any'">Magelon-png.PixivApi</PackageId>
-        <PackageId Condition="'$(RuntimeIdentifier)' == ''">Magelon-png.PixivApi.curl-impersonate</PackageId>
+        <PackageId Condition="'$(RuntimeIdentifier)' == ''">Magelon-png.PixivApi.full</PackageId>
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'win-x64'">Magelon-png.PixivApi.win-x64</PackageId>
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'win-arm64'">Magelon-png.PixivApi.win-arm64</PackageId>
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'linux-x64'">Magelon-png.PixivApi.linux-x64</PackageId>
@@ -52,6 +53,12 @@
             <PrivateAssets>All</PrivateAssets>
         </PackageReference>
 	</ItemGroup>
+
+    <ItemGroup>
+        
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+        
+    </ItemGroup>
 
 	<ItemGroup>
 		<!--  linux ARM64 -->

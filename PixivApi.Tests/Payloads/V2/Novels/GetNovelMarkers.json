@@ -1,0 +1,45 @@
+{
+  "next_url": null,
+  "novels": [
+    {
+      "id": 3232,
+      "user": {
+        "account": "marker_novel_artist",
+        "id": 3333,
+        "is_followed": false,
+        "name": "Marker Novel Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/marker_novel_profile.jpg",
+          "large": "https://example.com/marker_novel_profile_large.jpg",
+          "medium": "https://example.com/marker_novel_profile_medium.jpg",
+          "small": "https://example.com/marker_novel_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "Marker Novel",
+      "caption": "Novel with markers",
+      "create_date": "2024-06-01T00:00:00+00:00",
+      "text_length": 4000,
+      "total_bookmarks": 60,
+      "total_comments": 6,
+      "total_view": 1200,
+      "tags": [
+        {
+          "name": "marker",
+          "count": 12,
+          "is_registered": false
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/marker_novel.jpg",
+        "large": "https://example.com/marker_novel_large.jpg",
+        "medium": "https://example.com/marker_novel_medium.jpg",
+        "small": "https://example.com/marker_novel_small.jpg"
+      },
+      "series": null,
+      "page_count": 4,
+      "restrict": 0
+    }
+  ]
+}

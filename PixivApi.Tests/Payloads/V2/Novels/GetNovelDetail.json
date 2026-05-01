@@ -1,0 +1,45 @@
+{
+  "novel": {
+    "id": 404,
+    "user": {
+      "account": "testuser",
+      "id": 123,
+      "is_followed": false,
+      "name": "Test User",
+      "profile_image_urls": {
+        "original": "https://example.com/profile.jpg",
+        "large": "https://example.com/profile_large.jpg",
+        "medium": "https://example.com/profile_medium.jpg",
+        "small": "https://example.com/profile_small.jpg"
+      }
+    },
+    "visible": true,
+    "is_bookmarked": false,
+    "title": "Sample Novel",
+    "caption": "A sample novel",
+    "create_date": "2023-01-01T00:00:00+00:00",
+    "text_length": 1000,
+    "total_bookmarks": 5,
+    "total_comments": 2,
+    "total_view": 50,
+    "tags": [
+      {
+        "name": "novel_tag",
+        "count": 20,
+        "is_registered": true
+      }
+    ],
+    "image_urls": {
+      "original": "https://example.com/novel.jpg",
+      "large": "https://example.com/novel_large.jpg",
+      "medium": "https://example.com/novel_medium.jpg",
+      "small": "https://example.com/novel_small.jpg"
+    },
+    "series": {
+      "id": 1,
+      "title": "Sample Series"
+    },
+    "page_count": 1,
+    "restrict": 0
+  }
+}

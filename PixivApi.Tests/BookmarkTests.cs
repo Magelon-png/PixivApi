@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using System.Text.Encodings.Web;
 using Scighost.PixivApi;
+using Scighost.PixivApi.Clients;
 
 namespace PixivApi.Tests;
 
@@ -15,7 +16,7 @@ public class BookmarkTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -54,7 +55,7 @@ public class BookmarkTests
 
         var bookmarks = await _pixivClient.GetUserBookmarkIllustsAsync(userId, offset, limit, isPrivate, tag);
 
-        Assert.AreEqual(limit, bookmarks.Count);
+        Assert.HasCount(limit, bookmarks);
     }
 
     [TestMethod]
@@ -105,6 +106,40 @@ public class BookmarkTests
             () => OkJson("Bookmark/ChangeBookmarkIllustVisibility.json"));
 
         await _pixivClient.DeleteBookmarkIllustsAsync(default, 123456789L, 987654321L);
+    }
+
+    [TestMethod]
+    public async Task GetUserBookmarkNovelCountAsync()
+    {
+        _handler.When(
+            $"https://www.pixiv.net/ajax/user/1/novels/bookmarks?tag=&offset=0&limit=1&rest=show",
+            () => OkJson("Bookmark/GetUserBookmarkNovelCount.json"));
+        
+        var count = await _pixivClient.GetUserBookmarkNovelCountAsync(1);
+        Assert.AreEqual(1, count);
+    }
+
+    [TestMethod]
+    public async Task GetUserBookmarkNovelsAsync()
+    {
+        _handler.When(
+            $"https://www.pixiv.net/ajax/user/1/novels/bookmarks?tag=&offset=0&limit=24&rest=show",
+            () => OkJson("Bookmark/GetUserBookmarkNovelCount.json"));
+        
+        var novels = await _pixivClient.GetUserBookmarkNovelsAsync(1, 0);
+        Assert.HasCount(1, novels);
+        Assert.HasCount(4, novels[0].Tags);
+    }
+
+    [TestMethod]
+    public async Task GetUserBookmarkNovelTagsAsync()
+    {
+        _handler.When(
+            $"https://www.pixiv.net/ajax/user/1/novels/bookmark/tags",
+            () => OkJson("Bookmark/GetUserBookmarkNovelTags.json"));
+        
+        var tags = await _pixivClient.GetUserBookmarkNovelTagsAsync(1);
+        Assert.HasCount(1, tags.Public);
     }
 
     [TestCleanup]

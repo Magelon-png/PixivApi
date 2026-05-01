@@ -1,0 +1,65 @@
+{
+  "home_ranking_illusts": [],
+  "illusts": [
+    {
+      "id": 1616,
+      "user": {
+        "account": "nologin_artist",
+        "id": 1717,
+        "is_followed": false,
+        "name": "No Login Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/nologin_profile.jpg",
+          "large": "https://example.com/nologin_profile_large.jpg",
+          "medium": "https://example.com/nologin_profile_medium.jpg",
+          "small": "https://example.com/nologin_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "No Login Recommended Art",
+      "caption": "Recommended without login",
+      "create_date": "2023-10-01T00:00:00+00:00",
+      "width": 1000,
+      "height": 750,
+      "tools": ["No Login Tool"],
+      "total_bookmarks": 150,
+      "total_comments": 12,
+      "total_view": 4000,
+      "type": "illust",
+      "tags": [
+        {
+          "name": "nologin",
+          "count": 40,
+          "is_registered": false
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/nologin.jpg",
+        "large": "https://example.com/nologin_large.jpg",
+        "medium": "https://example.com/nologin_medium.jpg",
+        "small": "https://example.com/nologin_small.jpg"
+      },
+      "meta_pages": [],
+      "meta_single_page": {
+        "original_image_url": "https://example.com/nologin_single.jpg"
+      },
+      "page_count": 1,
+      "restrict": 0,
+      "sanity_level": 2
+    }
+  ],
+  "next_url": null,
+  "ranking_label_illust": {
+    "title": "No Login Recommended",
+    "width": 400,
+    "height": 300,
+    "user_name": "Anonymous Artist",
+    "image_urls": {
+      "original": "https://example.com/nologin_label.jpg",
+      "large": "https://example.com/nologin_label_large.jpg",
+      "medium": "https://example.com/nologin_label_medium.jpg",
+      "small": "https://example.com/nologin_label_small.jpg"
+    }
+  }
+}

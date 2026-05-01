@@ -1,0 +1,38 @@
+{
+  "body": {
+    "items": [
+      {
+        "id": "notification123",
+        "notifiedDatetime": "2026-04-26T10:00:00+09:00",
+        "type": "comment",
+        "post": {
+          "id": "11799083",
+          "title": "Test Post",
+          "feeRequired": 0,
+          "publishedDatetime": "2026-04-26T09:00:00+09:00",
+          "updatedDatetime": "2026-04-26T09:00:00+09:00",
+          "tags": ["test"],
+          "isLiked": false,
+          "likeCount": 5,
+          "isCommentingRestricted": false,
+          "commentCount": 2,
+          "isRestricted": false,
+          "user": {
+            "userId": "12345",
+            "name": "Test User",
+            "iconUrl": "https://example.com/icon.jpg"
+          },
+          "creatorId": "testuser",
+          "hasAdultContent": false,
+          "cover": {
+            "type": "cover_image",
+            "url": "https://example.com/cover.jpg"
+          },
+          "excerpt": "Test excerpt"
+        },
+        "isUnread": true
+      }
+    ],
+    "nextUrl": "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=0"
+  }
+}

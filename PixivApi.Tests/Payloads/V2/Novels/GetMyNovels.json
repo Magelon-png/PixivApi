@@ -1,0 +1,45 @@
+{
+  "next_url": null,
+  "novels": [
+    {
+      "id": 2424,
+      "user": {
+        "account": "my_novel_artist",
+        "id": 2525,
+        "is_followed": false,
+        "name": "My Novel Artist",
+        "profile_image_urls": {
+          "original": "https://example.com/my_novel_profile.jpg",
+          "large": "https://example.com/my_novel_profile_large.jpg",
+          "medium": "https://example.com/my_novel_profile_medium.jpg",
+          "small": "https://example.com/my_novel_profile_small.jpg"
+        }
+      },
+      "visible": true,
+      "is_bookmarked": false,
+      "title": "My Novel",
+      "caption": "My own novel",
+      "create_date": "2024-02-01T00:00:00+00:00",
+      "text_length": 3000,
+      "total_bookmarks": 50,
+      "total_comments": 5,
+      "total_view": 1000,
+      "tags": [
+        {
+          "name": "my_novel",
+          "count": 10,
+          "is_registered": false
+        }
+      ],
+      "image_urls": {
+        "original": "https://example.com/my_novel.jpg",
+        "large": "https://example.com/my_novel_large.jpg",
+        "medium": "https://example.com/my_novel_medium.jpg",
+        "small": "https://example.com/my_novel_small.jpg"
+      },
+      "series": null,
+      "page_count": 3,
+      "restrict": 0
+    }
+  ]
+}

@@ -71,7 +71,7 @@ internal sealed class PixivTagJsonConverter : JsonConverter<List<PixivTag>>
     {
         if (reader.TokenType == JsonTokenType.StartArray)
         {
-            return JsonSerializer.Deserialize<List<PixivTag>>(ref reader, PixivJsonSerializerContext.Default.ListPixivTag);
+            return JsonSerializer.Deserialize(ref reader, PixivJsonSerializerContext.Default.ListPixivTag);
         }
         else
         {

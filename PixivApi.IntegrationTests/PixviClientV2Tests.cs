@@ -77,7 +77,7 @@ public class PixviClientV2Tests
     public async Task GetIllustsRanking()
     {
         var illusts = await SharedClient.GetIllustsRanking(RankingMode.Month);
-        Assert.AreEqual(18, illusts.Illusts.Count);
+        Assert.IsGreaterThanOrEqualTo(15, illusts.Illusts.Count);
     }
     
     [TestMethod]

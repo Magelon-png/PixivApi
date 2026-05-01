@@ -16,6 +16,7 @@
 /// <param name="PageCount">Number of images in the work</param>
 /// <param name="CreateDate">Creation time</param>
 /// <param name="UploadDate">Upload time</param>
+/// <param name="AiType"></param>
 public record IllustWorksInfo(
     [property: JsonPropertyName("id")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
@@ -56,5 +57,8 @@ public record IllustWorksInfo(
     DateTimeOffset CreateDate,
 
     [property: JsonPropertyName("uploadDate")]
-    DateTimeOffset UploadDate
+    DateTimeOffset UploadDate,
+
+    [property: JsonPropertyName("aiType")]
+    AiType AiType
 );

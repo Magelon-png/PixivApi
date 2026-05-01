@@ -10,6 +10,13 @@ internal sealed record SearchRecommendTag(
     List<string> Ids
 );
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Candidates"></param>
+public record SearchCandidateWrapper(
+    [property: JsonPropertyName("candidates")]
+    List<SearchCandidate> Candidates);
 
 /// <summary>
 /// Search candidates

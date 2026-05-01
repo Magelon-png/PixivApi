@@ -34,6 +34,10 @@
     <PropertyGroup>
         <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="PixivApi.Tests" />
+    </ItemGroup>
 
     <PropertyGroup>
         <EnumGenerator_EnumMetadataSource>DisplayAttribute</EnumGenerator_EnumMetadataSource>

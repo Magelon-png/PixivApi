@@ -1,0 +1,15 @@
+{
+  "error": false,
+  "message": "",
+  "body": {
+    "public": [
+      {
+        "tag": "atag",
+        "cnt": 1
+      }
+    ],
+    "private": [],
+    "tooManyBookmark": false,
+    "tooManyBookmarkTags": false
+  }
+}

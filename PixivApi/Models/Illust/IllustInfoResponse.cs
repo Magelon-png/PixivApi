@@ -161,5 +161,8 @@ internal sealed record IllustInfoResponse(
     object Request,
 
     [property: JsonPropertyName("commentOff")]
-    int CommentOff
+    int CommentOff,
+
+    [property: JsonPropertyName("aiType")]
+    AiType AiType
 );

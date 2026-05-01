@@ -141,6 +141,17 @@ public class PixivClient : IDisposable
         }
         return wrapper.Body;
     }
+    
+    private async Task<T> CommonGetAsync<T>(string url, JsonTypeInfo<T> jsonTypeInfo, CancellationToken cancellationToken = default)
+    {
+        var wrapper = await _resiliencePipeline.ExecuteAsync(async token => await _httpClient.GetFromJsonAsync(url, jsonTypeInfo, token), cancellationToken
+        );
+        if (wrapper is null)
+        {
+            throw new PixivException($"Could not retrieve data from {url} when it expected some.");
+        }
+        return wrapper!;
+    }
 
 
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<PixivResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
@@ -286,24 +297,31 @@ public class PixivClient : IDisposable
         return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustInfo, cancellationToken);
     }
 
-    /// <summary> Get the information for the provided illustration ids</summary>
+    /// <summary> Get the information for the provided illustration ids. Should first call GetUserAllWorksAsync to get the list of IDs</summary>
     /// <param name="userId">The ID of the user</param>
-    /// <param name="illustIds">The collection of illustration IDs</param>
+    /// <param name="illustIds">The collection of illustration IDs. Should limit this to 24 items per call.</param>
     /// <param name="useEnglish">Whether to use English for the tags and other metadata</param>
+    /// <param name="ignoreItemLimit">When true, this method will accept any number of ids. Although it is still recommended to limit this to 50 per call.</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A <see cref="IllustWorks"/> object containing the illustration information</returns>
-    public async Task<IllustWorks> GetUserIllustsAsync(int userId, ICollection<int> illustIds, bool useEnglish = false, CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentException">Throws when more than 24 items are returned and ignoreItemLimit is false</exception>
+    public async Task<IllustWorks> GetUserIllustsAsync(int userId, ICollection<int> illustIds, bool useEnglish = false, bool ignoreItemLimit = false, CancellationToken cancellationToken = default)
     {
-        if (illustIds.Count > 24)
+        if (illustIds.Count > 24 && !ignoreItemLimit)
         {
-            throw new ArgumentException("The maximum amount of illustrations retrieved in a single call is 24", nameof(illustIds));
+            throw new ArgumentException("The maximum amount of illustrations retrieved in a single call is 24. Set ignoreItemLimit to true to ignore this limit.", nameof(illustIds));
         }
         
         var queryString = HttpUtility.ParseQueryString(String.Empty);
 
         foreach (var illustId in illustIds)
         {
+            // In .NET 8, brackets are not being encoded at all
+            #if NET8_0
+            queryString.Add("ids%5b%5d", illustId.ToString(NumberFormatInfo.InvariantInfo));
+            #else
             queryString.Add("ids[]", illustId.ToString(NumberFormatInfo.InvariantInfo));
+            #endif
         }
         
         queryString.Add("work_category", "illust");
@@ -333,7 +351,6 @@ public class PixivClient : IDisposable
         if (page == 0)
             page = 1;
         var queryString = HttpUtility.ParseQueryString(String.Empty);
-        queryString["tag"] = tag;
         queryString["offset"] = ((page - 1) * limit).ToString(NumberFormatInfo.InvariantInfo);
         queryString["limit"] = limit.ToString(NumberFormatInfo.InvariantInfo);
         queryString["sensitiveFilterMode"] = "userSetting";
@@ -342,7 +359,8 @@ public class PixivClient : IDisposable
             queryString["lang"] = lang.Value.ToStringFast(true);
         }
 
-        var url = $"https://www.pixiv.net/ajax/user/{userId}/illusts/tag?{queryString}";
+        tag = Uri.EscapeDataString(tag);
+        var url = $"https://www.pixiv.net/ajax/user/{userId}/illusts/tag?tag={tag}&{queryString}";
         var response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperUserIllustsByTag, cancellationToken);
         return response;
     }
@@ -427,10 +445,10 @@ public class PixivClient : IDisposable
     /// <param name="enable">Enable or disable notifications</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    public async Task ChangeMangaSeriesWatchListNotification(int mangaSeriesId, bool enable = false, CancellationToken cancellationToken = default)
+    public async Task<ChangeMangaSeriesWatchListNotificationResponse> ChangeMangaSeriesWatchListNotificationAsync(int mangaSeriesId, bool enable = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/illust/series/{mangaSeriesId}/watchlist/notification/{(enable ? "turn_on" : "turn_off")}";
-        await CommonPostAsync(url, new object(), PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        return await CommonPostAsync(url, new object(), PixivJsonSerializerContext.Default.PixivResponseWrapperChangeMangaSeriesWatchListNotificationResponse, cancellationToken);
     }
 
 
@@ -498,21 +516,12 @@ public class PixivClient : IDisposable
     /// <param name="request">Bookmark request</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>Bookmark id</returns>
-    public async Task<long> AddBookmarkIllustAsync(AddBookmarkIllustRequest request, CancellationToken cancellationToken = default)
+    private async Task<long> AddBookmarkIllustAsync(AddBookmarkIllustRequest request, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/illusts/bookmarks/add";
-        var jsonNode = await CommonPostAsync(url, request, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
-        var conversionResult = long.TryParse((string?)jsonNode["last_bookmark_id"], out var bookmarkId);
-        if (!conversionResult)
-        {
-            throw new PixivException("Failed to parse bookmark id to return. \n" +
-                                     "Received: \n" +
-                                     jsonNode.ToJsonString() +
-                                     "\n Expected to find numeric value in property 'last_bookmark_id'.");
-        }
-        return bookmarkId;
+        var response = await CommonPostAsync(url, request, PixivJsonSerializerContext.Default.PixivResponseWrapperAddBookmarkIllustResponse, cancellationToken);
+        return response.BookmarkId;
     }
-
 
     /// <summary>
     /// Delete a bookmarked illustration
@@ -520,21 +529,24 @@ public class PixivClient : IDisposable
     /// <param name="bookmarkId">Bookmark id</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A task that represents the asynchronous operation</returns>
-    public async Task DeleteBookmarkIllustAsync(int bookmarkId, CancellationToken cancellationToken = default)
+    public async Task DeleteBookmarkIllustAsync(long bookmarkId, CancellationToken cancellationToken = default)
     {
-        const string url = "/rpc/index.php";
-        var form = new List<KeyValuePair<string, string>>
-        {
-            new KeyValuePair<string, string>("mode", "delete_illust_bookmark"),
-            new KeyValuePair<string, string>("bookmark_id", bookmarkId.ToString(NumberFormatInfo.InvariantInfo))
-        };
-        var message = new HttpRequestMessage
-        {
-            Method = HttpMethod.Post,
-            RequestUri = new Uri(url),
-            Content = new FormUrlEncodedContent(form),
-        };
-        await CommonSendAsync(message, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        const string url = "/ajax/illusts/bookmarks/delete";
+        var data = new DeleteBookmarkIllustRequest(bookmarkId);
+        await CommonPostAsync(url, data, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+    }
+    
+    /// <summary>
+    /// Delete a bookmarked illustration
+    /// </summary>
+    /// <param name="bookmarkIds">Bookmark ids</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A task that represents the asynchronous operation</returns>
+    public async Task DeleteBookmarkIllustAsync(List<long> bookmarkIds, CancellationToken cancellationToken = default)
+    {
+        const string url = "/ajax/illusts/bookmarks/delete";
+        var data = new DeleteBookmarkIllustBatchRequest(bookmarkIds);
+        await CommonPostAsync(url, data, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -590,6 +602,7 @@ public class PixivClient : IDisposable
 
     /// <summary>
     /// Related recommended illustrations. Recommended illustrations can be many, so data will be returned in batches.
+    /// Called by pixiv when bookmarking an illustration 
     /// </summary>
     /// <param name="illustId">Illustration id</param>
     /// <param name="batchSize">Number of items per batch</param>
@@ -604,7 +617,7 @@ public class PixivClient : IDisposable
         foreach (var ids in response.NextIds.Chunk(batchSize))
         {
             var nextUrl = $"/ajax/illust/recommend/illusts?{string.Join("&", ids.Select(x => $"illust_ids[]={x}"))}";
-            yield return (await CommonGetAsync<RecommendIllustWrapper>(nextUrl, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendIllustWrapper, cancellationToken)).Illusts.Where(x => x.Id != 0);
+            yield return (await CommonGetAsync(nextUrl, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendIllustWrapper, cancellationToken)).Illusts.Where(x => x.Id != 0);
         }
     }
 
@@ -618,8 +631,8 @@ public class PixivClient : IDisposable
     {
         return await _resiliencePipeline.ExecuteAsync(async token =>
         {
-            var response = await _downloadHttpClient.GetAsync(illustUrl, cancellationToken);
-            var content = await response.Content.ReadAsStreamAsync(cancellationToken);
+            var response = await _downloadHttpClient.GetAsync(illustUrl, token);
+            var content = await response.Content.ReadAsStreamAsync(token);
         
             return content;
         }, cancellationToken);
@@ -674,7 +687,7 @@ public class PixivClient : IDisposable
     public async Task<NovelInfo> GetNovelInfoAsync(int novelId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/{novelId}";
-        return await CommonGetAsync<NovelInfo>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelInfo, cancellationToken);
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelInfo, cancellationToken);
     }
 
     /// <summary>
@@ -686,7 +699,7 @@ public class PixivClient : IDisposable
     public async Task<NovelSeries> GetNovelSeriesAsync(int novelSeriesId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series/{novelSeriesId}";
-        return await CommonGetAsync<NovelSeries>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelSeries, cancellationToken);
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelSeries, cancellationToken);
     }
 
     /// <summary>
@@ -700,7 +713,7 @@ public class PixivClient : IDisposable
     public async Task<List<NovelSeriesChapter>> GetNovelSeriesChaptersAsync(int novelSeriesId, int offset, int limit = 30, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series_content/{novelSeriesId}?limit={limit}&last_order={offset}&order_by=asc";
-        var wrapper = await CommonGetAsync<NovelSeriesContentWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelSeriesContentWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelSeriesContentWrapper, cancellationToken);
         return wrapper.Page.SeriesContents;
     }
 
@@ -715,7 +728,7 @@ public class PixivClient : IDisposable
     public async Task WatchNovelSeriesAsync(int novelSeriesId, bool unWatch = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series/{novelSeriesId}/{(unWatch ? "unwatch" : "watch")}";
-        await CommonPostAsync<JsonNode>(url, new object(), PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, new object(), PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -729,7 +742,7 @@ public class PixivClient : IDisposable
     public async Task ChangeNovelSeriesWatchListNotification(int novelSeriesId, bool enable = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/novel/series/{novelSeriesId}/watchlist/notification/{(enable ? "turn_on" : "turn_off")}";
-        await CommonPostAsync<JsonNode>(url, new object(), PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, new object(), PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -741,7 +754,7 @@ public class PixivClient : IDisposable
     public async Task<NovelHomePageResponse> GetNovelHomePageAsync(CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/top/novel?mode=all";
-        return await CommonGetAsync<NovelHomePageResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelHomePageResponse, cancellationToken);
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperNovelHomePageResponse, cancellationToken);
     }
 
 
@@ -755,7 +768,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/novels/like";
         var obj = new LikeNovelRequest(novelId);
-        await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -818,8 +831,8 @@ public class PixivClient : IDisposable
     public async Task<long> AddBookmarkNovelAsync(AddBookmarkNovelRequest request, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/novels/bookmarks/add";
-        var result = await CommonPostAsync<string>(url, request, PixivJsonSerializerContext.Default.PixivResponseWrapperString, cancellationToken);
-        var conversionResult =  long.TryParse(result, out var bookmarkId);
+        var result = await CommonPostAsync(url, request, PixivJsonSerializerContext.Default.PixivResponseWrapperString, cancellationToken);
+        _ = long.TryParse(result, out var bookmarkId);
         return bookmarkId;
     }
 
@@ -844,7 +857,7 @@ public class PixivClient : IDisposable
             RequestUri = new Uri(url),
             Content = new FormUrlEncodedContent(form),
         };
-        await CommonSendAsync<JsonNode>(message, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonSendAsync(message, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -859,7 +872,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/novels/bookmarks/edit_restrict";
         var obj = new ChangeBookmarkNovelVisibilityRequest(bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)), isPrivate ? "private" : "public");
-        await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -874,7 +887,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/novels/bookmarks/add_tags";
         var obj = new AddBookmarkNovelTagsRequest(bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)), tags.Take(10));
-        await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -888,7 +901,7 @@ public class PixivClient : IDisposable
     {
         const string url = "/ajax/novels/bookmarks/remove";
         var obj = new DeleteBookmarkNovelsRequest(bookmarkIds.Select(x => x.ToString(NumberFormatInfo.InvariantInfo)) );
-        await CommonPostAsync<JsonNode>(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, obj, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -902,7 +915,7 @@ public class PixivClient : IDisposable
     public async IAsyncEnumerable<IEnumerable<NovelProfile>> GetRecommendNovelsAsync(int novelId, int batchSize = 10, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var initUrl = $"/ajax/novel/{novelId}/recommend/init?limit={batchSize}";
-        var response = await CommonGetAsync<RecommendNovelWrapper>(initUrl, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendNovelWrapper, cancellationToken);
+        var response = await CommonGetAsync(initUrl, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendNovelWrapper, cancellationToken);
         // There are actually ads here
         yield return response.Novels.Where(x => x.Id != 0);
         foreach (var ids in response.NextIds.Chunk(batchSize))
@@ -931,7 +944,7 @@ public class PixivClient : IDisposable
     public async Task<int> GetUserBookmarkIllustCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/illusts/bookmarks?tag=&offset=0&limit=1&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync<BookmarkIllustWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkIllustWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkIllustWrapper, cancellationToken);
         return wrapper.Total;
     }
 
@@ -955,7 +968,7 @@ public class PixivClient : IDisposable
             tag = UrlEncoder.Default.Encode(tag);
         }
         var url = $"/ajax/user/{userId}/illusts/bookmarks?tag={tag}&offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync<BookmarkIllustWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkIllustWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkIllustWrapper, cancellationToken);
         return wrapper.Works;
     }
 
@@ -970,7 +983,7 @@ public class PixivClient : IDisposable
     public async Task<UserBookmarkTag> GetUserBookmarkIllustTagsAsync(int userId, bool returnEnglish = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/illusts/bookmark/tags{(returnEnglish ? "?lang=en" : string.Empty)}";
-        return await CommonGetAsync<UserBookmarkTag>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperUserBookmarkTag, cancellationToken);
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperUserBookmarkTag, cancellationToken);
     }
 
 
@@ -984,7 +997,7 @@ public class PixivClient : IDisposable
     public async Task<int> GetUserBookmarkNovelCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/novels/bookmarks?tag=&offset=0&limit=1&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync<BookmarkNovelWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkNovelWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkNovelWrapperV2, cancellationToken);
         return wrapper.Total;
     }
 
@@ -999,7 +1012,7 @@ public class PixivClient : IDisposable
     /// <param name="tag">Filter tag</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A list of <see cref="NovelProfile"/> objects</returns>
-    public async Task<List<NovelProfile>> GetUserBookmarkNovelsAsync(int userId, int offset, int limit = 24, string? tag = null, bool isPrivate = false, CancellationToken cancellationToken = default)
+    public async Task<List<NovelProfileBookmarks>> GetUserBookmarkNovelsAsync(int userId, int offset, int limit = 24, string? tag = null, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         limit = Math.Clamp(limit, 1, 100);
         if (!string.IsNullOrWhiteSpace(tag))
@@ -1007,7 +1020,7 @@ public class PixivClient : IDisposable
             tag = Uri.EscapeDataString(tag);
         }
         var url = $"/ajax/user/{userId}/novels/bookmarks?tag={tag}&offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync<BookmarkNovelWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkNovelWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkNovelWrapperV2, cancellationToken);
         return wrapper.Works;
     }
 
@@ -1021,7 +1034,7 @@ public class PixivClient : IDisposable
     public async Task<UserBookmarkTag> GetUserBookmarkNovelTagsAsync(int userId, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/novels/bookmark/tags";
-        return await CommonGetAsync<UserBookmarkTag>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperUserBookmarkTag, cancellationToken);
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperUserBookmarkTag, cancellationToken);
     }
 
 
@@ -1042,7 +1055,7 @@ public class PixivClient : IDisposable
     public async Task<int> GetFollowingUserCountAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/following?offset=0&limit=1&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync<FollowingUserWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingUserWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingUserWrapper, cancellationToken);
         return wrapper.Total;
     }
 
@@ -1061,7 +1074,7 @@ public class PixivClient : IDisposable
     {
         limit = Math.Clamp(limit, 0, 100);
         var url = $"/ajax/user/{userId}/following?offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync<FollowingUserWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingUserWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingUserWrapper, cancellationToken);
         return wrapper.Users;
     }
 
@@ -1075,7 +1088,7 @@ public class PixivClient : IDisposable
     public async Task<List<IllustProfile>> GetFollowingUserLatestIllustsAsync(int page, bool onlyR18 = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/follow_latest/illust?p={page}&mode={(onlyR18 ? "r18" : "all")}";
-        var wrapper = await CommonGetAsync<FollowingLatestWorkWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingLatestWorkWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingLatestWorkWrapper, cancellationToken);
         return wrapper.Thumbnails.Illusts;
     }
 
@@ -1089,7 +1102,7 @@ public class PixivClient : IDisposable
     public async Task<List<NovelProfile>> GetFollowingUserLatestNovelsAsync(int page, bool onlyR18 = false, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/follow_latest/novel?p={page}&mode={(onlyR18 ? "r18" : "all")}";
-        var wrapper = await CommonGetAsync<FollowingLatestWorkWrapper>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingLatestWorkWrapper, cancellationToken);
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperFollowingLatestWorkWrapper, cancellationToken);
         return wrapper.Thumbnails.Novels;
     }
 
@@ -1186,7 +1199,7 @@ public class PixivClient : IDisposable
     public async Task<List<RecommendUser>> GetRecommendAfterFollowingUserAsync(int userId, int userNumber = 20, int workNumber = 3, bool allowR18 = true, CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/recommends?userNum={userNumber}&workNum={workNumber}&isR18={allowR18}";
-        var response = await CommonGetAsync<RecommendUserResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendUserResponse, cancellationToken);
+        var response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendUserResponse, cancellationToken);
         var dicIllust = response.Thumbnails.Illusts.ToDictionary(x => x.Id);
         var dicNovel = response.Thumbnails.Novels.ToDictionary(x => x.Id);
         var dicMap = response.RecommendMaps.ToDictionary(x => x.UserId);
@@ -1244,7 +1257,7 @@ public class PixivClient : IDisposable
     public async Task<GetSearchSuggestionResponse> GetSearchSuggestionAsync(CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/search/suggestion?mode=all";
-        return await CommonGetAsync<GetSearchSuggestionResponse>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperGetSearchSuggestionResponse, cancellationToken);
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperGetSearchSuggestionResponse, cancellationToken);
     }
 
 
@@ -1257,7 +1270,7 @@ public class PixivClient : IDisposable
     public async Task ChangeFavoriteTags(IEnumerable<string> tags, CancellationToken cancellationToken = default)
     {
         const string url = "/ajax/favorite_tags/save";
-        await CommonPostAsync<JsonNode>(url, new { tags }, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
+        await CommonPostAsync(url, new { tags }, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
     }
 
 
@@ -1271,22 +1284,21 @@ public class PixivClient : IDisposable
     public async Task<List<SearchCandidate>> GetSearchCandidatesAsync(string keyword, CancellationToken cancellationToken = default)
     {
         var url = $"/rpc/cps.php?keyword={keyword}";
-        var node = await CommonGetAsync<JsonNode>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperJsonNode, cancellationToken);
-        if (node["candidates"] is JsonArray array)
-        {
-            var list = array.Deserialize(PixivJsonSerializerContext.Default.ListSearchCandidate);
-            bool? any = false;
-            foreach (var candidate in list ?? [])
-            {
-                any = true;
-                break;
-            }
+        var response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.SearchCandidateWrapper, cancellationToken);
 
-            if (any ?? false)
-            {
-                return list ?? [];
-            }
+        var list = response.Candidates;
+        bool? any = false;
+        foreach (var _ in list ?? [])
+        {
+            any = true;
+            break;
         }
+
+        if (any ?? false)
+        {
+            return list ?? [];
+        }
+        
         return new List<SearchCandidate>();
     }
 
@@ -1338,7 +1350,7 @@ public class PixivClient : IDisposable
         var baseUrl = $"/ajax/search/illustrations/{keyword}";
         var url = $"{baseUrl}?{queryString}";
 
-        var response = await CommonGetAsync<IllustSearchResult>(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustSearchResult ,cancellationToken);
+        var response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustSearchResult ,cancellationToken);
         return response;
     }
 
@@ -1368,6 +1380,3 @@ public class PixivClient : IDisposable
 
     }
 }
-
-
-

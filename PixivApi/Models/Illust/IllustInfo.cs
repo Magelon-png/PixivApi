@@ -30,6 +30,7 @@ namespace Scighost.PixivApi.Models.Illust;
 /// <param name="IsOriginal"></param>
 /// <param name="SeriesNavData"></param>
 /// <param name="BookmarkData"></param>
+/// <param name="AiType"></param>
 [JsonSerializable(typeof(IllustInfo), TypeInfoPropertyName = "IllustInfoV1")]
 public record IllustInfo(
     [property: JsonPropertyName("id")]
@@ -109,5 +110,8 @@ public record IllustInfo(
     SeriesNavData? SeriesNavData,
 
     [property: JsonPropertyName("bookmarkData")]
-    BookmarkData? BookmarkData
+    BookmarkData? BookmarkData,
+
+    [property: JsonPropertyName("aiType")]
+    AiType AiType
 );

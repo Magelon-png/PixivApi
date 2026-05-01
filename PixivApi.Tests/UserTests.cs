@@ -93,71 +93,70 @@ public class UserTests
         Assert.HasCount(24, userTopWorks.Mangas);
         Assert.IsEmpty(userTopWorks.Novels);
     }
-
-    [TestMethod]
-    public async Task GetFollowingUserCountAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task GetFollowingUsersAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task GetFollowingUserLatestIllustsAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task GetFollowingUserLatestNovelsAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task AddFollowingUserAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task DeleteFollowingUserAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task ChangeFollowingUserVisibilityAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task GetRecommendAfterFollowingUserAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task GetTokenAsync()
-    {
-        //TODO
-    }
-
-    [TestMethod]
-    public async Task ChangeFavoriteTags()
-    {
-        //TODO
-    }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserCountAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUsersAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserLatestIllustsAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserLatestNovelsAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task AddFollowingUserAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task DeleteFollowingUserAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeFollowingUserVisibilityAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetRecommendAfterFollowingUserAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeFavoriteTags()
+    // {
+    //     
+    // }
 
     [TestMethod]
     public async Task GetSearchCandidatesAsync()
     {
-        //TODO
+        _handler.When(
+            "https://www.pixiv.net/rpc/cps.php?keyword=hina",
+            () => OkJson("User/GetSearchCandidates.json"));
+        
+        var response = await _pixivClient.GetSearchCandidatesAsync("hina");
+        Assert.HasCount(10, response);
     }
 
     [TestCleanup]

@@ -23,6 +23,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: GitTools
+      uses: GitTools/actions@v4.5.0
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v4.5.0
       with:
@@ -65,6 +67,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: GitTools
+      uses: GitTools/actions@v4.5.0
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v4.5.0
       with:

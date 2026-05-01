@@ -58,14 +58,26 @@ public class FanboxClient : IDisposable
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="cookie"></param>
+    /// <param name="cfBm">__cf_bm cookie value</param>
+    /// <param name="cfClearance">cf_clearance cookie value</param>
+    /// <param name="fanboxsessid">FANBOXSESSID cookie value</param>
+    /// <param name="additionalCookies">Additional cookies to append</param>
     /// <param name="clientHandler"></param>
     /// <param name="userAgent"></param>
     /// <param name="enableCurlImpersonate"></param>
     /// <param name="curlImpersonatePath"></param>
     /// <exception cref="PixivException"></exception>
-    public FanboxClient(string cookie, HttpMessageHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
+    public FanboxClient(string cfBm, string cfClearance, string fanboxsessid, Dictionary<string, string>? additionalCookies = null, HttpMessageHandler? clientHandler = null, string? userAgent = null, bool enableCurlImpersonate = false, string? curlImpersonatePath = null)
     {
+        var cookie = $"__cf_bm={cfBm}; cf_clearance={cfClearance}; FANBOXSESSID={fanboxsessid};";
+        if (additionalCookies != null)
+        {
+            foreach (var kvp in additionalCookies)
+            {
+                cookie += $" {kvp.Key}={kvp.Value};";
+            }
+        }
+
         if (ValidateCookie(cookie) == false)
         {
             throw new PixivException("Invalid cookie. The cookie should be in the format of '__cf_bm=xxx;cf_clearance=yyy;FANBOXSESSID=zzz;' in any order.");
@@ -110,7 +122,7 @@ public class FanboxClient : IDisposable
     private async Task<T> CommonPostAsync<T>(string url, object value, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
         var response =  await _resiliencePipeline.ExecuteAsync(
-            async token => await _httpClient.PostAsJsonAsync(url, value, token), cancellationToken);
+            async token => await _httpClient.PostAsJsonAsync(url, value, FanboxJsonSerializerContext.Default.Object,token), cancellationToken);
         response.EnsureSuccessStatusCode();
         var wrapper = await response.Content.ReadFromJsonAsync<FanboxResponseWrapper<T>>(jsonTypeInfo, cancellationToken);
         if (wrapper is null)

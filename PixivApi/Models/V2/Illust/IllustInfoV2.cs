@@ -33,7 +33,7 @@ namespace Scighost.PixivApi.Models.V2.Illust;
 public record IllustInfoV2(
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    uint Id,
+    int Id,
     [property: JsonPropertyName("title")]
     string Title,
     [property: JsonPropertyName("type")]
@@ -43,7 +43,7 @@ public record IllustInfoV2(
     [property: JsonPropertyName("caption")]
     string Caption,
     [property: JsonPropertyName("restrict")]
-    uint Restrict,
+    int Restrict,
     [property: JsonPropertyName("user")]
     PublicUser User,
     [property: JsonPropertyName("tags")]
@@ -53,7 +53,7 @@ public record IllustInfoV2(
     [property: JsonPropertyName("create_date")]
     DateTimeOffset CreateDate,
     [property: JsonPropertyName("page_count")]
-    uint PageCount,
+    int PageCount,
     [property: JsonPropertyName("width")]
     int Width,
     [property: JsonPropertyName("height")]
@@ -69,9 +69,9 @@ public record IllustInfoV2(
     [property: JsonPropertyName("meta_pages")]
     MetaPages[] MultiPageUrlData,
     [property: JsonPropertyName("total_view")]
-    uint TotalView,
+    int TotalView,
     [property: JsonPropertyName("total_bookmarks")]
-    uint TotalBookmarks,
+    int TotalBookmarks,
     [property: JsonPropertyName("is_bookmarked")]
     bool IsBookmarked,
     [property: JsonPropertyName("visible")]
@@ -79,7 +79,7 @@ public record IllustInfoV2(
     [property: JsonPropertyName("is_muted")]
     bool IsMuted,
     [property: JsonPropertyName("total_comments")]
-    uint TotalComments,
+    int TotalComments,
     [property: JsonPropertyName("illust_ai_type")]
     IllustAiType IllustAiType
 );

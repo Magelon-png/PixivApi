@@ -22,6 +22,7 @@ namespace Scighost.PixivApi.Models.Illust;
 /// <param name="CreateDate">Creation time</param>
 /// <param name="UpdateDate">Upload time</param>
 /// <param name="UserProfileImageUrl">User avatar image address</param>
+/// <param name="AiType">Whether the work was created with AI assistance</param>
 public record IllustProfile(
     [property: JsonPropertyName("id")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
@@ -71,7 +72,10 @@ public record IllustProfile(
     DateTimeOffset UpdateDate,
 
     [property: JsonPropertyName("profileImageUrl")]
-    string UserProfileImageUrl
+    string UserProfileImageUrl,
+
+    [property: JsonPropertyName("aiType")]
+    AiType AiType
 );
 
 /// <inheritdoc/>
@@ -94,6 +98,7 @@ public record IllustProfile(
 /// <param name="CreateDate"></param>
 /// <param name="UpdateDate"></param>
 /// <param name="UserProfileImageUrl"></param>
+/// <param name="AiType"></param>
 /// <param name="SeriesId"></param>
 /// <param name="SeriesTitle"></param>
 /// <param name="AlternativeTitle"></param>
@@ -148,6 +153,8 @@ public record MangaProfile(
 
     [property: JsonPropertyName("profileImageUrl")]
     string UserProfileImageUrl,
+    [property: JsonPropertyName("aiType")]
+    AiType AiType,
     [property: JsonPropertyName("seriesId")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     int SeriesId,
@@ -157,5 +164,5 @@ public record MangaProfile(
     string AlternativeTitle,
     [property: JsonPropertyName("isBookmarkable")]
     bool IsBookmarkable
-    
-) : IllustProfile(Id, Title, IllustType, XRestrict, Url, Description, Tags, UserId, UserName, Width, Height, PageCount, BookmarkData, CreateDate, UpdateDate, UserProfileImageUrl);
+
+) : IllustProfile(Id, Title, IllustType, XRestrict, Url, Description, Tags, UserId, UserName, Width, Height, PageCount, BookmarkData, CreateDate, UpdateDate, UserProfileImageUrl, AiType);

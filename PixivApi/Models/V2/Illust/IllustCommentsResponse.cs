@@ -25,7 +25,7 @@ public record IllustComment(
     DateTimeOffset Date,
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    uint Id,
+    int Id,
     [property: JsonPropertyName("user")]
     PublicUser User
     );

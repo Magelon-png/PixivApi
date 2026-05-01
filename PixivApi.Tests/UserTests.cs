@@ -15,7 +15,7 @@ public class UserTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -92,6 +92,71 @@ public class UserTests
                                                     i.PageCount == 3));
         Assert.HasCount(24, userTopWorks.Mangas);
         Assert.IsEmpty(userTopWorks.Novels);
+    }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserCountAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUsersAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserLatestIllustsAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetFollowingUserLatestNovelsAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task AddFollowingUserAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task DeleteFollowingUserAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeFollowingUserVisibilityAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetRecommendAfterFollowingUserAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeFavoriteTags()
+    // {
+    //     
+    // }
+
+    [TestMethod]
+    public async Task GetSearchCandidatesAsync()
+    {
+        _handler.When(
+            "https://www.pixiv.net/rpc/cps.php?keyword=hina",
+            () => OkJson("User/GetSearchCandidates.json"));
+        
+        var response = await _pixivClient.GetSearchCandidatesAsync("hina");
+        Assert.HasCount(10, response);
     }
 
     [TestCleanup]

@@ -15,7 +15,7 @@ public class NovelTests
     public void Initialize()
     {
         _handler = new TestHttpMessageHandler();
-        _pixivClient = new PixivClient(cookie: "__cf_bm=xxx;cf_clearance=yyy;PHPSESSID=zzz;", clientHandler: _handler);
+        _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
     private static HttpResponseMessage OkJson(string path) =>
@@ -65,6 +65,72 @@ public class NovelTests
         Assert.HasCount(0, response.Thumbnails.Illusts);
         Assert.HasCount(expectedNovels, response.Thumbnails.Novels);
     }
+    //
+    // [TestMethod]
+    // public async Task GetNovelSeriesAsync()
+    // {
+    //    
+    // }
+    //
+    // [TestMethod]
+    // public async Task WatchNovelSeriesAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeNovelSeriesWatchListNotification()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task LikeNovelAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task MarkerNovelPageAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task AddBookmarkNovelAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task DeleteBookmarkNovelAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task ChangeBookmarkNovelVisibilityAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task AddBookmarkNovelTagsAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task DeleteBookmarkNovelsAsync()
+    // {
+    //     
+    // }
+    //
+    // [TestMethod]
+    // public async Task GetRecommendNovelsAsync()
+    // {
+    //     
+    // }
 
     [TestCleanup]
     public void Cleanup()

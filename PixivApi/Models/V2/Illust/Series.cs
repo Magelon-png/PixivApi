@@ -8,7 +8,7 @@
 public record Series(
     [property: JsonPropertyName("id"),
     JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    uint Id,
+    int Id,
     [property: JsonPropertyName("title")]
     string Title
 );

@@ -12,14 +12,14 @@ namespace Scighost.PixivApi.Models.User;
 /// <param name="Novels">Novels</param>
 public record UserTopWorks(
     [property: JsonPropertyName("illusts")]
-    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<int, IllustProfile>))]
+    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<IllustProfile>))]
     List<IllustProfile> Illusts,
 
     [property: JsonPropertyName("manga")]
-    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<int, IllustProfile>))]
+    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<IllustProfile>))]
     List<IllustProfile> Mangas,
 
     [property: JsonPropertyName("novels")]
-    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<int, NovelProfile>))]
+    [property: JsonConverter(typeof(DictionaryValueToListJsonConverter<NovelProfile>))]
     List<NovelProfile> Novels
 );

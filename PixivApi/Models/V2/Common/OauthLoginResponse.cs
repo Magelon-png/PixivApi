@@ -13,7 +13,7 @@ public record OauthLoginResponse(
     [property: JsonPropertyName("access_token")]
     string AccessToken,
     [property: JsonPropertyName("expires_in")]
-    uint ExpiresIn,
+    int ExpiresIn,
     [property: JsonPropertyName("token_type")]
     string TokenType,
     [property: JsonPropertyName("scope")]

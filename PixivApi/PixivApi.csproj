@@ -48,6 +48,9 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="10.5.0" />
 	  <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta21" />
+        <PackageReference Include="GitVersion.MsBuild" Version="6.7.0">
+            <PrivateAssets>All</PrivateAssets>
+        </PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>

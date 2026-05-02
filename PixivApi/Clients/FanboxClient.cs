@@ -339,7 +339,7 @@ public class FanboxClient : IDisposable
         var content = await _resiliencePipeline.ExecuteAsync(
             async token =>
             {
-                using var response = await _downloadHttpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead, token);
+                var response = await _downloadHttpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead, token);
                 var content = await response.Content.ReadAsStreamAsync(token);
                 return content;
             }, cancellationToken);

@@ -631,7 +631,7 @@ public class PixivClient : IDisposable
     {
         return await _resiliencePipeline.ExecuteAsync(async token =>
         {
-            using var response = await _downloadHttpClient.GetAsync(illustUrl, token);
+            var response = await _downloadHttpClient.GetAsync(illustUrl, token);
             var content = await response.Content.ReadAsStreamAsync(token);
         
             return content;

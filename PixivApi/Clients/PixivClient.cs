@@ -1375,8 +1375,6 @@ public class PixivClient : IDisposable
     }
 
 
-
-
     /// <summary>
     /// Search all illustrations by keywords
     /// </summary>
@@ -1388,11 +1386,12 @@ public class PixivClient : IDisposable
     /// <param name="searchExact">If the tag of the work must exactly match with the provided keyword.
     /// If more than 1 keyword is passed, partial search will be used.</param>
     /// <param name="lang">Language of the search to correctly populate the tag translation property</param>
+    /// <param name="hideAi">When true, search for non-AI generated illustrations</param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <returns>A <see cref="IllustSearchResult"/> object containing the search results</returns>
     public async Task<IllustSearchResult> SearchIllustrationsAsync(int page, string[] keywords, SearchOrder orderBy,
         SearchAge searchAge = SearchAge.AnyAge, SearchTarget searchTarget = SearchTarget.IllustAndUgoira,
-        bool searchExact = true, SearchLanguage? lang = null, CancellationToken cancellationToken = default)
+        bool searchExact = true, SearchLanguage? lang = null, bool hideAi = false, CancellationToken cancellationToken = default)
     {
         if (keywords.Length == 0)
         {
@@ -1414,6 +1413,10 @@ public class PixivClient : IDisposable
         queryString["csw"] = 0.ToString(NumberFormatInfo.InvariantInfo);
         queryString["s_mode"] = searchExact ? "s_tag_full" : "s_tag";
         queryString["type"] = searchTarget.ToStringFast(true);
+        if (hideAi)
+        {
+            queryString["ai_type"] = "1";
+        }
         if (lang is not null)
         {
             queryString["lang"] = lang.Value.ToStringFast(true);

@@ -88,5 +88,5 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
       - name: Push to NuGet.org (Trusted Publishing)
-        if: (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev/') || (startsWith(github.ref, 'refs/heads/feature/') && github.event_name == 'workflow_dispatch')
+        if: (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev/')) || (startsWith(github.ref, 'refs/heads/feature/') && github.event_name == 'workflow_dispatch')
         run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate

@@ -26,7 +26,7 @@ public record FollowingUser(
     List<IllustProfile> Illusts,
 
     [property: JsonPropertyName("novels")]
-    List<NovelProfile> Novels
+    List<NovelProfileHomePage> Novels
 );
 
 internal sealed record FollowingUserWrapper(

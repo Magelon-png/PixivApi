@@ -11,6 +11,11 @@ internal sealed class RecommendIllustWrapper
     [JsonPropertyName("nextIds")]
     public List<string> NextIds { get; set; }
 
+    public RecommendIllustWrapper(List<IllustProfile> illusts, List<string> nextIds)
+    {
+        Illusts = illusts;
+        NextIds = nextIds;
+    }
 }
 
 

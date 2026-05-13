@@ -82,9 +82,9 @@ public partial class PixivClientV2 : IDisposable
     internal sealed partial class PkceCodeGenerator
     {
 
-        internal string CodeVerifier;
+        internal string? CodeVerifier;
 
-        internal string CodeChallenge;
+        internal string? CodeChallenge;
 
         internal PkceCodeGenerator()
         {

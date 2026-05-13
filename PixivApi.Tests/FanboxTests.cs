@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using Scighost.PixivApi;
 using Scighost.PixivApi.Clients;
+using Scighost.PixivApi.Models.Fanbox;
 
 namespace PixivApi.Tests;
 
@@ -189,32 +190,24 @@ public sealed class FanboxTests
     [DataRow(false)]
     public async Task GetHomePagePostsAsync(bool supportedPostsOnly)
     {
-        if(supportedPostsOnly)
-        {
             _handler.When(
                 $"https://api.fanbox.cc/post.listSupporting?limit=10",
                 () => OkJson("Fanbox/GetHomePagePosts.json"));
-        }
-        else
-        {
             _handler.When(
                 $"https://api.fanbox.cc/post.listHome?limit=10",
                 () => OkJson("Fanbox/GetHomePagePosts.json"));
+            
+            _handler.When("https://api.fanbox.cc/post.listHome?maxPublishedDatetime=2026-04-26%2004%3A19%3A57&maxId=11798168&limit=10", 
+                () => OkJson("Fanbox/GetHomePagePosts-NextUrl.json"));
+        
+        var response = _fanboxClient.GetHomePagePostsAsync(supportedPostsOnly);
+        Assert.IsNotNull(response);
+        int iterations = 0;
+        await foreach (var post in response)
+        {
+            iterations++;
         }
-        
-        var response = await _fanboxClient.GetHomePagePostsAsync(supportedPostsOnly);
-        
-        Assert.IsNotNull(response);
-        Assert.IsNotNull(response.Items);
-        Assert.HasCount(10, response.Items);
-        
-        _handler.When(response.NextUrl, 
-            () => OkJson("Fanbox/GetHomePagePosts-NextUrl.json"));
-        
-        response = await _fanboxClient.GetHomePagePostsAsync(nextUrl: response.NextUrl);
-        Assert.IsNotNull(response);
-        Assert.IsNull(response.NextUrl);
-        Assert.HasCount(0, response.Items);
+        Assert.AreEqual(10, iterations);
     }
     
     [TestMethod]
@@ -223,13 +216,23 @@ public sealed class FanboxTests
         _handler.When(
             "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0",
             () => OkJson("Fanbox/GetNotification.json"));
+        var nextUrl = "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=0&lastId=notification123";
+        _handler.When(nextUrl, () => OkJson("Fanbox/GetNotification-NextUrl.json"));
 
-        var result = await _fanboxClient.GetNotificationAsync();
+        var result = _fanboxClient.GetNotificationAsync();
 
-        Assert.IsNotNull(result);
-        Assert.HasCount(1, result.items);
-        Assert.AreEqual("notification123", result.items[0].Id);
-        Assert.IsTrue(result.items[0].IsUnread);
+        
+        var iterations = 0;
+        await foreach (var notification in result)
+        {
+            Assert.IsNotNull(result);
+            Assert.AreEqual("notification123", notification.Id);
+            Assert.IsTrue(notification.IsUnread);
+            iterations++;
+        }
+        
+        Assert.AreEqual(1, iterations);
+        
     }
 
     [TestMethod]
@@ -238,23 +241,43 @@ public sealed class FanboxTests
         _handler.When(
             "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=1",
             () => OkJson("Fanbox/GetNotification.json"));
+        var nextUrl = "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=0&lastId=notification123";
+        _handler.When(nextUrl, () => OkJson("Fanbox/GetNotification-NextUrl.json"));
 
-        var result = await _fanboxClient.GetNotificationAsync(commentOnly: true);
+        var result = _fanboxClient.GetNotificationAsync(commentOnly: true);
 
-        Assert.IsNotNull(result);
-        Assert.HasCount(1, result.items);
+        var iterations = 0;
+        
+        await foreach (var notification in result)
+        {
+            Assert.IsNotNull(result);
+            iterations++;
+        }
+        
+        Assert.AreEqual(1, iterations);
+
+
     }
 
     [TestMethod]
     public async Task GetNotificationAsync_WithNextUrl()
     {
-        var nextUrl = "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&lastId=notification123";
-        _handler.When(nextUrl, () => OkJson("Fanbox/GetNotification.json"));
+        _handler.When(
+            "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0",
+            () => OkJson("Fanbox/GetNotification.json"));
+        var nextUrl = "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=0&lastId=notification123";
+        _handler.When(nextUrl, () => OkJson("Fanbox/GetNotification-NextUrl.json"));
 
-        var result = await _fanboxClient.GetNotificationAsync(nextUrl: nextUrl);
+        var result = _fanboxClient.GetNotificationAsync();
 
-        Assert.IsNotNull(result);
-        Assert.HasCount(1, result.items);
+        var items = new List<NotificationContent>();
+        await foreach (var notification in result)
+        {
+            items.Add(notification);
+            Assert.IsNotNull(result);
+
+        }
+        Assert.HasCount(1, items);
     }
 
     [TestCleanup]

@@ -123,7 +123,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v2/illust/follow?restrict=public",
             () => OkJson("V2/Illusts/GetFollowIllustrations.json"));
 
-        var result = await _pixivClientV2.GetFollowIllustrationsAsync();
+        var result = await _pixivClientV2.GetFollowIllustrationsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -147,7 +147,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v2/illust/mypixiv",
             () => OkJson("V2/Illusts/GetMyIllustrations.json"));
 
-        var result = await _pixivClientV2.GetMyIllustrationsAsync();
+        var result = await _pixivClientV2.GetMyIllustrationsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -159,7 +159,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/illust/new?content_type=illust",
             () => OkJson("V2/Illusts/GetNewIllustrations.json"));
 
-        var result = await _pixivClientV2.GetNewIllustrationAsync(IllustrationContentType.Illust);
+        var result = await _pixivClientV2.GetNewIllustrationAsync(IllustrationContentType.Illust).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -183,7 +183,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/illust/recommended?content_type=illust&include_ranking=False&include_ranking_label=False&offset=0",
             () => OkJson("V2/Illusts/GetRecommendedIllustrations.json"));
 
-        var result = await _pixivClientV2.GetRecommendedIllustrations(IllustrationContentType.Illust);
+        var result = await _pixivClientV2.GetRecommendedIllustrations(IllustrationContentType.Illust).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -195,7 +195,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/illust/recommended-nologin?content_type=illust",
             () => OkJson("V2/Illusts/GetRecommendedIllustrationsNoLogin.json"));
 
-        var result = await _pixivClientV2.GetRecommendedIllustrationsNoLoginAsync(IllustrationContentType.Illust);
+        var result = await _pixivClientV2.GetRecommendedIllustrationsNoLoginAsync(IllustrationContentType.Illust).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -207,7 +207,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/search/illust?word=test&sort=date_desc&search_target=partial_match_for_tags",
             () => OkJson("V2/Illusts/SearchIllusts.json"));
 
-        var result = await _pixivClientV2.SearchIllustsAsync("test", SearchOrderV2.DateDescending);
+        var result = await _pixivClientV2.SearchIllustsAsync("test", SearchOrderV2.DateDescending).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -220,7 +220,7 @@ public sealed class PixivClientV2Tests
             () => OkJson("V2/Illusts/SearchIllusts.json"));
 
         var result = await _pixivClientV2.SearchIllustsAsync("test", SearchOrderV2.DateDescending, 
-            SearchTarget.PartialMatchForTags, BookmarkCount.Hundred, SearchPeriod.LastWeek, null, 10);
+            SearchTarget.PartialMatchForTags, BookmarkCount.Hundred, SearchPeriod.LastWeek, 10).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -234,7 +234,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/follow?restrict=public",
             () => OkJson("V2/Novels/GetFollowNovels.json"));
 
-        var result = await _pixivClientV2.GetFollowNovelsAsync();
+        var result = await _pixivClientV2.GetFollowNovelsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -246,7 +246,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/recommended-nologin",
             () => OkJson("V2/Novels/GetRecommendedNovelsNoLogin.json"));
 
-        var result = await _pixivClientV2.GetRecommendedNovelsNoLoginAsync();
+        var result = await _pixivClientV2.GetRecommendedNovelsNoLoginAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -258,7 +258,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/mypixiv",
             () => OkJson("V2/Novels/GetMyNovels.json"));
 
-        var result = await _pixivClientV2.GetMyNovelsAsync();
+        var result = await _pixivClientV2.GetMyNovelsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -270,7 +270,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/new",
             () => OkJson("V2/Novels/GetNewNovels.json"));
 
-        var result = await _pixivClientV2.GetNewNovelsAsync();
+        var result = await _pixivClientV2.GetNewNovelsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -294,7 +294,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/comments?novel_id=505",
             () => OkJson("V2/Novels/GetNovelComments.json"));
 
-        var result = await _pixivClientV2.GetNovelCommentsAsync(505);
+        var result = await _pixivClientV2.GetNovelCommentsAsync(505).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -306,7 +306,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/ranking?mode=day",
             () => OkJson("V2/Novels/GetNovelRanking.json"));
 
-        var result = await _pixivClientV2.GetNovelRankingAsync(RankingModeNovel.Day);
+        var result = await _pixivClientV2.GetNovelRankingAsync(RankingModeNovel.Day).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -331,7 +331,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/novel/markers",
             () => OkJson("V2/Novels/GetNovelMarkers.json"));
 
-        var result = await _pixivClientV2.GetNovelMarkersAsync();
+        var result = await _pixivClientV2.GetNovelMarkersAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -357,7 +357,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/user/bookmark-tags/illust?user_id=808&restrict=public",
             () => OkJson("V2/Users/GetUserBookmarkTagsIllust.json"));
 
-        var result = await _pixivClientV2.GetUserBookmarkTagsIllustAsync(808);
+        var result = await _pixivClientV2.GetUserBookmarkTagsIllustAsync(808).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -369,7 +369,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/user/bookmark-tags/novel?user_id=909&restrict=public",
             () => OkJson("V2/Users/GetUserBookmarkTagsNovel.json"));
 
-        var result = await _pixivClientV2.GetUserBookmarkTagsNovelAsync(909);
+        var result = await _pixivClientV2.GetUserBookmarkTagsNovelAsync(909).ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -381,7 +381,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/user/browsing-history/illusts",
             () => OkJson("V2/Users/GetUserBrowsingHistoryIllusts.json"));
 
-        var result = await _pixivClientV2.GetUserBrowsingHistoryIllustsAsync();
+        var result = await _pixivClientV2.GetUserBrowsingHistoryIllustsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }
@@ -393,7 +393,7 @@ public sealed class PixivClientV2Tests
             "https://app-api.pixiv.net/v1/user/browsing-history/novels",
             () => OkJson("V2/Users/GetUserBrowsingHistoryNovels.json"));
 
-        var result = await _pixivClientV2.GetUserBrowsingHistoryNovelsAsync();
+        var result = await _pixivClientV2.GetUserBrowsingHistoryNovelsAsync().ToListAsync();
 
         Assert.IsNotNull(result);
     }

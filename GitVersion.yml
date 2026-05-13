@@ -1,17 +1,33 @@
 next-version: 2.0.1
-mode: ContinuousDeployment
+
+mode: ContinuousDelivery
+
 branches:
   main:
     regex: ^main$
-    tag: ''
+    label: ''
     increment: Patch
+    is-release-branch: true
+    source-branches:
+      - develop
+    prevent-increment:
+      of-merged-branch: true
+
   develop:
-    regex: ^dev/.*$
-    tag: alpha
+    regex: ^develop$
+    label: alpha
     increment: Minor
-    source-branches: ['main']
+    is-main-branch: true
+    track-merge-target: true
+    source-branches:
+      - main
+
   feature:
-    regex: ^feature/.*$
-    tag: beta
+    regex: ^feature[/-]
+    label: '{BranchName}'
     increment: Inherit
-    source-branches: ['develop', 'main']
+    source-branches:
+      - develop
+
+ignore:
+  sha: []

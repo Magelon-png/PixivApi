@@ -24,7 +24,6 @@ branches:
 
   feature:
     regex: ^feature[/-]
-    label: '{BranchName}'
     increment: Inherit
     source-branches:
       - develop

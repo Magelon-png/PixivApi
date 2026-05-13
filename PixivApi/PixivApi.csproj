@@ -4,7 +4,7 @@
 		<TargetFrameworks>net8.0;net9.0;net10.0;net11.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<NoWarn>CS0657;NU5104;NU5100;SYSLIB5007</NoWarn>
+		<NoWarn>CS0657;NU5104;NU5100;</NoWarn>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<Version>2.0.0</Version>
 		<RootNamespace>Scighost.PixivApi</RootNamespace>
@@ -32,9 +32,8 @@
 		<PackageId Condition="'$(RuntimeIdentifier)' == 'osx-arm64'">Magelon-png.PixivApi.osx-arm64</PackageId>
 	</PropertyGroup>
 
-    <PropertyGroup Condition="!$([MSBuild]::VersionGreaterThanOrEquals('$(NETCoreSdkVersion)', '11.0'))">
-        <EnablePreviewFeatures>true</EnablePreviewFeatures>
-        <Features>$(Features);runtime-async=on</Features>
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+        <Features>runtime-async=on</Features>
     </PropertyGroup>
 
     <PropertyGroup>

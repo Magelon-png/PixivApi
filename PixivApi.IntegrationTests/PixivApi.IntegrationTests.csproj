@@ -13,6 +13,11 @@
         <IsTestProject Condition="'$(RunIntegrations)' != 'true'">false</IsTestProject>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+        <Features>runtime-async=on</Features>
+    </PropertyGroup>
+
+
     <ItemGroup>
       <ProjectReference Include="..\PixivApi\PixivApi.csproj" />
     </ItemGroup>

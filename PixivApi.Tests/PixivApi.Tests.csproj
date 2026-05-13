@@ -16,6 +16,11 @@
         <PublishAot>true</PublishAot>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+        <Features>runtime-async=on</Features>
+    </PropertyGroup>
+
+
     <ItemGroup>
         <PackageReference Include="MSTest" Version="4.2.2" />
         <PackageReference Include="System.Linq.Async" Version="7.0.1" />

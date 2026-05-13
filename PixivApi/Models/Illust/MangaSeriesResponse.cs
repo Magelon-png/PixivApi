@@ -13,6 +13,12 @@ internal sealed class MangaSeriesResponse
     [JsonPropertyName("page")]
     public IllustSeriesWorkWrapper Page { get; set; }
 
+    public MangaSeriesResponse(Thumbnails thumbnails, List<MangaSeries> mangaSeries, IllustSeriesWorkWrapper page)
+    {
+        Thumbnails = thumbnails;
+        MangaSeries = mangaSeries;
+        Page = page;
+    }
 }
 
 
@@ -41,6 +47,18 @@ internal sealed class IllustSeriesWorkWrapper
 
     [JsonPropertyName("isNotifying")]
     public bool IsNotifying { get; set; }
+
+    public IllustSeriesWorkWrapper(List<IllustSeriesWork> works, bool isSetCover, int seriesId, string otherSeriesId, List<int> recentUpdatedWorkIds, int total, bool isWatched, bool isNotifying)
+    {
+        Works = works;
+        IsSetCover = isSetCover;
+        SeriesId = seriesId;
+        OtherSeriesId = otherSeriesId;
+        RecentUpdatedWorkIds = recentUpdatedWorkIds;
+        Total = total;
+        IsWatched = isWatched;
+        IsNotifying = isNotifying;
+    }
 }
 
 internal sealed class IllustSeriesWork

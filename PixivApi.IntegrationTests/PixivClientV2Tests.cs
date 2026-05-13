@@ -124,8 +124,8 @@ public class PixviClientV2Tests
     [TestMethod]
     public async Task GetFollowIllustrationsAsync()
     {
-        var illustrations = await SharedClient.GetFollowIllustrationsAsync();
-        Assert.HasCount(30, illustrations.Illusts);
+        var illustrations = await SharedClient.GetFollowIllustrationsAsync().ToListAsync();
+        Assert.HasCount(30, illustrations);
     }
     
     [TestMethod]
@@ -140,10 +140,9 @@ public class PixviClientV2Tests
     [TestMethod]
     public async Task GetNewIllustrationsAsync()
     {
-        var illustrations = await SharedClient.GetNewIllustrationAsync(IllustrationContentType.Illust);
-        Assert.IsNotNull(illustrations.Illusts);
-        Assert.HasCount(30, illustrations.Illusts);
-        Assert.IsNotNull(illustrations.NextUrl);
+        var illustrations = await SharedClient.GetNewIllustrationAsync(IllustrationContentType.Illust).ToListAsync();
+        Assert.IsNotNull(illustrations);
+        Assert.HasCount(30, illustrations);
     }
     // Endpoint does not exists
     // [TestMethod]
@@ -158,19 +157,17 @@ public class PixviClientV2Tests
     [TestMethod]
     public async Task GetRecommendedIllustrations()
     {
-        var illustrations = await SharedClient.GetRecommendedIllustrations(IllustrationContentType.Illust);
-        Assert.IsNotNull(illustrations.Illusts);
-        Assert.IsGreaterThan(30, illustrations.Illusts.Count);
-        Assert.IsNotNull(illustrations.NextUrl);
+        var illustrations = await SharedClient.GetRecommendedIllustrations(IllustrationContentType.Illust).ToListAsync();
+        Assert.IsNotNull(illustrations);
+        Assert.IsGreaterThan(30, illustrations.Count);
     }
 
     [TestMethod]
     [DataRow("Miku")]
     public async Task SearchIllustsAsync(string searchTerm)
     {
-        var illustrations = await SharedClient.SearchIllustsAsync(searchTerm, SearchOrderV2.DateDescending);
-        Assert.IsNotNull(illustrations.Illusts);
-        Assert.HasCount(30, illustrations.Illusts);
-        Assert.IsNotNull(illustrations.NextUrl);
+        var illustrations = await SharedClient.SearchIllustsAsync(searchTerm, SearchOrderV2.DateDescending).ToListAsync();
+        Assert.IsNotNull(illustrations);
+        Assert.HasCount(30, illustrations);
     }
 }

@@ -15,7 +15,7 @@ branches:
 
   develop:
     regex: ^develop$
-    label: alpha
+    label: beta
     increment: Minor
     is-main-branch: true
     track-merge-target: true
@@ -24,6 +24,7 @@ branches:
 
   feature:
     regex: ^feature[/-]
+    label: alpha
     increment: Inherit
     source-branches:
       - develop

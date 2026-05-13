@@ -24,8 +24,4 @@
         <PackageReference Include="System.Linq.Async" Version="7.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="res.html" />
-    </ItemGroup>
-
 </Project>

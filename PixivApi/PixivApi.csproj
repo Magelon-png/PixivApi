@@ -33,7 +33,7 @@
 	</PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
-        <Features>runtime-async=on</Features>
+        <Features>runtime-async=off</Features>
     </PropertyGroup>
 
     <PropertyGroup>

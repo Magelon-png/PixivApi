@@ -110,7 +110,7 @@ public class FanboxClient : IDisposable
     private async Task<T> CommonGetAsync<T>(string url, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
         var wrapper = await _resiliencePipeline.ExecuteAsync(
-            async token => await _httpClient.GetFromJsonAsync<FanboxResponseWrapper<T>>(url, jsonTypeInfo, token),
+            async token => await _httpClient.GetFromJsonAsync(url, jsonTypeInfo, token),
             cancellationToken);
         if (wrapper is null)
         {
@@ -125,7 +125,7 @@ public class FanboxClient : IDisposable
         var response =  await _resiliencePipeline.ExecuteAsync(
             async token => await _httpClient.PostAsJsonAsync(url, value, FanboxJsonSerializerContext.Default.Object,token), cancellationToken);
         response.EnsureSuccessStatusCode();
-        var wrapper = await response.Content.ReadFromJsonAsync<FanboxResponseWrapper<T>>(jsonTypeInfo, cancellationToken);
+        var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper is null)
         {
             throw new PixivException("Error");
@@ -139,7 +139,7 @@ public class FanboxClient : IDisposable
         var response =  await _resiliencePipeline.ExecuteAsync(
             async token => await _httpClient.SendAsync(message, token), cancellationToken);
         response.EnsureSuccessStatusCode();
-        var wrapper = await response.Content.ReadFromJsonAsync<FanboxResponseWrapper<T>>(jsonTypeInfo, cancellationToken);
+        var wrapper = await response.Content.ReadFromJsonAsync(jsonTypeInfo, cancellationToken);
         if (wrapper is null)
         {
             throw new PixivException("Error");
@@ -155,7 +155,7 @@ public class FanboxClient : IDisposable
     public async Task<SupportingPlan[]> GetSupportingPlansAsync(CancellationToken cancellationToken = default)
     {
         var url = "plan.listSupporting";
-        var response = await CommonGetAsync<SupportingPlan[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
         return response;
     }
 
@@ -168,7 +168,7 @@ public class FanboxClient : IDisposable
     public async Task<SupportingPlan[]> GetCreatorSupportingPlansAsync(string creatorId, CancellationToken cancellationToken = default)
     {
         var url = $"plan.listCreator?creatorId={creatorId}";
-        var response = await CommonGetAsync<SupportingPlan[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
         return response;
     }
 
@@ -180,7 +180,7 @@ public class FanboxClient : IDisposable
     public async Task<FollowedCreator[]> GetFollowedCreatorsAsync(CancellationToken cancellationToken = default)
     {
         var url = "creator.listFollowing";
-        var response = await CommonGetAsync<FollowedCreator[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperFollowedCreatorArray, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperFollowedCreatorArray, cancellationToken);
         return response;
     }
     
@@ -194,7 +194,7 @@ public class FanboxClient : IDisposable
     public async Task<CreatorSearchResult> SearchCreatorsAsync(string searchTerm, int page = 0, CancellationToken cancellationToken = default)
     {
         var url = $"creator.search?q={Uri.EscapeDataString(searchTerm)}&page={page}";
-        var response = await CommonGetAsync<CreatorSearchResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperCreatorSearchResult, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperCreatorSearchResult, cancellationToken);
         return response;
     }
     
@@ -210,7 +210,7 @@ public class FanboxClient : IDisposable
         if(limit.HasValue)        {
             url += $"?limit={limit.Value}";
         }
-        var response = await CommonGetAsync<SearchRecommendCreatorsResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSearchRecommendCreatorsResult, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSearchRecommendCreatorsResult, cancellationToken);
         return response;
     }
 
@@ -223,7 +223,7 @@ public class FanboxClient : IDisposable
         CancellationToken cancellationToken = default)
     {
         var url = "creator.listPixiv";
-        var response = await CommonGetAsync<SearchRecommendCreatorsResult>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSearchRecommendCreatorsResult, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSearchRecommendCreatorsResult, cancellationToken);
         return response;
     }
     
@@ -237,7 +237,7 @@ public class FanboxClient : IDisposable
     public async Task<string[]> GetCreatorPostPaginationAsync(string creatorId, CancellationToken cancellationToken = default)
     {
         var url = $"post.paginateCreator?creatorId={creatorId}";
-        var response = await CommonGetAsync<string[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperStringArray, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperStringArray, cancellationToken);
         return response;
     }
 
@@ -250,7 +250,7 @@ public class FanboxClient : IDisposable
     public async Task<PostListItem[]> GetCreatorPostsFromPaginationAsync(string paginationUrl, CancellationToken cancellationToken = default)
     {
         var url = paginationUrl.Replace(BaseUriHttps, "");
-        var response = await CommonGetAsync<PostListItem[]>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostListItemArray, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostListItemArray, cancellationToken);
         return response;
     }
     
@@ -264,7 +264,7 @@ public class FanboxClient : IDisposable
     public async Task<PostInfo> GetPostInfoAsync(int postId, CancellationToken cancellationToken = default)
     {
         var url = $"post.info?postId={postId}";
-        var response = await CommonGetAsync<PostInfo>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostInfo, cancellationToken);
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostInfo, cancellationToken);
         return response;
     }
 
@@ -283,7 +283,7 @@ public class FanboxClient : IDisposable
         HomePagePostItems? response = null;
         do
         {
-            response = await CommonGetAsync<HomePagePostItems>(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperHomePagePostItems, cancellationToken);
+            response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperHomePagePostItems, cancellationToken);
             url = response.NextUrl;
             foreach (var post in response.Items)
             {
@@ -312,7 +312,7 @@ public class FanboxClient : IDisposable
 
         do
         {
-            response = await CommonGetAsync<GetNotificationResult>(url!,
+            response = await CommonGetAsync(url!,
                 FanboxJsonSerializerContext.Default.FanboxResponseWrapperGetNotificationResult, cancellationToken);
             url = response.NextUrl;
             foreach (var notification in response.Items)
@@ -330,7 +330,7 @@ public class FanboxClient : IDisposable
     {
         var url = "newsletter.markAsReadAll";
         
-        await CommonPostAsync<EmptyResponse>(url, new EmptyResponse(),FanboxJsonSerializerContext.Default.FanboxResponseWrapperEmptyResponse, cancellationToken);
+        await CommonPostAsync(url, new EmptyResponse(),FanboxJsonSerializerContext.Default.FanboxResponseWrapperEmptyResponse, cancellationToken);
     }
     
     /// <summary>

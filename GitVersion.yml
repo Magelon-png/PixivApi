@@ -28,6 +28,13 @@ branches:
     increment: Inherit
     source-branches:
       - develop
+    
+  hotfix:
+    regex: ^hotfix[/-]
+    label: ''
+    increment: Patch
+    source-branches:
+      - main
 
 ignore:
   sha: []

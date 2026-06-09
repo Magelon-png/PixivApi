@@ -2,6 +2,12 @@
   "error": false,
   "message": "",
   "body": {
+    "collections": {
+      "146546584658468458468": null
+    },
+    "collectionIds": [
+      "146546584658468458468"
+    ],
     "illusts": {
       "126221729": {
         "id": "126221729",

@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿﻿using System.Numerics;
 using System.Text.Json.Nodes;
 using Scighost.PixivApi.Models.Common;
 using Scighost.PixivApi.Models.Illust;
@@ -40,6 +40,7 @@ public record UserAllWorks(
     List<JsonNode> Pickup,
 
     [property: JsonPropertyName("collections")]
+    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverter<JsonNode?>))]
     Dictionary<BigInteger, JsonNode?>? Collections,
 
     [property: JsonPropertyName("collectionIds")]

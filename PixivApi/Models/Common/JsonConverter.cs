@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Numerics;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Scighost.PixivApi.Models.Collection;
 using Scighost.PixivApi.Models.Illust;
 using Scighost.PixivApi.Models.Novel;
@@ -221,7 +222,8 @@ internal sealed class EmptyArrayAsDictionaryJsonConverter<T> : JsonConverterFact
     public override bool CanConvert(Type typeToConvert)
     {
         return typeToConvert == typeof(Dictionary<string, PlanTranslationDescription>) ||
-               typeToConvert == typeof(Dictionary<string, PlanTranslationTitle>);
+               typeToConvert == typeof(Dictionary<string, PlanTranslationTitle>)
+               || typeToConvert == typeof(Dictionary<BigInteger, JsonNode?>);
     }
 
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
@@ -234,9 +236,63 @@ internal sealed class EmptyArrayAsDictionaryJsonConverter<T> : JsonConverterFact
         {
             return new EmptyArrayAsDictionaryJsonConverterPlanTranslationTitle();
         }
+        else if(typeToConvert == typeof(Dictionary<BigInteger, JsonNode?>))
+        {
+            return new EmptyArrayAsDictionaryJsonConverterJsonNodeNullable();
+        }
 
         throw new NotSupportedException($"Type {typeToConvert} is not supported by {nameof(EmptyArrayAsDictionaryJsonConverter<T>)}.");
     }
+}
+
+
+internal sealed class EmptyArrayAsDictionaryJsonConverterJsonNodeNullable : JsonConverter<Dictionary<BigInteger, JsonNode>>
+{
+
+    public override Dictionary<BigInteger, JsonNode>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray) { }
+            return new Dictionary<BigInteger, JsonNode>();
+        }
+
+        if (reader.TokenType != JsonTokenType.StartObject)
+            return null;
+
+        var result = new Dictionary<BigInteger, JsonNode>();
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+        {
+            if (reader.TokenType != JsonTokenType.PropertyName)
+                continue;
+
+            var key = BigInteger.Parse(reader.GetString()!, CultureInfo.InvariantCulture);
+            reader.Read();
+            var value = JsonSerializer.Deserialize(ref reader, PixivJsonSerializerContext.Default.JsonNode);
+            result[key] = value!;
+        }
+        return result;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dictionary<BigInteger, JsonNode> value, JsonSerializerOptions options)
+    {
+        if (value.Count == 0)
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+        }
+        else
+        {
+            writer.WriteStartObject();
+            foreach (var kvp in value)
+            {
+                writer.WritePropertyName(kvp.Key.ToString(CultureInfo.InvariantCulture));
+                writer.WriteRawValue(JsonSerializer.Serialize(kvp.Value, PixivJsonSerializerContext.Default.JsonNode));
+            }
+            writer.WriteEndObject();
+        }
+    }
+    
 }
 
 internal sealed class EmptyArrayAsDictionaryJsonConverterPlanTranslationDescription : JsonConverter<Dictionary<string, PlanTranslationDescription>>

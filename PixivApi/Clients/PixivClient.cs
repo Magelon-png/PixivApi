@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Net;
 using System.Net.Http.Json;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -12,6 +13,7 @@ using Polly;
 using Scighost.PixivApi.Exceptions;
 using Scighost.PixivApi.Helpers;
 using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Collection;
 using Scighost.PixivApi.Models.Illust;
 using Scighost.PixivApi.Models.Novel;
 using Scighost.PixivApi.Models.Search;
@@ -1430,6 +1432,119 @@ public class PixivClient : IDisposable
     }
 
 
+
+
+    #endregion
+
+
+    #region Collection
+
+
+
+    /// <summary>
+    /// Get recommended collection tags
+    /// </summary>
+    /// <param name="lang">Language for tag translations</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="RecommendedCollectionTags"/> object containing recommended tags and their translations</returns>
+    public async Task<RecommendedCollectionTags> GetRecommendedCollectionTagsAsync(SearchLanguage? lang = null, CancellationToken cancellationToken = default)
+    {
+        var url = "/ajax/collections/search/recommended_tags";
+        if (lang is not null)
+        {
+            url += $"?lang={lang.Value.ToStringFast(true)}";
+        }
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperRecommendedCollectionTags, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// Get top collections
+    /// </summary>
+    /// <param name="lang">Language for tag translations</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="TopCollectionsResponse"/> object containing top collections</returns>
+    public async Task<TopCollectionsResponse> GetTopCollectionsAsync(SearchLanguage? lang = null, CancellationToken cancellationToken = default)
+    {
+        var url = "/ajax/top/collection";
+        if (lang is not null)
+        {
+            url += $"?lang={lang.Value.ToStringFast(true)}";
+        }
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperTopCollectionsResponse, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// Search collections by tags
+    /// </summary>
+    /// <param name="page">Page number (1-indexed, converts to offset)</param>
+    /// <param name="tags">Tags to search for</param>
+    /// <param name="mode">Safe or R18 search mode</param>
+    /// <param name="limit">Number of items per page</param>
+    /// <param name="lang">Language for tag translations</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="CollectionSearchResult"/> object containing the search results</returns>
+    public async Task<CollectionSearchResult> SearchCollectionsAsync(int page, string[] tags, SearchCollectionMode mode = SearchCollectionMode.Safe, int limit = 20, SearchLanguage? lang = null, CancellationToken cancellationToken = default)
+    {
+        var queryString = HttpUtility.ParseQueryString(string.Empty);
+        queryString["mode"] = mode.ToStringFast(true);
+        queryString["limit"] = limit.ToString(NumberFormatInfo.InvariantInfo);
+        queryString["offset"] = ((page - 1) * limit).ToString(NumberFormatInfo.InvariantInfo);
+        if (tags.Length > 0)
+        {
+            queryString["tags"] = string.Join(",", tags);
+        }
+        if (lang is not null)
+        {
+            queryString["lang"] = lang.Value.ToStringFast(true);
+        }
+        var url = $"/ajax/collections/search?{queryString}";
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperCollectionSearchResult, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// Get collection detail and tiles
+    /// </summary>
+    /// <param name="collectionId">Collection ID</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="CollectionDetailResponse"/> object containing the collection detail</returns>
+    public async Task<CollectionDetailResponse> GetCollectionAsync(BigInteger collectionId, CancellationToken cancellationToken = default)
+    {
+        var url = $"/ajax/collection/{collectionId}";
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperCollectionDetailResponse, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// Get specific user collections by IDs
+    /// </summary>
+    /// <param name="userId">User ID</param>
+    /// <param name="collectionIds">Collection IDs to retrieve</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="UserCollectionsResponse"/> object containing the user collections</returns>
+    public async Task<UserCollectionsResponse> GetUserCollectionsAsync(int userId, ICollection<BigInteger> collectionIds, CancellationToken cancellationToken = default)
+    {
+        var ids = string.Join(",", collectionIds);
+        var url = $"/ajax/user/{userId}/profile/collections?ids={ids}";
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperUserCollectionsResponse, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// Get bookmarked collections for the current user
+    /// </summary>
+    /// <param name="offset">Offset for pagination</param>
+    /// <param name="limit">Number of items per page</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>A <see cref="BookmarkCollectionsResponse"/> object containing the bookmarked collections</returns>
+    public async Task<BookmarkCollectionsResponse> GetBookmarkCollectionsAsync(int offset = 0, int limit = 24, CancellationToken cancellationToken = default)
+    {
+        var userId = await GetMyUserIdAsync();
+        var url = $"/ajax/user/{userId}/collections/bookmarks?offset={offset}&limit={limit}";
+        return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkCollectionsResponse, cancellationToken);
+    }
 
 
     #endregion

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Numerics;
+using System.Text.Json.Nodes;
 using Scighost.PixivApi.Models.Common;
 using Scighost.PixivApi.Models.Illust;
 using Scighost.PixivApi.Models.Novel;
@@ -14,6 +15,8 @@ namespace Scighost.PixivApi.Models.User;
 /// <param name="MangaSeries">Manga series</param>
 /// <param name="NovelSeries">Novel series</param>
 /// <param name="Pickup">Featured works, too complex structure, not represented by entity classes</param>
+/// <param name="Collections">User collections</param>
+/// <param name="CollectionIds">Collection IDs</param>
 public record UserAllWorks(
     [property: JsonPropertyName("illusts")]
     [property: JsonConverter(typeof(DictionaryKeyToListJsonConverter<int>))]
@@ -34,5 +37,12 @@ public record UserAllWorks(
     List<NovelSeries> NovelSeries,
 
     [property: JsonPropertyName("pickup")]
-    List<JsonNode> Pickup
+    List<JsonNode> Pickup,
+
+    [property: JsonPropertyName("collections")]
+    Dictionary<BigInteger, JsonNode?>? Collections,
+
+    [property: JsonPropertyName("collectionIds")]
+    [property: JsonConverter(typeof(BigIntegerListConverter))]
+    List<BigInteger> CollectionIds
 );

@@ -1,0 +1,112 @@
+{
+  "error": false,
+  "message": "",
+  "body": {
+    "tagTranslation": [],
+    "thumbnails": {
+      "illust": [],
+      "novel": [],
+      "novelSeries": [],
+      "novelDraft": [],
+      "collection": [
+        {
+          "id": "35931581765300027379",
+          "userId": "84753896",
+          "userName": "\u56db\u592a\u90ce",
+          "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2022\/11\/28\/13\/48\/53\/23669963_9168ffbf5ec727e31e71f53942ab007b_170.png",
+          "title": "\u30b0\u30c3\u30ba\u8ca9\u58f2\u306e\u304a\u77e5\u3089\u305b\uff08SUZURI\u3067\u3059\u304c\u2026\uff09",
+          "tags": [
+            "\u304a\u54c1\u66f8\u304d",
+            "\u30aa\u30ea\u30b8\u30ca\u30eb",
+            "\u30e1\u30a4\u30c9",
+            "\u5973\u306e\u5b50",
+            "\u30d4\u30f3\u30af\u9aea",
+            "\u5c11\u5973",
+            "\u30c4\u30a4\u30f3\u30c6\u30fc\u30eb",
+            "#\u53ef\u611b\u3044",
+            "#\u840c\u3048",
+            "\u30ea\u30dc\u30f3"
+          ],
+          "caption": "",
+          "language": "ja",
+          "visibilityScope": 0,
+          "xRestrict": 0,
+          "sl": 4,
+          "commentOff": false,
+          "isSpoiler": false,
+          "isBookmarkable": true,
+          "bookmarkData": null,
+          "bookmarkCount": 0,
+          "viewCount": 9,
+          "citedDataHash": "8c16e6e83435931c",
+          "thumbnailImageUrl": "https:\/\/embed.pixiv.net\/next\/collection\/35931581765300027379\/8c16e6e83435931c\/6\/288x288\/thumbnail",
+          "status": "public",
+          "publishedDateTime": "2026-06-09 15:40:07"
+        }
+      ]
+    },
+    "illustSeries": [],
+    "requests": [],
+    "users": [],
+    "works": [
+      {
+        "id": "35931581765300027379",
+        "userId": "84753896",
+        "userName": "\u56db\u592a\u90ce",
+        "profileImageUrl": "https:\/\/i.pximg.net\/user-profile\/img\/2022\/11\/28\/13\/48\/53\/23669963_9168ffbf5ec727e31e71f53942ab007b_170.png",
+        "title": "\u30b0\u30c3\u30ba\u8ca9\u58f2\u306e\u304a\u77e5\u3089\u305b\uff08SUZURI\u3067\u3059\u304c\u2026\uff09",
+        "tags": [
+          "\u304a\u54c1\u66f8\u304d",
+          "\u30aa\u30ea\u30b8\u30ca\u30eb",
+          "\u30e1\u30a4\u30c9",
+          "\u5973\u306e\u5b50",
+          "\u30d4\u30f3\u30af\u9aea",
+          "\u5c11\u5973",
+          "\u30c4\u30a4\u30f3\u30c6\u30fc\u30eb",
+          "#\u53ef\u611b\u3044",
+          "#\u840c\u3048",
+          "\u30ea\u30dc\u30f3"
+        ],
+        "caption": "",
+        "language": "ja",
+        "visibilityScope": 0,
+        "xRestrict": 0,
+        "sl": 4,
+        "commentOff": false,
+        "isSpoiler": false,
+        "isBookmarkable": true,
+        "bookmarkData": null,
+        "bookmarkCount": 0,
+        "viewCount": 9,
+        "citedDataHash": "8c16e6e83435931c",
+        "thumbnailImageUrl": "https:\/\/embed.pixiv.net\/next\/collection\/35931581765300027379\/8c16e6e83435931c\/6\/288x288\/thumbnail",
+        "status": "public",
+        "publishedDateTime": "2026-06-09 15:40:07"
+      }
+    ],
+    "extraData": {
+      "meta": {
+        "title": "\u56db\u592a\u90ce\u306e\u30b3\u30ec\u30af\u30b7\u30e7\u30f3 - pixiv",
+        "description": "pixiv",
+        "canonical": "https:\/\/www.pixiv.net\/en\/users\/84753896\/collections",
+        "ogp": {
+          "description": "\u53ef\u611b\u3044\u5973\u306e\u5b50\u3092\u305f\u304f\u3055\u3093\u63cf\u304d\u305f\u3044\u3067\u3059\ud83c\udfa8\n\u4f5c\u54c1\u3092\u3054\u89a7\u3044\u305f\u3060\u3051\u308c\u3070\u5e78\u3044\u3067\u3059\u3002\n \u6210\u9577\u306e\u904e\u7a0b\u3092\u4e00\u7dd2\u306b\u898b\u5b88\u3063\u3066\u304f\u3060\u3055\u3044\u3002\n#\u7f8e\u5c11\u5973\u30a4\u30e9\u30b9\u30c8 #\u5973\u306e\u5b50#\u4e00\u6b21\u5275\u4f5c\u30c8 #\u30aa\u30ea\u30b8\u30ca\u30eb\u30ad\u30e3\u30e9\u30af\u30bf\u30fc #\u304a\u7d75\u63cf\u304d",
+          "image": "https:\/\/embed.pixiv.net\/user_profile.php?id=84753896\u0026k=d65b6346b92e07cc616eaee33a88232b",
+          "title": "\u56db\u592a\u90ce\u306e\u30b3\u30ec\u30af\u30b7\u30e7\u30f3",
+          "type": "article"
+        },
+        "twitter": {
+          "description": "\u53ef\u611b\u3044\u5973\u306e\u5b50\u3092\u305f\u304f\u3055\u3093\u63cf\u304d\u305f\u3044\u3067\u3059\ud83c\udfa8\n\u4f5c\u54c1\u3092\u3054\u89a7\u3044\u305f\u3060\u3051\u308c\u3070\u5e78\u3044\u3067\u3059\u3002\n \u6210\u9577\u306e\u904e\u7a0b\u3092\u4e00\u7dd2\u306b\u898b\u5b88\u3063\u3066\u304f\u3060\u3055\u3044\u3002\n#\u7f8e\u5c11\u5973\u30a4\u30e9\u30b9\u30c8 #\u5973\u306e\u5b50#\u4e00\u6b21\u5275\u4f5c\u30c8 #\u30aa\u30ea\u30b8\u30ca\u30eb\u30ad\u30e3\u30e9\u30af\u30bf\u30fc #\u304a\u7d75\u63cf\u304d",
+          "image": "https:\/\/embed.pixiv.net\/user_profile.php?id=84753896\u0026k=d65b6346b92e07cc616eaee33a88232b",
+          "title": "\u56db\u592a\u90ce\u306e\u30b3\u30ec\u30af\u30b7\u30e7\u30f3",
+          "card": "summary_large_image"
+        },
+        "alternateLanguages": {
+          "ja": "https:\/\/www.pixiv.net\/en\/users\/84753896\/collections",
+          "en": "https:\/\/www.pixiv.net\/en\/users\/84753896\/collections"
+        },
+        "descriptionHeader": "\u300c\u56db\u592a\u90ce\u300d has posted 0 Collection."
+      }
+    }
+  }
+}

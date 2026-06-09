@@ -5,9 +5,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "main", "dev/**" ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ "main", "dev/**" ]
+    branches: [ "main", "develop" ]
   workflow_dispatch: {}
 
 permissions:
@@ -38,6 +38,10 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+      - name: Setup .NET 11
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 11.0.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
@@ -50,7 +54,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: build
-    if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev/'))) || (startsWith(github.ref, 'refs/heads/feature/') && github.event_name == 'workflow_dispatch')
+    if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref =='refs/heads/develop')) || (startsWith(github.ref, 'refs/heads/feature/') && github.event_name == 'workflow_dispatch')
     permissions:
       contents: read
       id-token: write
@@ -76,6 +80,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+      - name: Setup .NET 11
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 11.0.x
+          
       - name: Restore dependencies
         run: dotnet restore
       - name: Pack project
@@ -88,5 +97,5 @@ jobs:
         with:
           user: ${{ secrets.NUGET_USER }}
       - name: Push to NuGet.org (Trusted Publishing)
-        if: (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/dev/')) || (startsWith(github.ref, 'refs/heads/feature/') && github.event_name == 'workflow_dispatch')
+        if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref =='refs/heads/develop')) || (startsWith(github.ref, 'refs/heads/feature/') && github.event_name == 'workflow_dispatch')
         run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{steps.login.outputs.NUGET_API_KEY}} --skip-duplicate

@@ -3,11 +3,11 @@ namespace Scighost.PixivApi.Models.Fanbox;
 /// <summary>
 /// Result of notification list
 /// </summary>
-/// <param name="items">List of notifications</param>
-/// <param name="nextUrl">URL for next page</param>
+/// <param name="Items">List of notifications</param>
+/// <param name="NextUrl">URL for next page</param>
 public record GetNotificationResult(
-    [property: JsonPropertyName("items")] NotificationContent[] items,
-    [property: JsonPropertyName("nextUrl")] string? nextUrl);
+    [property: JsonPropertyName("items")] NotificationContent[] Items,
+    [property: JsonPropertyName("nextUrl")] string? NextUrl);
 
 /// <summary>
 /// Notification content

@@ -352,5 +352,17 @@ MigrationBackup/
 # Rider IDE
 .idea/
 
-# Claude AI
+# AI Agent Tools
 .claude/
+.opencode/
+.cursor/
+.continue/
+.aider/
+.cline/
+.roo/
+.windsurf/
+.trae/
+.copilot/
+.supermaven/
+.codeium/
+.tabnine/

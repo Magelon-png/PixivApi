@@ -33,6 +33,6 @@
         "isUnread": true
       }
     ],
-    "nextUrl": "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=0"
+    "nextUrl": "https://api.fanbox.cc/bell.list?limit=10&skipConvertUnreadNotification=0&commentOnly=0&lastId=notification123"
   }
 }

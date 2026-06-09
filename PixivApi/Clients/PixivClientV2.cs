@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -12,11 +13,14 @@ using System.Web;
 using Polly;
 using Scighost.PixivApi.Exceptions;
 using Scighost.PixivApi.Helpers;
+using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.Models.Novel;
 using Scighost.PixivApi.Models.V2.Common;
 using Scighost.PixivApi.Models.V2.Illust;
 using Scighost.PixivApi.Models.V2.Novel;
 using Scighost.PixivApi.Models.V2.User;
 using Scighost.PixivApi.SerializerContexts;
+using NovelInfoResponse = Scighost.PixivApi.Models.V2.Novel.NovelInfoResponse;
 
 namespace Scighost.PixivApi.Clients;
 
@@ -78,9 +82,9 @@ public partial class PixivClientV2 : IDisposable
     internal sealed partial class PkceCodeGenerator
     {
 
-        internal string CodeVerifier;
+        internal string? CodeVerifier;
 
-        internal string CodeChallenge;
+        internal string? CodeChallenge;
 
         internal PkceCodeGenerator()
         {
@@ -374,15 +378,24 @@ public partial class PixivClientV2 : IDisposable
     /// 
     /// </summary>
     /// <param name="restrict"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IllustsInfoResponse> GetFollowIllustrationsAsync(string? restrict = "public", string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IllustInfoV2> GetFollowIllustrationsAsync(string? restrict = "public",
+       [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v2/illust/follow?restrict={restrict}";
+        var url = $"/v2/illust/follow?restrict={restrict}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+        IllustsInfoResponse? response = null;
+
+        do
+        {
+            response =  await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+            foreach (var illust in response.Illusts)
+            {
+                yield return illust;
+            }
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
@@ -401,31 +414,45 @@ public partial class PixivClientV2 : IDisposable
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IllustInfoResponse> GetMyIllustrationsAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IllustInfoV2> GetMyIllustrationsAsync( 
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        const string url = "/v2/illust/mypixiv";
+        string url = "/v2/illust/mypixiv";
 
-        return await CommonGetAsync(nextUrl ?? url, PixivV2JsonSerializerContext.Default.IllustInfoResponse, cancellationToken);
+        IllustsInfoResponse? response = null;
+
+        do
+        {
+            response =  await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+            foreach (var illust in response.Illusts)
+                yield return illust;
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
     
     /// <summary>
     /// 
     /// </summary>
     /// <param name="illustContentType"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IllustsInfoResponse> GetNewIllustrationAsync(IllustrationContentType illustContentType, string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IllustInfoV2> GetNewIllustrationAsync(IllustrationContentType illustContentType,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/illust/new";
+        var url = "/v1/illust/new";
         url += $"?content_type={illustContentType.ToStringFast(true)}";
+        
+        IllustsInfoResponse? response = null;
 
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+        do
+        {
+            response =  await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+            foreach (var illust in response.Illusts)
+                yield return illust;
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
     // Endpoint does not exists
     // /// <summary>
@@ -453,18 +480,13 @@ public partial class PixivClientV2 : IDisposable
     /// <param name="includeRankingLabel"></param>
     /// <param name="minBookmarkIdForRecentIllust"></param>
     /// <param name="maxBookmarkIdForRecommendd"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<RecommendedIllustResponse> GetRecommendedIllustrations(IllustrationContentType illustContentType,
+    public async IAsyncEnumerable<RecommendedIllustResponse> GetRecommendedIllustrations(IllustrationContentType illustContentType,
         int offset = 0,
         bool includeRanking = false, bool includeRankingLabel = false, int? minBookmarkIdForRecentIllust = null,
-        int? maxBookmarkIdForRecommendd = null, string? nextUrl = null, CancellationToken cancellationToken = default)
+        int? maxBookmarkIdForRecommendd = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        if (nextUrl is not null)
-        {
-            return await CommonGetAsync(nextUrl, PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
-        }
 
         var url = "/v1/illust/recommended";
         var queryString = HttpUtility.ParseQueryString(String.Empty);
@@ -480,22 +502,34 @@ public partial class PixivClientV2 : IDisposable
             queryString["max_bookmark_id_for_recommend"] = maxBookmarkIdForRecommendd.Value.ToString(NumberFormatInfo.InvariantInfo);
         }
         queryString["offset"] = offset.ToString(NumberFormatInfo.InvariantInfo);
-        return await CommonGetAsync($"{url}?{queryString}", PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+        
+        RecommendedIllustResponse? response = null;
+        do
+        {
+            response = await CommonGetAsync($"{url}?{queryString}", PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+            yield return response;
+            url = response.NextUrl;
+        } while(!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="illustContentType"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<RecommendedIllustResponse> GetRecommendedIllustrationsNoLoginAsync(IllustrationContentType illustContentType,
-        string? nextUrl = null, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<RecommendedIllustResponse> GetRecommendedIllustrationsNoLoginAsync(IllustrationContentType illustContentType,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v1/illust/recommended-nologin?content_type={illustContentType.ToStringFast(true)}";
+        var url = $"/v1/illust/recommended-nologin?content_type={illustContentType.ToStringFast(true)}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+        RecommendedIllustResponse? response = null;
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.RecommendedIllustResponse, cancellationToken);
+            yield return response;
+            url = response.NextUrl;
+        } while(!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
@@ -506,19 +540,13 @@ public partial class PixivClientV2 : IDisposable
     /// <param name="searchTarget"></param>
     /// <param name="bookmarkCount"></param>
     /// <param name="searchPeriod"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="offset"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IllustSearchResponse> SearchIllustsAsync(string searchTerm, SearchOrderV2 orderBy,
+    public async IAsyncEnumerable<IllustInfoV2> SearchIllustsAsync(string searchTerm, SearchOrderV2 orderBy,
         SearchTarget searchTarget = SearchTarget.PartialMatchForTags, BookmarkCount? bookmarkCount = null,
-        SearchPeriod? searchPeriod = null, string? nextUrl = null, int? offset = null, CancellationToken cancellationToken = default)
+        SearchPeriod? searchPeriod = null, int? offset = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        if (nextUrl is not null)
-        {
-            return await CommonGetAsync(nextUrl, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
-        }
-        
         var url = "/v1/search/illust";
         var queryString = HttpUtility.ParseQueryString(String.Empty);
         queryString["word"] = searchTerm;
@@ -541,7 +569,17 @@ public partial class PixivClientV2 : IDisposable
         
         url = url + "?" + queryString;
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
+        IllustSearchResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustSearchResponse, cancellationToken);
+            foreach (var illust in response.Illusts)
+            {
+                yield return illust;
+            }
+            url = response.NextUrl;
+        } while(!string.IsNullOrWhiteSpace(url));
     }
 
     #endregion
@@ -552,57 +590,95 @@ public partial class PixivClientV2 : IDisposable
     /// 
     /// </summary>
     /// <param name="restrict"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<NovelsInfoResponse> GetFollowNovelsAsync(string restrict = "public", string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetFollowNovelsAsync(string restrict = "public", 
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v1/novel/follow?restrict={restrict}";
-        
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+        var url = $"/v1/novel/follow?restrict={restrict}";
+
+        NovelsInfoResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<RecommendedNovelResponse> GetRecommendedNovelsNoLoginAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetRecommendedNovelsNoLoginAsync(
+       [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/novel/recommended-nologin";
+        var url = "/v1/novel/recommended-nologin";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.RecommendedNovelResponse, cancellationToken);
+        RecommendedNovelResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.RecommendedNovelResponse, cancellationToken);
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<NovelsInfoResponse> GetMyNovelsAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetMyNovelsAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/novel/mypixiv";
+        var url = "/v1/novel/mypixiv";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+        NovelsInfoResponse? response = null;
+        
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+            
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<NovelsInfoResponse> GetNewNovelsAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetNewNovelsAsync(
+       [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/novel/new";
+        var url = "/v1/novel/new";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+        NovelsInfoResponse? response = null;
+        
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+            
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
@@ -623,15 +699,26 @@ public partial class PixivClientV2 : IDisposable
     /// 
     /// </summary>
     /// <param name="novelId"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IllustCommentsResponse> GetNovelCommentsAsync(int novelId, string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IllustComment> GetNovelCommentsAsync(int novelId,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v1/novel/comments?novel_id={novelId}";
+        var url = $"/v1/novel/comments?novel_id={novelId}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustCommentsResponse, cancellationToken);
+        IllustCommentsResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustCommentsResponse, cancellationToken);
+            foreach (var comment in response.Comments)
+            {
+                yield return comment;
+            }
+            
+            url = response.NextUrl;
+        }
+        while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
@@ -639,19 +726,30 @@ public partial class PixivClientV2 : IDisposable
     /// </summary>
     /// <param name="mode"></param>
     /// <param name="date"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<NovelsInfoResponse> GetNovelRankingAsync(RankingModeNovel mode, string? date = null, string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetNovelRankingAsync(RankingModeNovel mode, string? date = null,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v1/novel/ranking?mode={mode.ToStringFast(true)}";
-        if (date is not null && nextUrl is null)
+        var url = $"/v1/novel/ranking?mode={mode.ToStringFast(true)}";
+        if (date is not null)
         {
             url += $"&date={date}";
         }
-        
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+
+        NovelsInfoResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse,
+                cancellationToken);
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
@@ -671,15 +769,25 @@ public partial class PixivClientV2 : IDisposable
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<NovelsInfoResponse> GetNovelMarkersAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetNovelMarkersAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/novel/markers";
+        var url = "/v1/novel/markers";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+        NovelsInfoResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+            url = response.NextUrl;
+        } while (!string.IsNullOrWhiteSpace(url));
+        
     }
 
     #endregion
@@ -705,15 +813,25 @@ public partial class PixivClientV2 : IDisposable
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="restrict"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<UserBookmarkTagsResponse> GetUserBookmarkTagsIllustAsync(int userId, string restrict = "public", string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<BookmarkTag> GetUserBookmarkTagsIllustAsync(int userId, string restrict = "public", 
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v1/user/bookmark-tags/illust?user_id={userId}&restrict={restrict}";
+        var url = $"/v1/user/bookmark-tags/illust?user_id={userId}&restrict={restrict}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.UserBookmarkTagsResponse, cancellationToken);
+        UserBookmarkTagsResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.UserBookmarkTagsResponse, cancellationToken);
+            foreach (var tag in response.BookmarkTags)
+            {
+                yield return tag;
+            }
+            url = response.NextUrl;
+        }
+        while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
@@ -721,43 +839,73 @@ public partial class PixivClientV2 : IDisposable
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="restrict"></param>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<UserBookmarkTagsResponse> GetUserBookmarkTagsNovelAsync(int userId, string restrict = "public", string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<BookmarkTag> GetUserBookmarkTagsNovelAsync(int userId, string restrict = "public",
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? $"/v1/user/bookmark-tags/novel?user_id={userId}&restrict={restrict}";
+        var url = $"/v1/user/bookmark-tags/novel?user_id={userId}&restrict={restrict}";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.UserBookmarkTagsResponse, cancellationToken);
+        UserBookmarkTagsResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.UserBookmarkTagsResponse, cancellationToken);
+            foreach (var tag in response.BookmarkTags)
+            {
+                yield return tag;
+            }
+            url = response.NextUrl;
+        }
+        while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IllustsInfoResponse> GetUserBrowsingHistoryIllustsAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IllustInfoV2> GetUserBrowsingHistoryIllustsAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/user/browsing-history/illusts";
+        var url = "/v1/user/browsing-history/illusts";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+        IllustsInfoResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.IllustsInfoResponse, cancellationToken);
+            foreach (var illust in response.Illusts)
+            {
+                yield return illust;
+            }
+            url = response.NextUrl;
+        }
+        while (!string.IsNullOrWhiteSpace(url));
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="nextUrl"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<NovelsInfoResponse> GetUserBrowsingHistoryNovelsAsync(string? nextUrl = null,
-        CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<NovelProfile> GetUserBrowsingHistoryNovelsAsync(
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var url = nextUrl ?? "/v1/user/browsing-history/novels";
+        var url = "/v1/user/browsing-history/novels";
         
-        return await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+        NovelsInfoResponse? response = null;
+
+        do
+        {
+            response = await CommonGetAsync(url, PixivV2JsonSerializerContext.Default.NovelsInfoResponse, cancellationToken);
+            foreach (var novel in response.Novels)
+            {
+                yield return novel;
+            }
+            url = response.NextUrl;
+        }
+        while (!string.IsNullOrWhiteSpace(url));
     }
 
     #endregion

@@ -6,9 +6,12 @@ namespace Scighost.PixivApi.Models.V2.Illust;
 /// 
 /// </summary>
 /// <param name="Comments"></param>
+/// <param name="NextUrl"></param>
 public record IllustCommentsResponse(
     [property: JsonPropertyName("comments")]
-    List<IllustComment> Comments
+    List<IllustComment> Comments,
+    [property: JsonPropertyName("next_url")]
+    string? NextUrl
     );
 
 /// <summary>

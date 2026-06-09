@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Numerics;
+using System.Text.Json.Nodes;
+using Scighost.PixivApi.Models.Collection;
 using Scighost.PixivApi.Models.Common;
 using Scighost.PixivApi.Models.Illust;
 using Scighost.PixivApi.Models.Novel;
@@ -66,6 +68,16 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(Dictionary<int, string>))]
 [JsonSerializable(typeof(DeleteBookmarkIllustBatchRequest))]
 [JsonSerializable(typeof(DeleteBookmarkIllustRequest))]
+[JsonSerializable(typeof(PixivResponseWrapper<RecommendedCollectionTags>))]
+[JsonSerializable(typeof(PixivResponseWrapper<TopCollectionsResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<CollectionSearchResult>))]
+[JsonSerializable(typeof(PixivResponseWrapper<CollectionDetailResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<UserCollectionsResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<BookmarkCollectionsResponse>))]
+[JsonSerializable(typeof(Dictionary<string, CollectionTagTranslation>))]
+[JsonSerializable(typeof(Dictionary<BigInteger, CollectionProfile>))]
+[JsonSerializable(typeof(BigInteger))]
+[JsonSerializable(typeof(CollectionProfile))]
 internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
 {
 }

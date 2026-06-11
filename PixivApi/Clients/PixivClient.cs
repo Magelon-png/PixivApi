@@ -1389,11 +1389,23 @@ public class PixivClient : IDisposable
     /// If more than 1 keyword is passed, partial search will be used.</param>
     /// <param name="lang">Language of the search to correctly populate the tag translation property</param>
     /// <param name="hideAi">When true, search for non-AI generated illustrations</param>
+    /// <param name="maximumBookmarkCount"></param>
     /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="notBeforeDate"></param>
+    /// <param name="notAfterDate"></param>
+    /// <param name="bookmarkVisibilityFilter"></param>
+    /// <param name="bookmarkedBeforeDate"></param>
+    /// <param name="bookmarkedAfterDate"></param>
+    /// <param name="minimumBookmarkCount"></param>
     /// <returns>A <see cref="IllustSearchResult"/> object containing the search results</returns>
     public async Task<IllustSearchResult> SearchIllustrationsAsync(int page, string[] keywords, SearchOrder orderBy,
         SearchAge searchAge = SearchAge.AnyAge, SearchTarget searchTarget = SearchTarget.IllustAndUgoira,
-        bool searchExact = true, SearchLanguage? lang = null, bool hideAi = false, CancellationToken cancellationToken = default)
+        bool searchExact = true, SearchLanguage? lang = null, bool hideAi = false, 
+        DateOnly? notBeforeDate = null, DateOnly? notAfterDate = null,
+        BookmarkVisibilityFilter? bookmarkVisibilityFilter = null,
+        DateOnly? bookmarkedBeforeDate = null, DateOnly? bookmarkedAfterDate = null,
+        int? minimumBookmarkCount = null, int? maximumBookmarkCount = null,
+        CancellationToken cancellationToken = default)
     {
         if (keywords.Length == 0)
         {
@@ -1422,6 +1434,37 @@ public class PixivClient : IDisposable
         if (lang is not null)
         {
             queryString["lang"] = lang.Value.ToStringFast(true);
+        }
+        if(notBeforeDate is not null)
+        {
+            queryString["scd"] = notBeforeDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+        if(notAfterDate is not null)
+        {
+            queryString["ecd"] = notAfterDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+
+        if (bookmarkVisibilityFilter is not null)
+        {
+            queryString["wib"] = ((int)bookmarkVisibilityFilter.Value).ToString(CultureInfo.InvariantCulture);
+        }
+        
+        if(bookmarkedAfterDate is not null)
+        {
+            queryString["sbd"] = bookmarkedAfterDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+        if(bookmarkedBeforeDate is not null)
+        {
+            queryString["ebd"] = bookmarkedBeforeDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+
+        if (minimumBookmarkCount is not null)
+        {
+            queryString["blt"] = minimumBookmarkCount.Value.ToString(CultureInfo.InvariantCulture);
+        }
+        if (maximumBookmarkCount is not null)
+        {
+            queryString["bgt"] = maximumBookmarkCount.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         var baseUrl = $"/ajax/search/illustrations/{keyword}";

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Scighost.PixivApi.Models.Common;
+using Scighost.PixivApi.SerializerContexts;
 
 namespace PixivApi.Tests;
 
@@ -8,6 +9,7 @@ public sealed class BookmarkTagsConverterTests
 {
     private static readonly JsonSerializerOptions Options = new()
     {
+        TypeInfoResolver = PixivJsonSerializerContext.Default,
         Converters = { new BookmarkTagsConverter() }
     };
 

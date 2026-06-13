@@ -83,6 +83,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(CollectionProfile))]
 [JsonSerializable(typeof(JsonNode))]
 [JsonSerializable(typeof(Dictionary<BigInteger, JsonNode>))]
+[JsonSerializable(typeof(Dictionary<long, string[]>))]
 internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
 {
 }

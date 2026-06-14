@@ -1033,7 +1033,6 @@ public class PixivClient : IDisposable
     /// <param name="isPrivate">Private</param>
     /// <param name="tag">Filter tag. Mutually exclusive with workTag</param>
     /// <param name="bookmarkingDate">Get bookmarks bookmarked during a specific month. Use <see cref="GetUserBookmarkPeriodsAsync"/> to get all valid periods</param>
-    /// <param name="returnEnglish"></param>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="oldestFirst">If true, returns illustrations in ascending order</param>
     /// <param name="searchMode">Specify the rating range of the search</param>
@@ -1045,7 +1044,6 @@ public class PixivClient : IDisposable
         bool isPrivate = false, string? tag = null,
         bool oldestFirst = false, SearchAge searchMode = SearchAge.AllAges,
         string? workTag = null, DateOnly? bookmarkingDate = null,
-        bool returnEnglish = false,
         CancellationToken cancellationToken = default)
     {
         limit = Math.Clamp(limit, 1, 100);
@@ -1062,7 +1060,7 @@ public class PixivClient : IDisposable
         {
             workTag = UrlEncoder.Default.Encode(workTag);
         }
-        var url = $"/ajax/user/{userId}/illusts/bookmarks?tag={tag}&mode={searchMode.ToStringFast(true)}&offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
+        var url = $"/ajax/user/{userId}/illusts/bookmarks?lang=en&tag={tag}&mode={searchMode.ToStringFast(true)}&offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
         
         if(!string.IsNullOrWhiteSpace(workTag))
         {
@@ -1076,10 +1074,7 @@ public class PixivClient : IDisposable
         {
             url += "&order=asc";
         }
-        if(returnEnglish)
-        {
-            url += "&lang=en";
-        }
+        
         var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperGetUserBookmarkIllustsResponse, cancellationToken);
         return wrapper;
     }
@@ -1093,7 +1088,7 @@ public class PixivClient : IDisposable
     /// <returns></returns>
     public async Task<List<BookmarkPeriod>> GetUserBookmarkPeriodsAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
     {
-        var url = $"/ajax/user/{userId}/bookmark/periods?rest={(isPrivate ? "hide" : "show")}";
+        var url = $"/ajax/user/{userId}/bookmark/periods?rest={(isPrivate ? "hide" : "show")}&lang=en";
         var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperListBookmarkPeriod, cancellationToken);
         return wrapper;
     }
@@ -1103,14 +1098,12 @@ public class PixivClient : IDisposable
     /// </summary>
     /// <param name="userId">The ID of the user whose bookmark tags are to be retrieved.</param>
     /// <param name="filter">An optional filter to apply to the tags. Default is an empty string, meaning no filter is applied. If using an english word, filtering will be done based on the translation</param>
-    /// <param name="returnEnglish"></param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>A list of bookmark work tags associated with the user's bookmarks.</returns>
-    public async Task<List<BookmarkWorkTag>> GetUserBookmarkWorkTags(int userId, string filter = "",
-        bool returnEnglish = false,
+    public async Task<List<BookmarkWorkTag>> GetUserBookmarkWorkTagsAsync(int userId, string filter = "",
         CancellationToken cancellationToken = default)
     {
-        var url = $"/ajax/user/{userId}/bookmark/illusts/work_tags?word={UrlEncoder.Default.Encode(filter)}{(returnEnglish ? "&lang=en" : string.Empty)}";
+        var url = $"/ajax/user/{userId}/bookmark/illusts/work_tags?word={UrlEncoder.Default.Encode(filter)}&lang=en";
         
         var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkWorkTagWrapper, cancellationToken);
         return wrapper.Candidates;

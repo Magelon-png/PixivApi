@@ -6,8 +6,8 @@ branches:
   main:
     regex: ^main$
     label: ''
-    increment: Patch
     is-release-branch: true
+    increment: Patch
     source-branches:
       - develop
     prevent-increment:

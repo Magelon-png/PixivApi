@@ -147,7 +147,7 @@ public sealed class FanboxTests
     public async Task GetRecommendedCreatorsAsync()
     {
         _handler.When(
-            "https://api.fanbox.cc/creator.getRecommended",
+            "https://api.fanbox.cc/creator.listRecommended",
             () => OkJson("Fanbox/GetRecommendedCreators.json"));
 
         var result = await _fanboxClient.GetRecommendedCreatorsAsync();
@@ -161,7 +161,7 @@ public sealed class FanboxTests
     public async Task GetRecommendedCreatorsAsync_WithLimit()
     {
         _handler.When(
-            "https://api.fanbox.cc/creator.getRecommended?limit=10",
+            "https://api.fanbox.cc/creator.listRecommended?limit=10",
             () => OkJson("Fanbox/GetRecommendedCreators.json"));
 
         var result = await _fanboxClient.GetRecommendedCreatorsAsync(10);

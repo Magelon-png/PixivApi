@@ -314,7 +314,7 @@ public class FanboxClient : IDisposable
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var url = "bell.list";
-        url += $"?page=1&skipConvertUnreadNotification=0";
+        url += $"?limit={pageSize}&skipConvertUnreadNotification=0";
         if (commentOnly)
         {
             url += "&commentOnly=1";

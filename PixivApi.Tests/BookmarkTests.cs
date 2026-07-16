@@ -50,10 +50,10 @@ public class BookmarkTests
     public async Task GetUserBookmarkIllustsAsync(int userId, int offset, int limit, bool isPrivate, string tag)
     {
         _handler.When(
-            $"https://www.pixiv.net/ajax/user/{userId}/illusts/bookmarks?lang=en&tag=%E3%82%A2%E3%82%BA%E3%83%BC%E3%83%AB%E3%83%AC%E3%83%BC%E3%83%B3&mode=safe&offset={offset}&limit={limit}&rest=hide",
+            $"https://www.pixiv.net/ajax/user/{userId}/illusts/bookmarks?tag=%E3%82%A2%E3%82%BA%E3%83%BC%E3%83%AB%E3%83%AC%E3%83%BC%E3%83%B3&mode=safe&offset={offset}&limit={limit}&rest=hide&lang=en",
             () => OkJson("Bookmark/GetUserBookmarkIllusts.json"));
 
-        var bookmarks = await _pixivClient.GetUserBookmarkIllustsAsync(userId, offset, limit, isPrivate, tag);
+        var bookmarks = await _pixivClient.GetUserBookmarkIllustsAsync(userId, offset, limit, isPrivate, tag, returnEnglish: true);
 
         Assert.HasCount(limit, bookmarks.Works);
         Assert.IsNotEmpty(bookmarks.BookmarkTags);
@@ -148,7 +148,7 @@ public class BookmarkTests
     public async Task GetUserBookmarkPeriodsAsync()
     {
         _handler.When(
-            $"https://www.pixiv.net/ajax/user/1/bookmark/periods?rest=show&lang=en",
+            $"https://www.pixiv.net/ajax/user/1/bookmark/periods?rest=show",
             () => OkJson("Bookmark/GetUserBookmarkPeriods.json"));
 
         var periods = await _pixivClient.GetUserBookmarkPeriodsAsync(1);
@@ -167,7 +167,7 @@ public class BookmarkTests
             $"https://www.pixiv.net/ajax/user/1/bookmark/illusts/work_tags?word=Blue%20archi&lang=en",
             () => OkJson("Bookmark/GetUserBookmarkWorkTags.json"));
 
-        var tags = await _pixivClient.GetUserBookmarkWorkTags(1, "Blue archi");
+        var tags = await _pixivClient.GetUserBookmarkWorkTags(1, "Blue archi", true);
 
         Assert.AreEqual(12, tags.Count);
         Assert.AreEqual("Blue Archive", tags[0].Translation);

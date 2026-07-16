@@ -6,12 +6,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <!-- Enable Microsoft.Testing.Platform to use the MSTest runner -->
-        <EnableMSTestRunner>true</EnableMSTestRunner>
+        <IsTestProject Condition="'$(RunIntegrations)' != 'true'">false</IsTestProject>
+
+        <EnableMSTestRunner Condition="'$(RunIntegrations)' == 'true'">true</EnableMSTestRunner>
         <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
         <OutputType>exe</OutputType>
-
-        <IsTestProject Condition="'$(RunIntegrations)' != 'true'">false</IsTestProject>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">

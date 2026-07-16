@@ -17,6 +17,10 @@
         <Features>runtime-async=on</Features>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+    </PropertyGroup>
+
 
     <ItemGroup>
       <ProjectReference Include="..\PixivApi\PixivApi.csproj" />

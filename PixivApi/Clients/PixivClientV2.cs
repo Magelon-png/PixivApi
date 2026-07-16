@@ -63,6 +63,8 @@ public partial class PixivClientV2 : IDisposable
             { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
 
+        _httpClient.DefaultRequestVersion = HttpVersion.Version30;
+        _httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("User-Agent", DefaultUserAgent);
         _httpClient.DefaultRequestHeaders.Add("Referer", BaseUriHttps);

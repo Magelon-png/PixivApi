@@ -45,6 +45,8 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(PixivResponseWrapper<FollowingLatestWorkWrapper>))]
 [JsonSerializable(typeof(PixivResponseWrapper<RecommendUserResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<IllustSearchResult>))]
+[JsonSerializable(typeof(PixivResponseWrapper<BookmarkWorkTagWrapper>))]
+[JsonSerializable(typeof(PixivResponseWrapper<GetUserBookmarkIllustsResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesCoverJsonConverter>))]
 [JsonSerializable(typeof(NovelSeriesCoverJsonConverter.NovelSeriesCoverUrlsWrapper))]
 [JsonSerializable(typeof(PixivResponseWrapper<IllustHomePageResponse>))]
@@ -53,6 +55,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(PixivResponseWrapper<GetSearchSuggestionResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<ChangeMangaSeriesWatchListNotificationResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<AddBookmarkIllustResponse>))]
+[JsonSerializable(typeof(PixivResponseWrapper<List<BookmarkPeriod>>))]
 [JsonSerializable(typeof(SearchCandidateWrapper))]
 [JsonSerializable(typeof(List<NovelTag>))]
 [JsonSerializable(typeof(List<PixivTag>))]
@@ -80,6 +83,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(CollectionProfile))]
 [JsonSerializable(typeof(JsonNode))]
 [JsonSerializable(typeof(Dictionary<BigInteger, JsonNode>))]
+[JsonSerializable(typeof(Dictionary<long, string[]>))]
 internal sealed partial class PixivJsonSerializerContext : JsonSerializerContext
 {
 }

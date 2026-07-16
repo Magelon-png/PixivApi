@@ -117,7 +117,8 @@ public class PixivClient : IDisposable
         _httpClient = new HttpClient(clientHandler ?? new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.BaseAddress = new Uri(BaseUriHttps);
 
-        _httpClient.DefaultRequestVersion = HttpVersion.Version20;
+        _httpClient.DefaultRequestVersion = HttpVersion.Version30;
+        _httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
         _httpClient.DefaultRequestHeaders.Add("Priority", "u=1, i");
         _httpClient.DefaultRequestHeaders.Add("Cookie", cookie);
         _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent ?? DefaultUserAgent);
@@ -1023,7 +1024,6 @@ public class PixivClient : IDisposable
     }
 
 
-
     /// <summary>
     /// Bookmarked illustrations
     /// </summary>
@@ -1031,21 +1031,83 @@ public class PixivClient : IDisposable
     /// <param name="offset">Offset</param>
     /// <param name="limit">Number of items to return, may be less than this number</param>
     /// <param name="isPrivate">Private</param>
-    /// <param name="tag">Filter tag</param>
+    /// <param name="tag">Filter tag. Mutually exclusive with workTag</param>
+    /// <param name="bookmarkingDate">Get bookmarks bookmarked during a specific month. Use <see cref="GetUserBookmarkPeriodsAsync"/> to get all valid periods</param>
     /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="oldestFirst">If true, returns illustrations in ascending order</param>
+    /// <param name="searchMode">Specify the rating range of the search</param>
+    /// <param name="workTag">If specified, filter illustrations by tag applied on the illustration.
+    /// Use <see cref="GetUserBookmarkWorkTags"/> to get all available work tags.
+    /// Mutually exclusive with tag</param>
     /// <returns>A list of <see cref="IllustProfile"/> objects</returns>
-    public async Task<List<IllustProfile>> GetUserBookmarkIllustsAsync(int userId, int offset, int limit = 48, bool isPrivate = false, string? tag = null, CancellationToken cancellationToken = default)
+    public async Task<GetUserBookmarkIllustsResponse> GetUserBookmarkIllustsAsync(int userId, int offset, int limit = 48, 
+        bool isPrivate = false, string? tag = null,
+        bool oldestFirst = false, SearchAge searchMode = SearchAge.AllAges,
+        string? workTag = null, DateOnly? bookmarkingDate = null,
+        CancellationToken cancellationToken = default)
     {
         limit = Math.Clamp(limit, 1, 100);
+        if (tag is not null && workTag is not null)
+        {
+            throw new PixivException("Cannot specify both tag and workTag for a bookmark search request");
+        }
         if (!string.IsNullOrWhiteSpace(tag))
         {
             tag = UrlEncoder.Default.Encode(tag);
         }
-        var url = $"/ajax/user/{userId}/illusts/bookmarks?tag={tag}&offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
-        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkIllustWrapper, cancellationToken);
-        return wrapper.Works;
+
+        if (!string.IsNullOrWhiteSpace(workTag))
+        {
+            workTag = UrlEncoder.Default.Encode(workTag);
+        }
+        var url = $"/ajax/user/{userId}/illusts/bookmarks?lang=en&tag={tag}&mode={searchMode.ToStringFast(true)}&offset={offset}&limit={limit}&rest={(isPrivate ? "hide" : "show")}";
+        
+        if(!string.IsNullOrWhiteSpace(workTag))
+        {
+            url += $"&work_tag={workTag}";
+        }
+        if (bookmarkingDate.HasValue)
+        {
+            url += $"&bm={bookmarkingDate.Value.ToString("yyyyMM", CultureInfo.InvariantCulture)}";
+        }
+        if(oldestFirst)
+        {
+            url += "&order=asc";
+        }
+        
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperGetUserBookmarkIllustsResponse, cancellationToken);
+        return wrapper;
+    }
+    
+    /// <summary>
+    /// Get the valid periods that can be used to filter bookmarked illustrations using the bookmarkPeriod in <see cref="GetUserBookmarkIllustsAsync"/>
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="isPrivate">Whether to return private bookmark periods</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<List<BookmarkPeriod>> GetUserBookmarkPeriodsAsync(int userId, bool isPrivate = false, CancellationToken cancellationToken = default)
+    {
+        var url = $"/ajax/user/{userId}/bookmark/periods?rest={(isPrivate ? "hide" : "show")}&lang=en";
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperListBookmarkPeriod, cancellationToken);
+        return wrapper;
     }
 
+    /// <summary>
+    /// Retrieves a list of bookmark work tags for a specific user.
+    /// </summary>
+    /// <param name="userId">The ID of the user whose bookmark tags are to be retrieved.</param>
+    /// <param name="filter">An optional filter to apply to the tags. Default is an empty string, meaning no filter is applied. If using an english word, filtering will be done based on the translation</param>
+    /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
+    /// <returns>A list of bookmark work tags associated with the user's bookmarks.</returns>
+    public async Task<List<BookmarkWorkTag>> GetUserBookmarkWorkTags(int userId, string filter = "",
+        CancellationToken cancellationToken = default)
+    {
+        var url = $"/ajax/user/{userId}/bookmark/illusts/work_tags?word={UrlEncoder.Default.Encode(filter)}&lang=en";
+        
+        var wrapper = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperBookmarkWorkTagWrapper, cancellationToken);
+        return wrapper.Candidates;
+    }
 
     /// <summary>
     /// All custom tags of bookmarked illustrations, including public and private. If there are too many tags, they may not all be returned.

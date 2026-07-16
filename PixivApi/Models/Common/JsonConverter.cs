@@ -468,3 +468,83 @@ internal sealed class BigIntegerListConverter : JsonConverter<List<BigInteger>>
         writer.WriteEndArray();
     }
 }
+
+internal sealed class BookmarkPeriodDateConverter : JsonConverter<DateOnly> 
+{
+    public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.String)
+            return default;
+
+        var date = reader.GetString();
+        
+        if(date is null)
+            return default;
+
+        var yearAndMonth = date.Split('-');
+        
+        if(yearAndMonth.Length != 2)
+            return default;
+        if(!int.TryParse(yearAndMonth[0], out var year))
+            return default;
+        if(!int.TryParse(yearAndMonth[1], out var month))
+            return default;
+        
+        return new DateOnly(year, month, 1);
+    }
+
+    public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value.ToString("yyyy-MM", CultureInfo.InvariantCulture));
+    }
+}
+
+internal sealed class BookmarkTagsConverter : JsonConverter<Dictionary<long, string[]>>
+{
+    public override Dictionary<long, string[]>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray) { }
+            return new Dictionary<long, string[]>();
+        }
+
+        if (reader.TokenType != JsonTokenType.StartObject)
+            return null;
+
+        var result = new Dictionary<long, string[]>();
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+        {
+            if (reader.TokenType != JsonTokenType.PropertyName)
+                continue;
+
+            var key = long.Parse(reader.GetString()!, CultureInfo.InvariantCulture);
+            reader.Read();
+            var value = JsonSerializer.Deserialize(ref reader, PixivJsonSerializerContext.Default.ListString);
+            result[key] = value?.ToArray() ?? [];
+        }
+        return result;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dictionary<long, string[]> value, JsonSerializerOptions options)
+    {
+        if (value.Count == 0)
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+        }
+        else
+        {
+            writer.WriteStartObject();
+            foreach (var kvp in value)
+            {
+                writer.WritePropertyName(kvp.Key.ToString(CultureInfo.InvariantCulture));
+                writer.WriteStartArray();
+                foreach (var tag in kvp.Value)
+                    writer.WriteStringValue(tag);
+                writer.WriteEndArray();
+            }
+            writer.WriteEndObject();
+        }
+    }
+}

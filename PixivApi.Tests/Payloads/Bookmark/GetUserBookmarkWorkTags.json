@@ -1,0 +1,20 @@
+{
+    "error": false,
+    "message": "",
+    "body": {
+        "candidates": [
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6", "count": 5255, "tag_translation": "Blue Archive" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d61000users\u5165\u308a", "count": 583, "tag_translation": "Blue Archive 1000+ users" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d610000users\u5165\u308a", "count": 557, "tag_translation": "Blue Archive 10000+ users" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d65000users\u5165\u308a", "count": 439, "tag_translation": "Blue Archive 5000+ bookmarks" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6100users\u5165\u308a", "count": 42, "tag_translation": "Blue Archive 1000+ bookmarks" },
+            { "tag_name": "\u851a\u84dd\u6863\u6848", "count": 39, "tag_translation": "Blue Archive" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6\u30a4\u30e9\u30b3\u30f3", "count": 9, "tag_translation": "Blue Archive Illustration Contest" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6TheAnimation", "count": 3, "tag_translation": "Blue Archive The Animation" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6(\u7af6\u8d70\u99ac)", "count": 2, "tag_translation": "Blue Archive (racehorse)" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6\u30eb\u30de", "count": 2, "tag_translation": "Blue Archive gym shorts" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30ab\u30a4\u30d6", "count": 1, "tag_translation": "Blue Archive" },
+            { "tag_name": "\u30d6\u30eb\u30fc\u30a2\u30fc\u30ab\u30a4\u30d6\u4e00\u5468\u5e74\u8a18\u5ff5\u30ea\u30f3\u30af", "count": 1, "tag_translation": "Blue Archive 1st Anniversary Links" }
+        ]
+    }
+}

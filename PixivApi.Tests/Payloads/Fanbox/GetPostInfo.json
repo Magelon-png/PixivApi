@@ -1,6 +1,7 @@
 {
   "body": {
-    "id": "9345840",
+    "post": {
+      "id": "9345840",
     "title": "\u738b\u65cf\u9650\u5b9a\u8ca9\u58f2\u958b\u59cb\u3057\u307e\u3057\u305f\uff01",
     "feeRequired": 4980,
     "publishedDatetime": "2025-02-08T12:00:00+09:00",
@@ -34,5 +35,6 @@
     },
     "imageForShare": "https:\/\/pixiv.pximg.net\/c\/1200x630_90_a2_g5\/fanbox\/public\/images\/post\/9345840\/cover\/dYUhZUzKQx6MnHO2y0EfKSiN.jpeg",
     "isPinned": false
+    }
   }
 }

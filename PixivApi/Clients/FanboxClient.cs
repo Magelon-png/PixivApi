@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Web;
 using Polly;
@@ -111,7 +112,16 @@ public class FanboxClient : IDisposable
     private async Task<T> CommonGetAsync<T>(string url, JsonTypeInfo<FanboxResponseWrapper<T>> jsonTypeInfo, CancellationToken cancellationToken = default)
     {
         var wrapper = await _resiliencePipeline.ExecuteAsync(
-            async token => await _httpClient.GetFromJsonAsync(url, jsonTypeInfo, token),
+            async token =>
+            {
+                return await _httpClient.GetFromJsonAsync<FanboxResponseWrapper<T>>(url, jsonTypeInfo, token);
+             //    var response = await _httpClient.GetAsync(url, token);
+             //       var json = JsonSerializer.Deserialize<FanboxResponseWrapper<T>>(text, jsonTypeInfo);
+             // var text = await response.Content.ReadAsStringAsync(token);
+             //    
+             //    return json;
+                
+            },
             cancellationToken);
         if (wrapper is null)
         {
@@ -156,8 +166,8 @@ public class FanboxClient : IDisposable
     public async Task<SupportingPlan[]> GetSupportingPlansAsync(CancellationToken cancellationToken = default)
     {
         var url = "plan.listSupporting";
-        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
-        return response;
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperCreatorPlansResponse, cancellationToken);
+        return response.Plans;
     }
 
     /// <summary>
@@ -169,8 +179,8 @@ public class FanboxClient : IDisposable
     public async Task<SupportingPlan[]> GetCreatorSupportingPlansAsync(string creatorId, CancellationToken cancellationToken = default)
     {
         var url = $"plan.listCreator?creatorId={creatorId}";
-        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperSupportingPlanArray, cancellationToken);
-        return response;
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperCreatorPlansResponse, cancellationToken);
+        return response.Plans;
     }
 
     /// <summary>
@@ -181,8 +191,8 @@ public class FanboxClient : IDisposable
     public async Task<FollowedCreator[]> GetFollowedCreatorsAsync(CancellationToken cancellationToken = default)
     {
         var url = "creator.listFollowing";
-        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperFollowedCreatorArray, cancellationToken);
-        return response;
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperFollowedCreatorsResponse, cancellationToken);
+        return response.Creators;
     }
     
     /// <summary>
@@ -207,7 +217,7 @@ public class FanboxClient : IDisposable
     /// <returns>Search result with recommended creators</returns>
     public async Task<SearchRecommendCreatorsResult> GetRecommendedCreatorsAsync(int? limit = null, CancellationToken cancellationToken = default)
     {
-        var url = "creator.getRecommended";
+        var url = "creator.listRecommended";
         if(limit.HasValue)        {
             url += $"?limit={limit.Value}";
         }
@@ -265,8 +275,8 @@ public class FanboxClient : IDisposable
     public async Task<PostInfo> GetPostInfoAsync(int postId, CancellationToken cancellationToken = default)
     {
         var url = $"post.info?postId={postId}";
-        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostInfo, cancellationToken);
-        return response;
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostInfoResponse, cancellationToken);
+        return response.Post;
     }
 
     
@@ -327,6 +337,7 @@ public class FanboxClient : IDisposable
     /// Marks all newsletter notifications as read.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
+    [Obsolete("Requires a csrf token and no method are made to retrieve it yet")]
     public async Task MarkNewsletterNotificationsAsReadAsync(CancellationToken cancellationToken = default)
     {
         var url = "newsletter.markAsReadAll";

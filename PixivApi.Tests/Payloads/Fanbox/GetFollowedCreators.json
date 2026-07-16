@@ -1,5 +1,6 @@
 {
-  "body": [
+  "body": {
+    "creators": [
     {
       "user": {
         "userId": "20634476",
@@ -121,5 +122,6 @@
       "hasPublishedPost": true,
       "category": null
     }
-  ]
+    ]
+  }
 }

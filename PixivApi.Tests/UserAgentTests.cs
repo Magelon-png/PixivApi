@@ -44,7 +44,7 @@ public class UserAgentTests
         var handler = new TestHttpMessageHandler();
         handler.When("https://api.fanbox.cc/plan.listSupporting", () => new HttpResponseMessage(HttpStatusCode.OK)
         {
-            Content = new StringContent("{\"body\":[]}")
+            Content = new StringContent("{\"body\":{\"plans\":[]}}")
         });
 
         var client = new FanboxClient(CfBm, CfClearance, Fanboxsessid, clientHandler: handler, userAgent: CustomUA);

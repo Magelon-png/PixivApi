@@ -167,7 +167,7 @@ public class BookmarkTests
             $"https://www.pixiv.net/ajax/user/1/bookmark/illusts/work_tags?word=Blue%20archi&lang=en",
             () => OkJson("Bookmark/GetUserBookmarkWorkTags.json"));
 
-        var tags = await _pixivClient.GetUserBookmarkWorkTags(1, "Blue archi");
+        var tags = await _pixivClient.GetUserBookmarkWorkTagsAsync(1, "Blue archi");
 
         Assert.AreEqual(12, tags.Count);
         Assert.AreEqual("Blue Archive", tags[0].Translation);

@@ -1037,7 +1037,7 @@ public class PixivClient : IDisposable
     /// <param name="oldestFirst">If true, returns illustrations in ascending order</param>
     /// <param name="searchMode">Specify the rating range of the search</param>
     /// <param name="workTag">If specified, filter illustrations by tag applied on the illustration.
-    /// Use <see cref="GetUserBookmarkWorkTags"/> to get all available work tags.
+    /// Use <see cref="GetUserBookmarkWorkTagsAsync"/> to get all available work tags.
     /// Mutually exclusive with tag</param>
     /// <returns>A list of <see cref="IllustProfile"/> objects</returns>
     public async Task<GetUserBookmarkIllustsResponse> GetUserBookmarkIllustsAsync(int userId, int offset, int limit = 48, 
@@ -1100,7 +1100,7 @@ public class PixivClient : IDisposable
     /// <param name="filter">An optional filter to apply to the tags. Default is an empty string, meaning no filter is applied. If using an english word, filtering will be done based on the translation</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>A list of bookmark work tags associated with the user's bookmarks.</returns>
-    public async Task<List<BookmarkWorkTag>> GetUserBookmarkWorkTags(int userId, string filter = "",
+    public async Task<List<BookmarkWorkTag>> GetUserBookmarkWorkTagsAsync(int userId, string filter = "",
         CancellationToken cancellationToken = default)
     {
         var url = $"/ajax/user/{userId}/bookmark/illusts/work_tags?word={UrlEncoder.Default.Encode(filter)}&lang=en";

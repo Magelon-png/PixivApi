@@ -1037,7 +1037,7 @@ public class PixivClient : IDisposable
     /// <param name="oldestFirst">If true, returns illustrations in ascending order</param>
     /// <param name="searchMode">Specify the rating range of the search</param>
     /// <param name="workTag">If specified, filter illustrations by tag applied on the illustration.
-    /// Use <see cref="GetUserBookmarkWorkTags"/> to get all available work tags.
+    /// Use <see cref="GetUserBookmarkWorkTagsAsync"/> to get all available work tags.
     /// Mutually exclusive with tag</param>
     /// <returns>A list of <see cref="IllustProfile"/> objects</returns>
     public async Task<GetUserBookmarkIllustsResponse> GetUserBookmarkIllustsAsync(int userId, int offset, int limit = 48, 

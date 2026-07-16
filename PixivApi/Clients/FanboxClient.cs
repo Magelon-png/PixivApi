@@ -114,7 +114,7 @@ public class FanboxClient : IDisposable
         var wrapper = await _resiliencePipeline.ExecuteAsync(
             async token =>
             {
-                return await _httpClient.GetFromJsonAsync<FanboxResponseWrapper<T>>(url, jsonTypeInfo, token);
+                return await _httpClient.GetFromJsonAsync(url, jsonTypeInfo, token);
              //    var response = await _httpClient.GetAsync(url, token);
              //       var json = JsonSerializer.Deserialize<FanboxResponseWrapper<T>>(text, jsonTypeInfo);
              // var text = await response.Content.ReadAsStringAsync(token);

@@ -369,3 +369,4 @@ MigrationBackup/
 
 # Integration tests with real credentials (never commit)
 PixivApi.IntegrationTests/FanboxIntegrationTests.cs
+.junie/

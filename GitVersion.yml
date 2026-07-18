@@ -4,6 +4,7 @@ mode: ContinuousDelivery
 
 branches:
   main:
+    mode: Mainline
     regex: ^main$
     label: ''
     is-release-branch: true

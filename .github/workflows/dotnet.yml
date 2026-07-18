@@ -57,6 +57,7 @@ jobs:
         run: dotnet test --verbosity normal -p:RunAotTest=true
 
   publish:
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/feature/') || startsWith(github.ref, 'refs/heads/hotfix/'))
     runs-on: ubuntu-latest
     needs: build
     permissions:
@@ -101,6 +102,8 @@ jobs:
             echo "version=$BASE-beta.${{ github.run_id }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" =~ ^refs/heads/feature/ ]]; then
             echo "version=$BASE-alpha.${{ github.run_id }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" =~ ^refs/heads/hotfix/ ]]; then
+            echo "version=$BASE-beta.${{ github.run_id }}" >> $GITHUB_OUTPUT
           fi
       - name: Pack project
         run: dotnet pack --configuration Release --output ./nupkgs /p:RuntimeIdentifier=${{ matrix.runtime }} /p:Version=${{ steps.version.outputs.version }}

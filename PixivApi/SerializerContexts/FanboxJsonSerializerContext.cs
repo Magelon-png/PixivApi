@@ -9,10 +9,10 @@ namespace Scighost.PixivApi.SerializerContexts;
 /// 
 /// </summary>
 [JsonSerializable(typeof(object))]
-[JsonSerializable(typeof(FanboxResponseWrapper<string[]>))]
+[JsonSerializable(typeof(FanboxResponseWrapper<PostPaginationResponse>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<CreatorPlansResponse>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<FollowedCreatorsResponse>))]
-[JsonSerializable(typeof(FanboxResponseWrapper<PostListItem[]>))]
+[JsonSerializable(typeof(FanboxResponseWrapper<PostListResponse>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<PostInfoResponse>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<CreatorSearchResult>))]
 [JsonSerializable(typeof(FanboxResponseWrapper<SearchRecommendCreatorsResult>))]

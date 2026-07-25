@@ -1,5 +1,6 @@
 {
-  "body": [
+  "body": {
+    "pageUrls": [
     "https:\/\/api.fanbox.cc\/post.listCreator?creatorId=emorimiku\u0026maxPublishedDatetime=2025-05-03%2015%3A01%3A05\u0026maxId=9820948\u0026limit=10",
     "https:\/\/api.fanbox.cc\/post.listCreator?creatorId=emorimiku\u0026maxPublishedDatetime=2025-02-08%2012%3A00%3A00\u0026maxId=9345840\u0026limit=10",
     "https:\/\/api.fanbox.cc\/post.listCreator?creatorId=emorimiku\u0026maxPublishedDatetime=2024-12-28%2023%3A07%3A32\u0026maxId=9112117\u0026limit=10",
@@ -88,5 +89,6 @@
     "https:\/\/api.fanbox.cc\/post.listCreator?creatorId=emorimiku\u0026maxPublishedDatetime=2019-08-08%2011%3A55%3A51\u0026maxId=502253\u0026limit=10",
     "https:\/\/api.fanbox.cc\/post.listCreator?creatorId=emorimiku\u0026maxPublishedDatetime=2019-07-15%2023%3A27%3A25\u0026maxId=469653\u0026limit=10",
     "https:\/\/api.fanbox.cc\/post.listCreator?creatorId=emorimiku\u0026maxPublishedDatetime=2019-07-01%2015%3A35%3A15\u0026maxId=449470\u0026limit=10"
-  ]
+    ]
+  }
 }

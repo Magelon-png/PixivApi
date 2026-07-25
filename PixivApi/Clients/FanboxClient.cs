@@ -248,8 +248,8 @@ public class FanboxClient : IDisposable
     public async Task<string[]> GetCreatorPostPaginationAsync(string creatorId, CancellationToken cancellationToken = default)
     {
         var url = $"post.paginateCreator?creatorId={creatorId}";
-        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperStringArray, cancellationToken);
-        return response;
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostPaginationResponse, cancellationToken);
+        return response.PageUrls;
     }
 
     /// <summary>
@@ -261,8 +261,8 @@ public class FanboxClient : IDisposable
     public async Task<PostListItem[]> GetCreatorPostsFromPaginationAsync(string paginationUrl, CancellationToken cancellationToken = default)
     {
         var url = paginationUrl.Replace(BaseUriHttps, "");
-        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostListItemArray, cancellationToken);
-        return response;
+        var response = await CommonGetAsync(url, FanboxJsonSerializerContext.Default.FanboxResponseWrapperPostListResponse, cancellationToken);
+        return response.Posts;
     }
     
 

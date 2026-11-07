@@ -280,6 +280,39 @@ public sealed class FanboxTests
         Assert.HasCount(1, items);
     }
 
+    [TestMethod]
+    public async Task DownloadFileAsync_RetryDoesNotAppendPartialData()
+    {
+        const string url = "https://downloads.fanbox.cc/test-image.jpeg";
+        var partialAttempt = DownloadTestHelpers.CreatePayload(0xAA, 4096);
+        var successfulAttempt = DownloadTestHelpers.CreatePayload(0xBB, 1024);
+        _handler.ConfigureFlakyDownload(url, partialAttempt, failAfterBytes: 2048, successfulAttempt);
+
+        using var destination = new MemoryStream();
+
+        var downloaded = await _fanboxClient.DownloadFileAsync(url, destination, CancellationToken.None);
+
+        Assert.IsTrue(downloaded);
+        CollectionAssert.AreEqual(successfulAttempt, destination.ToArray());
+    }
+
+    [TestMethod]
+    public async Task DownloadFileAsync_NonSeekableDestination_RetryDoesNotAppendPartialData()
+    {
+        const string url = "https://downloads.fanbox.cc/test-image-nonseekable.jpeg";
+        var partialAttempt = DownloadTestHelpers.CreatePayload(0xAA, 4096);
+        var successfulAttempt = DownloadTestHelpers.CreatePayload(0xBB, 1024);
+        _handler.ConfigureFlakyDownload(url, partialAttempt, failAfterBytes: 2048, successfulAttempt);
+
+        using var inner = new MemoryStream();
+        using var destination = new NonSeekableWriteStream(inner);
+
+        var downloaded = await _fanboxClient.DownloadFileAsync(url, destination, CancellationToken.None);
+
+        Assert.IsTrue(downloaded);
+        CollectionAssert.AreEqual(successfulAttempt, inner.ToArray());
+    }
+
     [TestCleanup]
     public void Cleanup()
     {

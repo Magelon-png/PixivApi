@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-**PixivApi** is a C# wrapper for Pixiv's web API with multi-target support (.NET 8, 9, 10). The core design revolves around:
+**PixivApi** is a C# wrapper for Pixiv's web API with multi-target support (.NET 10, 11). The core design revolves around:
 
 - **Single Entry Point**: `PixivClient` in `Clients/PixivClient.cs` is the main request dispatcher for all API interactions
 - **Response Wrapper Pattern**: All API responses wrapped in `PixivResponseWrapper<T>` (error handling at envelope level, not HTTP status codes)
@@ -106,7 +106,7 @@ curl-impersonate binaries packaged per-platform in `binaries/` (linux/macos/wind
 
 ## Versioning & Compatibility
 
-- Project targets net8.0, net9.0, net10.0
+- Project targets net10.0, net11.0
 - V2 breaking changes planned ( namespace reorganization)
 - Cross-platform binary support (platform-specific curl-impersonate binaries in package)
 

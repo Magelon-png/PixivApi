@@ -371,39 +371,9 @@ public class FanboxClient : IDisposable
     /// <param name="fileUrl"></param>
     /// <param name="destinationStream"></param>
     /// <param name="cancellationToken"></param>
-    public async Task<bool> DownloadFileAsync(string fileUrl, Stream destinationStream, CancellationToken cancellationToken = default)
-    {
-        var retries = 0;
-        var maxRetries = 3;
-        var downloaded = false;
-        while (retries < maxRetries && !downloaded)
-        {
-            try
-            {
-                await _resiliencePipeline.ExecuteAsync(async token =>
-                {
-                    using var response = await _downloadHttpClient.GetAsync(fileUrl,
-                        HttpCompletionOption.ResponseHeadersRead, token);
-                    response.EnsureSuccessStatusCode();
-                    await response.Content.CopyToAsync(destinationStream, token);
-                    downloaded = true;
-                }, cancellationToken);
-            }
-            catch
-            {
-                if (destinationStream.CanSeek)
-                {
-                    destinationStream.Seek(0, SeekOrigin.Begin);
-                }
+    public Task<bool> DownloadFileAsync(string fileUrl, Stream destinationStream, CancellationToken cancellationToken = default)
+        => DownloadFileAsync(fileUrl, destinationStream, progress: null, cancellationToken);
 
-                await destinationStream.FlushAsync(cancellationToken);
-                retries++;
-            }
-        }
-        return downloaded;
-        
-    }
-    
     /// <summary>
     /// 
     /// </summary>
@@ -413,60 +383,95 @@ public class FanboxClient : IDisposable
     /// <param name="cancellationToken"></param>
     public async Task<bool> DownloadFileAsync(string fileUrl, Stream destinationStream, IProgress<DownloadProgress>? progress = null, CancellationToken cancellationToken = default)
     {
-        var retries = 0;
-        var maxRetries = 3;
-        var downloaded = false;
+        // A non-seekable destination cannot be rewound after a failed attempt, so buffer the
+        // download and copy it to the destination only after an attempt has completed successfully.
+        var bufferStream = destinationStream.CanSeek ? null : new MemoryStream();
+        var targetStream = bufferStream ?? destinationStream;
 
-        while (retries < maxRetries && !downloaded)
+        try
         {
-            try
+            var retries = 0;
+            var maxRetries = 3;
+            var downloaded = false;
+
+            while (retries < maxRetries && !downloaded)
             {
-                await _resiliencePipeline.ExecuteAsync(async token =>
+                try
                 {
-                    using var response = await _downloadHttpClient.GetAsync(
-                        fileUrl,
-                        HttpCompletionOption.ResponseHeadersRead,
-                        token);
-
-                    response.EnsureSuccessStatusCode();
-
-                    var totalBytes = response.Content.Headers.ContentLength;
-
-                    await using var stream = await response.Content.ReadAsStreamAsync(token);
-
-                    var buffer = new byte[81920];
-                    long totalRead = 0;
-                    int bytesRead;
-
-                    while ((bytesRead = await stream.ReadAsync(buffer, token)) > 0)
+                    await _resiliencePipeline.ExecuteAsync(async token =>
                     {
-                        await destinationStream.WriteAsync(buffer.AsMemory(0, bytesRead), token);
+                        // The resilience pipeline retries this delegate internally. Always start
+                        // from an empty stream, otherwise a retry appends to the partial data
+                        // written by the previous attempt and corrupts the file.
+                        PrepareDestination(targetStream);
 
-                        totalRead += bytesRead;
+                        using var response = await _downloadHttpClient.GetAsync(
+                            fileUrl,
+                            HttpCompletionOption.ResponseHeadersRead,
+                            token);
 
-                        progress?.Report(new DownloadProgress(totalRead, totalBytes));
-                    }
+                        response.EnsureSuccessStatusCode();
 
-                    downloaded = true;
-                }, cancellationToken);
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch
-            {
-                if (destinationStream.CanSeek)
-                {
-                    destinationStream.Seek(0, SeekOrigin.Begin);
+                        var totalBytes = response.Content.Headers.ContentLength;
+
+                        await using var stream = await response.Content.ReadAsStreamAsync(token);
+
+                        var buffer = new byte[81920];
+                        long totalRead = 0;
+                        int bytesRead;
+
+                        while ((bytesRead = await stream.ReadAsync(buffer, token)) > 0)
+                        {
+                            await targetStream.WriteAsync(buffer.AsMemory(0, bytesRead), token);
+
+                            totalRead += bytesRead;
+
+                            progress?.Report(new DownloadProgress(totalRead, totalBytes));
+                        }
+
+                        await targetStream.FlushAsync(token);
+
+                        downloaded = true;
+                    }, cancellationToken);
                 }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch
+                {
+                    PrepareDestination(targetStream);
+                    retries++;
+                }
+            }
 
+            if (downloaded && bufferStream is not null)
+            {
+                bufferStream.Position = 0;
+                await bufferStream.CopyToAsync(destinationStream, cancellationToken);
                 await destinationStream.FlushAsync(cancellationToken);
-                retries++;
+            }
+
+            return downloaded;
+        }
+        finally
+        {
+            if (bufferStream is not null)
+            {
+                await bufferStream.DisposeAsync();
             }
         }
-        return downloaded;
-        
+    }
+
+    private static void PrepareDestination(Stream destinationStream)
+    {
+        if (!destinationStream.CanSeek)
+        {
+            return;
+        }
+
+        destinationStream.SetLength(0);
+        destinationStream.Position = 0;
     }
 
     /// <summary>

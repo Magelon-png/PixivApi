@@ -20,11 +20,19 @@ public sealed class SearchTests
         _pixivClient = new PixivClient(cfBm: "xxx", cfClearance: "yyy", phpsessid: "zzz", clientHandler: _handler);
     }
 
-    private static HttpResponseMessage OkJson(string path) =>
-        new HttpResponseMessage(HttpStatusCode.OK)
+    private static HttpResponseMessage OkJson(string path, string? bodyKeyFrom = null, string? bodyKeyTo = null)
+    {
+        var json = File.ReadAllText(Path.Join("Payloads", path));
+        if (bodyKeyFrom is not null && bodyKeyTo is not null)
         {
-            Content = new StringContent(File.ReadAllText(Path.Join("Payloads", path)), Encoding.UTF8, "application/json")
+            json = json.Replace($"\"{bodyKeyFrom}\":", $"\"{bodyKeyTo}\":", StringComparison.Ordinal);
+        }
+
+        return new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
         };
+    }
 
     private const string Payload = "Illust/SearchIllustrations.json";
 
@@ -112,8 +120,8 @@ public sealed class SearchTests
     }
 
     [TestMethod]
-    [DataRow(SearchTarget.Any, "all")]
     [DataRow(SearchTarget.Illust, "illust")]
+    [DataRow(SearchTarget.IllustAndUgoira, "illust_and_ugoira")]
     [DataRow(SearchTarget.Manga, "manga")]
     [DataRow(SearchTarget.Ugoira, "ugoira")]
     public async Task SearchAsync_Target(SearchTarget target, string expectedType)
@@ -126,6 +134,20 @@ public sealed class SearchTests
             SearchAge.AnyAge, target, true, SearchLanguage.English);
 
         Assert.IsNotNull(result);
+    }
+
+    [TestMethod]
+    public async Task SearchAsync_TargetAny_UsesArtworksEndpoint()
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/search/artworks/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&lang=en",
+            () => OkJson(Payload, "illust", "illustManga"));
+
+        var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
+            SearchAge.AnyAge, SearchTarget.Any, true, SearchLanguage.English);
+
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.Illust.Data.Length > 0);
     }
 
     [TestMethod]

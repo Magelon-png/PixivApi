@@ -45,6 +45,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(PixivResponseWrapper<FollowingLatestWorkWrapper>))]
 [JsonSerializable(typeof(PixivResponseWrapper<RecommendUserResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<IllustSearchResult>))]
+[JsonSerializable(typeof(PixivResponseWrapper<IllustMangaSearchResult>))]
 [JsonSerializable(typeof(PixivResponseWrapper<BookmarkWorkTagWrapper>))]
 [JsonSerializable(typeof(PixivResponseWrapper<GetUserBookmarkIllustsResponse>))]
 [JsonSerializable(typeof(PixivResponseWrapper<NovelSeriesCoverJsonConverter>))]

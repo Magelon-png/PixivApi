@@ -1481,7 +1481,12 @@ public class PixivClient : IDisposable
         queryString["p"] = page.ToString(NumberFormatInfo.InvariantInfo);
         queryString["csw"] = 0.ToString(NumberFormatInfo.InvariantInfo);
         queryString["s_mode"] = searchExact ? "s_tag_full" : "s_tag";
-        queryString["type"] = searchTarget.ToStringFast(true);
+        // The illustrations endpoint rejects the "all" value. "all" is served by the artworks
+        // endpoint instead, which takes no type parameter.
+        if (searchTarget is not SearchTarget.Any)
+        {
+            queryString["type"] = searchTarget.ToStringFast(true);
+        }
         if (hideAi)
         {
             queryString["ai_type"] = "1";
@@ -1522,10 +1527,21 @@ public class PixivClient : IDisposable
             queryString["bgt"] = maximumBookmarkCount.Value.ToString(CultureInfo.InvariantCulture);
         }
 
-        var baseUrl = $"/ajax/search/illustrations/{Uri.EscapeDataString(keyword)}";
-        var url = $"{baseUrl}?{queryString}";
+        var escapedKeyword = Uri.EscapeDataString(keyword);
+        IllustSearchResult response;
+        if (searchTarget is SearchTarget.Any)
+        {
+            var url = $"/ajax/search/artworks/{escapedKeyword}?{queryString}";
+            var artworks = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustMangaSearchResult, cancellationToken);
+            response = new IllustSearchResult(artworks.IllustManga, artworks.Popular, artworks.RelatedTags,
+                artworks.TagTranslation, artworks.ExtraData);
+        }
+        else
+        {
+            var url = $"/ajax/search/illustrations/{escapedKeyword}?{queryString}";
+            response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustSearchResult, cancellationToken);
+        }
 
-        var response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustSearchResult ,cancellationToken);
         return response;
     }
 

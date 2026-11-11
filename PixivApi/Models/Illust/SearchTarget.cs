@@ -10,7 +10,7 @@ namespace Scighost.PixivApi.Models.Illust;
 public enum SearchTarget
 {
     /// <summary>
-    /// 
+    /// All works. Uses the artworks search endpoint instead of the illustrations endpoint.
     /// </summary>
     [Display(Name = "all")]
     Any,

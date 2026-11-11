@@ -1476,13 +1476,17 @@ public class PixivClient : IDisposable
             searchExact = false;
         }
 
-        queryString["word"] = keyword;
         queryString["order"] = orderBy.ToStringFast(true);
         queryString["mode"] = searchAge.ToStringFast(true);
         queryString["p"] = page.ToString(NumberFormatInfo.InvariantInfo);
         queryString["csw"] = 0.ToString(NumberFormatInfo.InvariantInfo);
         queryString["s_mode"] = searchExact ? "s_tag_full" : "s_tag";
-        queryString["type"] = searchTarget.ToStringFast(true);
+        // The illustrations endpoint rejects the "all" value. "all" is served by the artworks
+        // endpoint instead, which takes no type parameter.
+        if (searchTarget is not SearchTarget.Any)
+        {
+            queryString["type"] = searchTarget.ToStringFast(true);
+        }
         if (hideAi)
         {
             queryString["ai_type"] = "1";
@@ -1523,10 +1527,21 @@ public class PixivClient : IDisposable
             queryString["bgt"] = maximumBookmarkCount.Value.ToString(CultureInfo.InvariantCulture);
         }
 
-        var baseUrl = $"/ajax/search/illustrations/{keyword}";
-        var url = $"{baseUrl}?{queryString}";
+        var escapedKeyword = Uri.EscapeDataString(keyword);
+        IllustSearchResult response;
+        if (searchTarget is SearchTarget.Any)
+        {
+            var url = $"/ajax/search/artworks/{escapedKeyword}?{queryString}";
+            var artworks = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustMangaSearchResult, cancellationToken);
+            response = new IllustSearchResult(artworks.IllustManga, artworks.Popular, artworks.RelatedTags,
+                artworks.TagTranslation, artworks.ExtraData);
+        }
+        else
+        {
+            var url = $"/ajax/search/illustrations/{escapedKeyword}?{queryString}";
+            response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustSearchResult, cancellationToken);
+        }
 
-        var response = await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperIllustSearchResult ,cancellationToken);
         return response;
     }
 
@@ -1590,15 +1605,12 @@ public class PixivClient : IDisposable
         queryString["mode"] = mode.ToStringFast(true);
         queryString["limit"] = limit.ToString(NumberFormatInfo.InvariantInfo);
         queryString["offset"] = ((page - 1) * limit).ToString(NumberFormatInfo.InvariantInfo);
-        if (tags.Length > 0)
-        {
-            queryString["tags"] = string.Join(",", tags);
-        }
         if (lang is not null)
         {
             queryString["lang"] = lang.Value.ToStringFast(true);
         }
-        var url = $"/ajax/collections/search?{queryString}";
+        var escapedTags = Uri.EscapeDataString(string.Join(",", tags));
+        var url = $"/ajax/search/collections/{escapedTags}?{queryString}";
         return await CommonGetAsync(url, PixivJsonSerializerContext.Default.PixivResponseWrapperCollectionSearchResult, cancellationToken);
     }
 

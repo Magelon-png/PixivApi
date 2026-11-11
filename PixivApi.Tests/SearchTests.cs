@@ -32,7 +32,7 @@ public sealed class SearchTests
     public async Task SearchAsync_SingleKeyword()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/%E3%83%A1%E3%82%A4%E3%83%89?word=%E3%83%A1%E3%82%A4%E3%83%89&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/%E3%83%A1%E3%82%A4%E3%83%89?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["メイド"], SearchOrder.DateDescending,
@@ -45,7 +45,7 @@ public sealed class SearchTests
     public async Task SearchAsync_EnglishKeyword()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -58,7 +58,7 @@ public sealed class SearchTests
     public async Task SearchAsync_MultipleKeywords()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/hello%20world?word=hello+world&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag&type=illust_and_ugoira&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/hello%20world?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["hello", "world"], SearchOrder.DateDescending,
@@ -71,7 +71,7 @@ public sealed class SearchTests
     public async Task SearchAsync_KeywordWithSpace()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/hello%20world?word=hello+world&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag&type=illust_and_ugoira&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/hello%20world?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["hello world"], SearchOrder.DateDescending,
@@ -86,7 +86,7 @@ public sealed class SearchTests
     public async Task SearchAsync_AgeFilter(SearchAge age, string expectedMode)
     {
         _handler.When(
-            $"https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode={expectedMode}&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            $"https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode={expectedMode}&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -102,7 +102,7 @@ public sealed class SearchTests
     public async Task SearchAsync_OrderBy(SearchOrder order, string expectedOrder)
     {
         _handler.When(
-            $"https://www.pixiv.net/ajax/search/illustrations/test?word=test&order={expectedOrder}&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            $"https://www.pixiv.net/ajax/search/illustrations/test?order={expectedOrder}&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], order,
@@ -119,7 +119,7 @@ public sealed class SearchTests
     public async Task SearchAsync_Target(SearchTarget target, string expectedType)
     {
         _handler.When(
-            $"https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type={expectedType}&lang=en",
+            $"https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type={expectedType}&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -132,7 +132,7 @@ public sealed class SearchTests
     public async Task SearchAsync_HideAi()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&ai_type=1&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&ai_type=1&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -145,7 +145,7 @@ public sealed class SearchTests
     public async Task SearchAsync_WithoutLanguage()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -158,7 +158,7 @@ public sealed class SearchTests
     public async Task SearchAsync_DateRange()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&scd=2024-01-01&ecd=2024-12-31",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&scd=2024-01-01&ecd=2024-12-31",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -172,7 +172,7 @@ public sealed class SearchTests
     public async Task SearchAsync_BookmarkDates()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&sbd=2024-06-01&ebd=2024-08-01",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&sbd=2024-06-01&ebd=2024-08-01",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -189,7 +189,7 @@ public sealed class SearchTests
     public async Task SearchAsync_BookmarkVisibility(BookmarkVisibilityFilter filter, string expectedWib)
     {
         _handler.When(
-            $"https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&wib={expectedWib}",
+            $"https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&wib={expectedWib}",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -203,7 +203,7 @@ public sealed class SearchTests
     public async Task SearchAsync_BookmarkCount()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&blt=1000&bgt=5000",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en&blt=1000&bgt=5000",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
@@ -217,7 +217,7 @@ public sealed class SearchTests
     public async Task SearchAsync_Page()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=date_d&mode=all&p=3&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=3&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(3, ["test"], SearchOrder.DateDescending,
@@ -230,7 +230,7 @@ public sealed class SearchTests
     public async Task SearchAsync_ComplexCombination()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/test?word=test&order=popular_d&mode=r18&p=2&csw=0&s_mode=s_tag_full&type=manga&ai_type=1&lang=en&scd=2024-01-01&ecd=2024-12-31&wib=2&sbd=2024-06-01&ebd=2024-08-01&blt=1000&bgt=5000",
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=popular_d&mode=r18&p=2&csw=0&s_mode=s_tag_full&type=manga&ai_type=1&lang=en&scd=2024-01-01&ecd=2024-12-31&wib=2&sbd=2024-06-01&ebd=2024-08-01&blt=1000&bgt=5000",
             () => OkJson(Payload));
 
         var result = await _pixivClient.SearchIllustrationsAsync(2, ["test"], SearchOrder.PopularityDescending,

@@ -101,7 +101,7 @@ public sealed class IllustTests
     public async Task SearchAsync(int totalItems, int totalPages, params string[] keywords)
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/search/illustrations/%E3%83%A1%E3%82%A4%E3%83%89?word=%E3%83%A1%E3%82%A4%E3%83%89&order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            "https://www.pixiv.net/ajax/search/illustrations/%E3%83%A1%E3%82%A4%E3%83%89?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
             () => OkJson("Illust/SearchIllustrations.json"));
 
         var result = await _pixivClient.SearchIllustrationsAsync(1, keywords, SearchOrder.DateDescending,

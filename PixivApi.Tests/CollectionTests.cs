@@ -63,7 +63,7 @@ public class CollectionTests
     public async Task SearchCollectionsAsync()
     {
         _handler.When(
-            "https://www.pixiv.net/ajax/collections/search?mode=safe&limit=20&offset=0&tags=test&lang=en",
+            "https://www.pixiv.net/ajax/search/collections/test?mode=safe&limit=20&offset=0&lang=en",
             () => OkJson("Collections/SearchCollections.json"));
 
         var result = await _pixivClient.SearchCollectionsAsync(1, new[] { "test" }, SearchCollectionMode.Safe, 20, SearchLanguage.English);

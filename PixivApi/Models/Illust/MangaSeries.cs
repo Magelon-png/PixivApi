@@ -12,7 +12,7 @@
 /// <param name="Total">Chapter count</param>
 /// <param name="Url">Manga series cover image</param>
 /// <param name="FirstIllustId">Illustration ID of the first chapter</param>
-/// <param name="LatestIllustId">Illustration ID of the latest chapter</param>
+/// <param name="LatestIllustId">Illustration ID of the latest chapter, or null if the series has no published chapter</param>
 /// <param name="CreateDate">Creation time</param>
 /// <param name="UpdateDate">Update time</param>
 /// <param name="IsWatched">Followed</param>
@@ -48,7 +48,7 @@ public record MangaSeries(
 
     [property: JsonPropertyName("latestIllustId")]
     [property: JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    int LatestIllustId,
+    int? LatestIllustId,
 
     [property: JsonPropertyName("createDate")]
     DateTimeOffset CreateDate,

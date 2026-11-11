@@ -52,6 +52,13 @@ public class UserTests
         var userWorks = await _pixivClient.GetUserAllWorksAsync(userId);
 
         Assert.IsTrue(userWorks.Illusts.Any());
+
+        if (userId == 0)
+        {
+            Assert.HasCount(3, userWorks.MangaSeries);
+            Assert.IsNull(userWorks.MangaSeries[0].LatestIllustId);
+            Assert.AreEqual(129481630, userWorks.MangaSeries[1].LatestIllustId);
+        }
     }
 
     [TestMethod]

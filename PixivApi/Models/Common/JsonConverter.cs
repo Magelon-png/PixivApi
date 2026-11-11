@@ -223,6 +223,7 @@ internal sealed class EmptyArrayAsDictionaryJsonConverter<T> : JsonConverterFact
     {
         return typeToConvert == typeof(Dictionary<string, PlanTranslationDescription>) ||
                typeToConvert == typeof(Dictionary<string, PlanTranslationTitle>)
+               || typeToConvert == typeof(Dictionary<string, IllustSearchTagTranslation>)
                || typeToConvert == typeof(Dictionary<BigInteger, JsonNode?>);
     }
 
@@ -235,6 +236,10 @@ internal sealed class EmptyArrayAsDictionaryJsonConverter<T> : JsonConverterFact
         else if (typeToConvert == typeof(Dictionary<string, PlanTranslationTitle>))
         {
             return new EmptyArrayAsDictionaryJsonConverterPlanTranslationTitle();
+        }
+        else if (typeToConvert == typeof(Dictionary<string, IllustSearchTagTranslation>))
+        {
+            return new EmptyArrayAsDictionaryJsonConverterIllustSearchTagTranslation();
         }
         else if(typeToConvert == typeof(Dictionary<BigInteger, JsonNode?>))
         {
@@ -353,6 +358,37 @@ internal sealed class EmptyArrayAsDictionaryJsonConverterPlanTranslationTitle : 
         else
         {
             writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.DictionaryStringPlanTranslationTitle));
+        }
+    }
+}
+
+internal sealed class EmptyArrayAsDictionaryJsonConverterIllustSearchTagTranslation : JsonConverter<Dictionary<string, IllustSearchTagTranslation>>
+{
+    public override Dictionary<string, IllustSearchTagTranslation>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.StartArray)
+        {
+            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray) { }
+            return new Dictionary<string, IllustSearchTagTranslation>();
+        }
+        else if (reader.TokenType == JsonTokenType.StartObject)
+        {
+            return JsonSerializer.Deserialize<Dictionary<string, IllustSearchTagTranslation>>(ref reader, PixivJsonSerializerContext.Default.DictionaryStringIllustSearchTagTranslation);
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dictionary<string, IllustSearchTagTranslation> value, JsonSerializerOptions options)
+    {
+        if (value.Count == 0)
+        {
+            writer.WriteStartArray();
+            writer.WriteEndArray();
+        }
+        else
+        {
+            writer.WriteRawValue(JsonSerializer.Serialize(value, PixivJsonSerializerContext.Default.DictionaryStringIllustSearchTagTranslation));
         }
     }
 }

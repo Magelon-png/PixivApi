@@ -62,6 +62,7 @@ namespace Scighost.PixivApi.SerializerContexts;
 [JsonSerializable(typeof(List<PixivTag>))]
 [JsonSerializable(typeof(List<PixivTagInternal>))]
 [JsonSerializable(typeof(Dictionary<string, PlanTranslationTitle>))]
+[JsonSerializable(typeof(Dictionary<string, IllustSearchTagTranslation>))]
 [JsonSerializable(typeof(Dictionary<string, PlanTranslationDescription>))]
 [JsonSerializable(typeof(List<IllustProfile>))]
 [JsonSerializable(typeof(Dictionary<int, IllustProfile>))]

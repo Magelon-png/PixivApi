@@ -1,4 +1,6 @@
-﻿namespace Scighost.PixivApi.Models.Illust;
+﻿using Scighost.PixivApi.Models.Common;
+
+namespace Scighost.PixivApi.Models.Illust;
 
 /// <summary>
 /// 
@@ -12,6 +14,8 @@ public record IllustSearchResult(
     [property: JsonPropertyName("illust")] IllustSearchInfo Illust,
     [property: JsonPropertyName("popular")] IllustSearchPopularInfo Popular,
     [property: JsonPropertyName("relatedTags")] string[] RelatedTags,
-    [property: JsonPropertyName("tagTranslation")] Dictionary<string,IllustSearchTagTranslation> TagTranslation,
+    [property: JsonPropertyName("tagTranslation")]
+    [property: JsonConverter(typeof(EmptyArrayAsDictionaryJsonConverter<IllustSearchTagTranslation>))]
+    Dictionary<string,IllustSearchTagTranslation> TagTranslation,
     [property: JsonPropertyName("extraData")] IllustSearchExtraData ExtraData
 );

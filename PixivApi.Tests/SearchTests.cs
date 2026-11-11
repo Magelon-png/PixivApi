@@ -36,6 +36,12 @@ public sealed class SearchTests
 
     private const string Payload = "Illust/SearchIllustrations.json";
 
+    private static HttpResponseMessage OkRawJson(string json) =>
+        new HttpResponseMessage(HttpStatusCode.OK)
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+
     [TestMethod]
     public async Task SearchAsync_SingleKeyword()
     {
@@ -148,6 +154,36 @@ public sealed class SearchTests
 
         Assert.IsNotNull(result);
         Assert.IsTrue(result.Illust.Data.Length > 0);
+    }
+
+    [TestMethod]
+    public async Task SearchAsync_EmptyTagTranslationArray_DeserializesAsEmptyDictionary()
+    {
+        _handler.When(
+            "https://www.pixiv.net/ajax/search/illustrations/test?order=date_d&mode=all&p=1&csw=0&s_mode=s_tag_full&type=illust_and_ugoira&lang=en",
+            () => OkRawJson("""
+                {
+                  "error": false,
+                  "body": {
+                    "illust": {
+                      "data": [],
+                      "total": 0,
+                      "lastPage": 1,
+                      "bookmarkRanges": []
+                    },
+                    "popular": { "recent": [], "permanent": [] },
+                    "relatedTags": [],
+                    "tagTranslation": []
+                  }
+                }
+                """));
+
+        var result = await _pixivClient.SearchIllustrationsAsync(1, ["test"], SearchOrder.DateDescending,
+            SearchAge.AnyAge, SearchTarget.IllustAndUgoira, true, SearchLanguage.English);
+
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.Illust.Total);
+        Assert.AreEqual(0, result.TagTranslation.Count);
     }
 
     [TestMethod]
